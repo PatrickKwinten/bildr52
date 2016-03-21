@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	pageTitle="#{ Configuration.title }">
+	<xc:ccNavBar></xc:ccNavBar>
+	<xc:ccCarousel></xc:ccCarousel>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<xc:ccCategorieLinks header="Category"
+					viewName="$v-pixbycategory" targetPage="pictures.xsp"
+					headerSize="h3" showAsCard="true">
+				</xc:ccCategorieLinks>
+				<xc:ccCategorieLinks header="Submitter"
+					viewName="$v-pixbyauthor" targetPage="pictures.xsp"
+					objectType="notesName" headerSize="h3" showAsCard="true"
+					showCardWithPadding="false">
+				</xc:ccCategorieLinks>
+				<xc:ccAlbums header="Albums"
+					ArrayListJSONObject="#{javascript:ProfileController.loadAlbums()}"
+					showAuthor="true" headerSize="h3">
+				</xc:ccAlbums>
+			</div>
+			<div class="col-md-6">
+				<xc:ccPictures header="Pictures"
+					ArrayListJSONObject="${javascript:PictureController.loadPictures();}"
+					headerSize="h3">
+				</xc:ccPictures>
+				<xc:ccComments header="Last x Comments"
+					ArrayListJSONObject="${javascript:CommentController.loadComments();}"
+					showAsCard="true" headerSize="h3">
+				</xc:ccComments>
+			</div>
+			<div class="col-md-3">
+				<xc:ccProfiles header="Profiles"
+					ArrayListJSONObject="#{javascript:ProfileController.loadProfiles();}"
+					headerSize="h3">
+				</xc:ccProfiles>
+			</div>
+		</div>
+	</div>
+	
+	
+	<xc:ccFooter></xc:ccFooter>
+	<xc:ccJavaScrips></xc:ccJavaScrips>
+	
+	<xc:ccRSS></xc:ccRSS>
+	</xp:view>

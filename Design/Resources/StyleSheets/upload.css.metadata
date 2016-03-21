@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="326" sequence="7" unid="1A5408660423F539C1257EF500380344">
+<created><datetime>20151106T111148,52+01</datetime></created>
+<modified><datetime>20160308T215647,96+01</datetime></modified>
+<revised><datetime>20151215T114737,30+01</datetime></revised>
+<lastaccessed><datetime>20160308T215647,96+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215647,96+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>upload.css</text></item>
+<item name="$MimeType" sign="true"><text>text/css</text></item>
+<item name="$Flags"><text>34C=Q</text></item>
+<item name="$MimeCharSet" sign="true"><text>UTF-8</text></item>
+<item name="$Comment" sign="true"><text>UPLOAD</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>upload.css</text></item></note>

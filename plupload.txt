@@ -1,0 +1,12 @@
+Bildr utilizes Plupload to upload files. See: http://www.plupload.com/
+
+Plupload uses the GPLv2 license, you can read more about the license on Free Software Foundations website. If you can not use the GPLv2 license, perhaps the commercial license will be suitable for you.
+
+In order to make Bildr work you need to go to the plupload site and download the files and install under Resources/Files in the NSF. Choose Plupload 1.5.8 version.
+
+Files to include in NSF:
+
+plupload.flash.js
+plupload.full.js
+plupload.full.min.js
+plupload.silverlight.xap

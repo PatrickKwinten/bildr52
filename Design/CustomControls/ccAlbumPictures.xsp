@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<div class="container">		
+    	<xp:repeat id="repeat1" rows="30" 
+			value="#{javascript:Album.getPictures();}" var="obj" indexVar="idx">
+			<xc:ccAlbumPicture
+				ArrayListJSONObject="#{javascript:PictureController.loadPictures(obj)}"
+				lightbox="true">
+			</xc:ccAlbumPicture>
+    	</xp:repeat>
+		<div class="clearfix"></div>		
+	</div>	
+</xp:view>

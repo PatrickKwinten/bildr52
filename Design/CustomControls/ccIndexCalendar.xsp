@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:dojoModule name="dijit.Calendar" />
+		<xp:dojoModule name="dijit.Tooltip" />
+	</xp:this.resources>
+	<xp:panel styleClass="lotusChunk" style="padding:10px;"
+		id="calendarContainer">
+		<div id="calendarContainer">
+			<xp:scriptBlock id="scriptBlock3">
+				<xp:this.value><![CDATA[#{javascript:var html = [];
+html.push( "var hl=[];" );
+var dates = @DbColumn( @DbName(), "$v-pixbydate", 1);
+if (typeof dates == "string") { dates = [dates]; }
+if (typeof dates == "undefined") { dates = []; }
+var dt;
+var d; var m; var y;
+if (dates.join("") != "") {
+	for (var i=0; j=dates.length, i<j; i++) {
+		d = dates[i].split("-");
+		html.push( "hl.push({d:" + d[2] + ",m:" + d[1] + ",y:" + d[0] + "});");
+	}
+}
+return html.join("");}]]></xp:this.value>
+			</xp:scriptBlock>
+			<xp:scriptBlock
+				id="scriptBlock4"
+				disableTheme="true">
+				<xp:this.value><![CDATA[dojo.addOnLoad( function() {
+    var calendar = new dijit.Calendar({ 
+    getClassForDate : 
+        function(date) {
+            for (var i=0; j=hl.length, i<j; i++) {
+                if (date.getFullYear()==hl[i].y && 
+                    date.getMonth()+1==hl[i].m && 
+                    date.getDate()==hl[i].d) { 
+                    return "calHL";
+                }
+            }
+        },
+        onValueSelected : function(date) {
+            for (var i=0; j=hl.length, i<j; i++) {
+                if (date.getFullYear()==hl[i].y && 
+                    date.getMonth()+1==hl[i].m && 
+                    date.getDate()==hl[i].d) {
+                        var db = window.location.pathname.substring(0, window.location.pathname.indexOf('.nsf')+4);
+                        var month = hl[i].m;
+                        var day = hl[i].d;
+                        window.location.href = db + "/vwDate.xsp?category=" + hl[i].y + "-" + dateLength(month) + "-" + dateLength(day);
+                }
+            }    
+        }        
+    }, dojo.byId("calendarContainer"));
+} );
+
+function dateLength(d){
+	var param = "" + d;
+	if(param.length<2){
+		param =  "0" + param;
+	}
+	return param;
+}]]></xp:this.value>
+			</xp:scriptBlock>
+		</div>
+	</xp:panel></xp:view>

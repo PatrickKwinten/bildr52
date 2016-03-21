@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:div styleClass="section">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+					<xp:panel
+						tagName="#{javascript:compositeData.headerSize}">
+						<xp:text escape="true"
+							value="#{javascript:compositeData.header}">
+						</xp:text>
+					</xp:panel>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<xp:text escape="false" id="computedField3"
+						styleClass="pull-right"
+						rendered="#{javascript:compositeData.showTotals}">
+						<xp:this.value><![CDATA[#{javascript:return "<span class='badge'>" + getComponent("list").getRowCount() + "</span> matches"}]]></xp:this.value>
+					</xp:text>
+				</div>
+			</div><!-- /row -->
+		</div><!-- /container-fluid -->
+	</xp:div><!-- /section -->
+
+	<xp:div styleClass="section">
+		<xp:div styleClass="container-fluid">
+			<xp:div>
+				<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()> 0}]]></xp:this.rendered>
+				<xp:this.styleClass><![CDATA[#{javascript:if (compositeData.showAsCard == true){
+	return "card light";
+}}]]></xp:this.styleClass>
+				<xp:repeat id="list" var="obj"
+					rows="${Configuration.rowsDefault}"
+					value="#{javascript:compositeData.ArrayListJSONObject;}"
+					indexVar="idx">
+
+					<xp:div>
+						<xp:this.styleClass><![CDATA[#{javascript:if(idx == 0){
+		return "media first";
+		}
+		else{
+		return "media";
+		}}]]></xp:this.styleClass>
+						<xc:ccMediaImage
+							styleClass="media-object pull-left img-circle">
+							<xc:this.url><![CDATA[#{javascript:var person = obj.creator;
+	var pic = ProfileController.loadProfilePicURL(person);
+	if (pic == ""){
+		return "profileNoPhoto.png";
+	}
+	else{
+		return pic;
+	}}]]></xc:this.url>
+							<xc:this.title><![CDATA[#{javascript:var nam:NotesName = session.createName(obj.creator);
+	return nam.getCommon();}]]></xc:this.title>
+						</xc:ccMediaImage>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<xc:ccMediaBodyLink
+									subject="#{javascript:obj.subject}">
+									<xc:this.address><![CDATA[#{javascript:AppController.getObjectType(obj.refID) + ".xsp?UNID=" + obj.refID}]]></xc:this.address>
+								</xc:ccMediaBodyLink>
+							</h4>
+							<p></p>
+							<blockquote>
+								<p>
+									"
+									<xp:text escape="true"
+										id="computedField4" value="#{obj.comment}">
+									</xp:text>
+									"
+								</p>
+								<p>
+									<small>
+										<xc:ccIconProfileLinkName
+											NotesName="#{javascript:obj.creator}">
+										</xc:ccIconProfileLinkName>
+
+										<xc:ccIconDate
+											date="#{javascript:obj.created}">
+										</xc:ccIconDate>
+
+									</small>
+								</p>
+							</blockquote>
+							<h5></h5>
+						</div>
+					</xp:div><!-- /media -->
+
+				</xp:repeat>
+
+				<xp:pager layout="Previous Group Next"
+					partialRefresh="true" for="list"
+					rendered="#{javascript:isPagerVisible(this)}">
+				</xp:pager>
+
+			</xp:div><!-- /card -->
+			<xc:ccInifiniteScroll repeatId="list"
+				rendered="#{javascript:compositeData.infiniteScroll}">
+			</xc:ccInifiniteScroll>
+			
+		</xp:div><!-- /container -->
+	</xp:div><!-- /section -->
+	
+	<xc:ccListNoItems>
+		<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()== 0}]]></xp:this.rendered>
+	</xc:ccListNoItems>
+</xp:view>

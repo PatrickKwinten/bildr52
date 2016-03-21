@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" rendered="false">
+	<xp:this.resources>
+	    <xp:bundle src="/datasource.properties" var="datasource"></xp:bundle>
+	</xp:this.resources>
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:aUpload.beforeRenderResponse();}]]></xp:this.beforeRenderResponse>
+	This XPage processess files uploaded by the HTML5, Silverlight or HTML4 runtime of the uploader.
+	<xp:this.resources>
+		<xp:script src="/xpUploads.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+	<p>It creates a picture document and attaches the uploaded file.</p>
+</xp:view>

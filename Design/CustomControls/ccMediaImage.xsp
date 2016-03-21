@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:image styleClass="#{javascript:compositeData.styleClass}"
+		title="#{javascript:compositeData.title}"
+		url="#{javascript:compositeData.url}">
+	</xp:image>
+</xp:view>

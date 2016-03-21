@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="346" sequence="4" unid="68C90F272D2C0747C1257EF50038DF00">
+<created><datetime>20151106T112111,04+01</datetime></created>
+<modified><datetime>20160308T215648,12+01</datetime></modified>
+<revised><datetime>20151106T113352,94+01</datetime></revised>
+<lastaccessed><datetime>20160308T215648,12+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215648,12+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>strings.properties</text></item>
+<item name="$Flags"><text>345CgQ</text></item>
+<item name="$FlagsExt" sign="true"><text>D</text></item>
+
+<item name="$FileModDT" sign="true"><datetime>20151106T112054,50+01</datetime></item>
+
+<item name="$FileNames" sign="true"><text>strings.properties</text></item>
+<item name="$MimeCharSet" sign="true"><text>ISO-8859-1</text></item>
+<item name="$Comment" sign="true"><text>UTILITIES</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>

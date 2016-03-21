@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"> 
+
+	<xp:this.beforePageLoad><![CDATA[#{javascript://From Mark Leusink
+//So it seems that the no-store header actually causes the XPage not to be cached at all 
+//and opening an XPage using the back button had the same effect as initial opening it.
+var response=facesContext.getExternalContext().getResponse();
+response.setHeader("Cache-Control", "no-cache, no-store");
+//---
+	
+var paramUNID = paramValues.get("UNID");
+
+if (paramUNID != null){
+	Picture.reset();
+	//Picture.loadByUnid(paramUNID.toString());
+	PictureController.loadByUnid(paramUNID.toString());
+}
+else{
+	Picture.create();
+}}]]></xp:this.beforePageLoad>
+
+
+<xp:this.dataContexts>
+		<xp:dataContext value="#{PictureController.picture}" var="picture" />
+	</xp:this.dataContexts>
+	<xc:ccNavBar></xc:ccNavBar>
+	<xc:ccPictureDetails obj="PictureController.picture"></xc:ccPictureDetails>
+	<div class="container" >
+	
+	<div class="card light" style="margin-top:20px;">
+		<div class="row">	
+		<div class="col-md-6">
+				<xc:ccComments infiniteScroll="false" header="Responses"
+					headerSize="h4">
+					<xc:this.parentID><![CDATA[#{javascript:paramValues.get("UNID")}]]></xc:this.parentID>
+					<xc:this.ArrayListJSONObject><![CDATA[#{javascript:var parentID = paramValues.get("UNID")[0];
+CommentController.loadComments(parentID);}]]></xc:this.ArrayListJSONObject>
+
+				</xc:ccComments>
+		</div>	
+			<div class="col-md-6">
+				<xc:ccComment headerSize="h4">
+					<xc:this.parentID><![CDATA[#{javascript:paramValues.get("UNID")}]]></xc:this.parentID>
+					<xc:this.header><![CDATA[#{javascript:var nam:NotesName = session.createName(PictureController.picture.creator);
+return "Tell " + @Left(nam.getCommon()," ") + " what you think"}]]></xc:this.header>
+				</xc:ccComment>
+			</div>
+			
+		</div><!-- /row -->
+		</div><!-- /card -->
+	</div>		
+	<xc:ccJavaScrips></xc:ccJavaScrips>
+	</xp:view>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:panel>
+		<div class="alert alert-info">
+			<strong>No items</strong>
+			&#160;There are no items available.
+		</div>
+		
+	</xp:panel>
+</xp:view>

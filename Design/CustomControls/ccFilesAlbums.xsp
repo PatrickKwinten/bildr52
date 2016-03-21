@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex">
+<h3>Albums</h3>
+			<div class="section" style="margin-bottom:10px;">
+			<div class="container-fluid">
+				
+				<xp:button value="Delete selected" id="button1">
+				<i class="fa fa-trash"></i>
+				&#160;
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="dataViewPictures">
+					<xp:this.script><![CDATA[return confirm("Are your sure you want to delete the selected albums(s)?");]]></xp:this.script>
+					<xp:this.action><![CDATA[#{javascript:var ids = getComponent("dataViewPictures").getSelectedIds();
+for (var i=0; i<ids.length; i++) {
+	deletePicture( ids[i] );
+}
+
+function deletePicture(picNoteId) {
+	var db:NotesDatabase = sessionAsSigner.getDatabase( "", datasource.getString('DB_FILEPATH'));
+	try {
+		
+		var docPic = db.getDocumentByID( picNoteId );
+		var picId = docPic.getItemValueString("Tx_id");		
+		docPic.removePermanently(true);
+	}catch(e) {
+		print("Bildr: " + db.getTitle() + " " +e.toString());
+	}
+}}]]></xp:this.action>
+				</xp:eventHandler>
+				</xp:button>
+			</div>
+			</div>
+			
+			<xe:dataView id="dataViewPictures" showHeaderCheckbox="true"
+				showCheckbox="true" var="viewEntry" columnTitles="true"
+				rows="#{javascript:Configuration.rowsDefault}">
+				<xp:this.facets>
+					<xp:panel xp:key="icon">
+						<span class="media-object pull-left">
+							<i class="fa fa-folder fa-5"></i>
+						</span>
+
+					</xp:panel>
+				</xp:this.facets>
+				<xe:this.data>
+					<xp:dominoView
+						databaseName="#{javascript:datasource.getString('DB_FILEPATH');}"
+						categoryFilter="#{javascript:session.getEffectiveUserName();}"
+						var="dvEntry">
+						<xp:this.viewName><![CDATA[#{javascript:return "$v-albumsbyauthor";}]]></xp:this.viewName>
+					</xp:dominoView>
+				</xe:this.data>
+				<xe:this.extraColumns>
+					<xe:viewExtraColumn columnName="DateTime"
+						columnTitle="Created">
+					</xe:viewExtraColumn>
+
+				</xe:this.extraColumns>
+
+
+				<xe:this.summaryColumn>
+					<xe:viewSummaryColumn columnName="Title">
+						<xe:this.href><![CDATA[#{javascript:return "album.xsp?UNID=" + viewEntry.getColumnValue('UNID')}]]></xe:this.href>
+					</xe:viewSummaryColumn>
+				</xe:this.summaryColumn>
+			</xe:dataView>
+			<xe:pagerAddRows id="pagerAddRowsPictures"
+				for="dataViewPictures">
+			</xe:pagerAddRows>
+</xp:view>

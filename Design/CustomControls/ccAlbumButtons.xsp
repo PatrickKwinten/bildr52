@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	
+	<xp:button id="button8" rendered="#{javascript:Album.readOnly}">
+		<xp:this.value><![CDATA[#{javascript:if (viewScope.get("gallery") == false){
+	return "Show gallery";
+}
+else{
+	return "Show lightbox";
+}}]]></xp:this.value>
+		
+		<xp:text escape="false">
+			<xp:this.value><![CDATA[#{javascript:if (viewScope.get("gallery") == false){
+	return '<i class="fa fa-play-circle"></i>'
+}
+else{
+	return '<i class="fa fa-arrows-alt"></i>'
+}}]]></xp:this.value>
+		</xp:text>
+		&#160;
+
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="partial" refreshId="AlbumWrapper"
+			disableValidators="true">
+			<xp:this.action><![CDATA[#{javascript:if (viewScope.get("gallery") == false){
+	viewScope.put("gallery",true);
+}
+else{
+	viewScope.put("gallery",false)
+}}]]></xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	<xp:button id="button7" value="Edit">
+		<xp:this.rendered><![CDATA[#{javascript:if(Album.isAuthor(Album.notesName)== false){
+	return false;
+}
+else if (Album.readOnly == false){
+	return false;
+}
+else{
+	return true;
+}
+}]]></xp:this.rendered><i class="fa fa-pencil"></i>&#160;
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete" immediate="true">
+			<xp:this.action><![CDATA[#{javascript:Album.setReadOnly(false);}]]></xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	<xp:button id="button3" value="Delete" rendered="#{javascript:!Album.readOnly}">
+	<i class="fa fa-trash"></i>&#160;
+	<xp:eventHandler event="onclick" submit="true" refreshMode="complete" immediate="true">
+		<xp:this.action>
+
+			<xp:actionGroup>
+				<xp:executeScript>
+					<xp:this.script><![CDATA[#{javascript:var UNID = Album.unid;
+Album.remove(UNID);}]]></xp:this.script>
+				</xp:executeScript>
+				<xp:openPage name="$$HomePage"></xp:openPage>
+			</xp:actionGroup>
+		</xp:this.action></xp:eventHandler></xp:button>
+	
+	
+	<xp:button id="button2" value="Update" rendered="#{javascript:!Album.readOnly}">
+		<i class="fa fa-floppy-o"></i>&#160;
+		<xp:eventHandler event="onclick"
+			submit="true" refreshMode="complete" disableValidators="true">
+			<xp:this.action>
+				<xp:actionGroup>
+
+
+
+					<xp:executeScript script="#{Album.save}">
+					</xp:executeScript>
+					<xp:executeScript>
+						<xp:this.script><![CDATA[#{javascript://var id = Album.unid;
+//Album.loadByUnid(id);}]]></xp:this.script>
+					</xp:executeScript>
+					<xp:openPage>
+						<xp:this.name><![CDATA[#{javascript:view.getPageName() + "?UNID=" + Album.unid}]]></xp:this.name>
+					</xp:openPage>
+				</xp:actionGroup>
+			</xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	
+		
+	
+	<xp:button id="button5" value="Cancel" rendered="#{javascript:!Album.readOnly}">
+	<i class="fa fa-ban"></i>&#160;
+	<xp:eventHandler event="onclick" submit="true"
+		refreshMode="complete" immediate="true">
+		<xp:this.action><![CDATA[#{javascript:Album.setReadOnly(true);}]]></xp:this.action>
+	</xp:eventHandler></xp:button>
+	
+	
+	
+	</xp:view>

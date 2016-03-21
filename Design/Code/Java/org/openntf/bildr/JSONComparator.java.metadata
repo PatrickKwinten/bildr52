@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="63a" sequence="9" unid="C23DBF40E8FD2D53C1257F400066CB0C">
+<created><datetime>20160120T194246,52+01</datetime></created>
+<modified><datetime>20160308T215651,90+01</datetime></modified>
+<revised><datetime>20160303T102256,07+01</datetime></revised>
+<lastaccessed><datetime>20160308T215651,90+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215651,90+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>org/openntf/bildr/JSONComparator.java</text></item>
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>org/openntf/bildr/JSONComparator.java</text></item>
+
+</note>

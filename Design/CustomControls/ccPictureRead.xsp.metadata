@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="282" sequence="229" unid="5BFA0E5564C4CC0BC1257A7100425832">
+<created><datetime dst="true">20120906T140439,54+02</datetime></created>
+<modified><datetime>20160308T215647,14+01</datetime></modified>
+<revised><datetime>20160120T202241,26+01</datetime></revised>
+<lastaccessed><datetime>20160308T215647,14+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215647,14+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>ccPictureRead.xsp</text></item>
+<item name="$Flags"><text>gC~4;</text></item>
+
+
+
+<item name="$Comment" sign="true"><text>Bildr4 - picture in edit mode</text></item>
+
+
+<item name="$FileNames" sign="true"><text>ccPictureRead.xsp</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+
+
+</note>

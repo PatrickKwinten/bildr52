@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex">
+<h3>Pictures</h3>
+			<div class="section" style="margin-bottom:10px;">
+			<div class="container-fluid">
+				
+				<xp:button value="Delete selected" id="button1">
+				<i class="fa fa-trash"></i>&#160;
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="dataViewPictures">
+						<xp:this.script><![CDATA[return confirm("Sure to delete the selected picture(s)?");]]></xp:this.script>
+						<xp:this.action><![CDATA[#{javascript:var ids = getComponent("dataViewPictures").getSelectedIds();
+for (var i=0; i<ids.length; i++) {
+	deletePicture( ids[i] );
+}
+
+function deletePicture(picNoteId) {
+	var db:NotesDatabase = sessionAsSigner.getDatabase( "", datasource.getString('DB_FILEPATH'));
+	try {
+		
+		var docPic = db.getDocumentByID( picNoteId );
+		var picId = docPic.getItemValueString("Tx_id");		
+		docPic.removePermanently(true);
+		deleteFromAlbum(picId);
+	}catch(e) {
+		print("Bildr: " + db.getTitle() + " " +e.toString());
+	}
+}	
+
+function deleteFromAlbum(picNoteId){
+	var db:NotesDatabase = sessionAsSigner.getDatabase( "", datasource.getString('DB_FILEPATH'));
+	try {		
+		var dcAlbums:NotesDocumentCollection = db.search( "Form=\"$f-album\" & @IsMember(\"" + picId + "\"; Tx_pictureIds)" );
+		var docAlbum:NotesDocument = dcAlbums.getFirstDocument();
+		while (docAlbum != null) {
+			var picIds = @Trim(@Replace(docAlbum.getItemValue("Tx_pictureIds"), picId, ""));
+			docAlbum.replaceItemValue("Tx_pictureIds", picIds);
+			docAlbum.save();
+			docAlbum = dcAlbums.getNextDocument(docAlbum);
+		}	
+	}catch(e) {
+		print("Bildr: " + db.getTitle() + " " + e.toString());
+	}	
+}}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+			</div>
+			</div>
+			
+			<xe:dataView id="dataViewPictures" showHeaderCheckbox="true"
+				showCheckbox="true" var="viewEntry" columnTitles="true"
+				rows="#{javascript:Configuration.rowsDefault}">
+				<xp:this.facets>
+					<xp:panel xp:key="icon">
+						<xp:image id="image1"
+							styleClass="img-responsive img-thumbnail">
+							<xp:this.url><![CDATA[#{javascript:var db:NotesDatabase = sessionAsSigner.getDatabase( "", datasource.getString('DB_FILEPATH'));
+if(db != null){
+	var id = viewEntry.getColumnValue('UNID');
+	var doc:NotesDocument = db.getDocumentByUNID(id);
+	thumb =  doc.getItemValueString("Photo_ThumbFilename");
+	return "../" + db.getFilePath() + "/0/" + doc.getUniversalID() + "/$FILE/" + thumb;	
+}}]]></xp:this.url>
+						</xp:image>
+
+					</xp:panel>
+				</xp:this.facets>
+				<xe:this.data>
+					<xp:dominoView
+						databaseName="#{javascript:datasource.getString('DB_FILEPATH');}"
+						categoryFilter="#{javascript:session.getEffectiveUserName();}"
+						var="dvEntry">
+						<xp:this.viewName><![CDATA[#{javascript:return "$v-pixbyauthor";}]]></xp:this.viewName>
+					</xp:dominoView>
+				</xe:this.data>
+				<xe:this.extraColumns>
+					<xe:viewExtraColumn columnName="DateTime"
+						columnTitle="Created">
+					</xe:viewExtraColumn>
+
+				</xe:this.extraColumns>
+
+
+				<xe:this.summaryColumn>
+					<xe:viewSummaryColumn columnName="Title"
+						columnTitle="Subject">
+						<xe:this.href><![CDATA[#{javascript:return "picture.xsp?UNID=" + viewEntry.getColumnValue('UNID')}]]></xe:this.href>
+					</xe:viewSummaryColumn>
+				</xe:this.summaryColumn>
+			</xe:dataView>
+			<xe:pagerAddRows id="pagerAddRowsPictures"
+				for="dataViewPictures">
+			</xe:pagerAddRows>
+			</xp:view>

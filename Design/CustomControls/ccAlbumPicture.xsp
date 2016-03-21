@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+		<xp:panel styleClass="pull-left">
+				<xp:this.dataContexts>
+					<xp:dataContext var="obj"
+						value="#{javascript:compositeData.ArrayListJSONObject;}">
+					</xp:dataContext>
+				</xp:this.dataContexts>
+				
+				<xp:text escape="true" id="computedField1"
+					value="#{javascript:obj}" rendered="false">
+				</xp:text>
+				<xp:text escape="true" id="computedField2"
+					rendered="false">
+					<xp:this.value><![CDATA[#{javascript:var tmpObj:java.util.ArrayList = obj;
+
+for (var i=0; i<tmpObj.size(); i++) {
+	var jsonObj = tmpObj.get(i);
+	return jsonObj.get('subject');
+}
+}]]></xp:this.value>
+				</xp:text>
+				<div class="media">
+				
+					<xp:link escape="true" id="link4"
+						rendered="#{javascript:compositeData.lightbox}">
+						<xp:this.attrs>
+							<xp:attr name="data-toggle"
+								value="lightbox">
+							</xp:attr>
+							<xp:attr name="data-title">
+								<xp:this.value><![CDATA[#{javascript://obj.get(0).subject
+var tmpObj:java.util.ArrayList = obj;
+for (var i=0; i<tmpObj.size(); i++) {
+	var jsonObj = tmpObj.get(i);
+	return jsonObj.get('subject');
+}}]]></xp:this.value>
+							</xp:attr>
+							<xp:attr name="data-footer">
+								<xp:this.value><![CDATA[#{javascript://return "Published under category: " + obj.get(0).category
+
+var tmpObj:java.util.ArrayList = obj;
+for (var i=0; i<tmpObj.size(); i++) {
+	var jsonObj = tmpObj.get(i);
+	return "Published under category: " + jsonObj.get('category');
+}}]]></xp:this.value>
+							</xp:attr>
+						</xp:this.attrs>
+
+						<xp:this.value><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+//var id = obj.get(0).docUNID;
+//var orig = obj.get(0).picoriginal;
+
+
+var tmpObj:java.util.ArrayList = obj;
+for (var i=0; i<tmpObj.size(); i++) {
+	var jsonObj = tmpObj.get(i);
+	var id = jsonObj.get('docUNID');
+	var orig = jsonObj.get('picoriginal') ;
+	return "../" + db + "/0/" + id + "/$FILE/" + orig;
+}
+
+
+//return "../" + db + "/0/" + id + "/$FILE/" + orig;}]]></xp:this.value>
+						<xp:image id="image2"
+							styleClass="media-object pull-left img-responsive img-thumbnail">
+							<xp:this.url><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+//var id = obj.get(0).docUNID;
+//var thumb = obj.get(0).picthumb;
+
+var tmpObj:java.util.ArrayList = obj;
+for (var i=0; i<tmpObj.size(); i++) {
+	var jsonObj = tmpObj.get(i);
+	var id = jsonObj.get('docUNID');
+	var thumb = jsonObj.get('picthumb');
+	return "../" + db + "/0/" + id + "/$FILE/" + thumb;
+}
+
+//return "../" + db + "/0/" + id + "/$FILE/" + thumb;}]]></xp:this.url>
+						</xp:image>
+						
+						
+					</xp:link>
+
+					
+					
+									
+				</div><!-- /.media -->
+
+			</xp:panel>
+		
+</xp:view>

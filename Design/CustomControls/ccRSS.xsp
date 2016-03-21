@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<xp:link escape="true" id="link1" style="font-size:2em;">
+		<xp:this.value><![CDATA[#{javascript:return "/feed.xsp?source=$v-feed"}]]></xp:this.value>
+		<i class="fa fa-rss-square"></i>
+	</xp:link></xp:view>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="33e" sequence="3" unid="6AB72DB478730067C1257EF50038DEEC">
+<created><datetime>20151106T112110,84+01</datetime></created>
+<modified><datetime>20160308T215648,08+01</datetime></modified>
+<revised><datetime>20151106T113335,15+01</datetime></revised>
+<lastaccessed><datetime>20160308T215648,08+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215648,08+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>mobile.manifest</text></item>
+<item name="$Flags"><text>345CgQ</text></item>
+<item name="$FlagsExt" sign="true"><text>D</text></item>
+
+<item name="$FileModDT" sign="true"><datetime>20151106T112054,48+01</datetime></item>
+
+<item name="$FileNames" sign="true"><text>mobile.manifest</text></item>
+<item name="$Comment" sign="true"><text>UTILITIES</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>

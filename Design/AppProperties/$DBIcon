@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
+ replicaid='C1257F7000730F0C'>
+<noteinfo noteid='1de' unid='28E3F6D7C2A2628CC12578BC004FC524' sequence='8'>
+<created><datetime dst='true'>20110627T163118,12+02</datetime></created>
+<modified><datetime>20160308T215646,32+01</datetime></modified>
+<revised><datetime dst='true'>20150504T113445,96+02</datetime></revised>
+<lastaccessed><datetime>20160308T215646,32+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215646,32+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Information Systems/O=SANDVIK</name><name
+>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name
+>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name='$TITLE'><text>$DBIcon</text></item>
+<item name='$Flags'><text>34Ci~Q</text></item>
+<item name='$ImagesWide' sign='true'><number>1</number></item>
+<item name='$ImagesHigh' sign='true'><number>1</number></item>
+<item name='$ImagesColorize' sign='true'><number>0</number></item>
+<item name='$FileSize' sign='true'><number>1974</number></item>
+<item name='$ImageData' sign='true'>
+<rawitemdata type='1'>
+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
+</rawitemdata></item>
+<item name='$FileModDT' sign='true'><datetime dst='true'>20041001T144004,00+02</datetime></item>
+<item name='$ImageNames' sign='true'><text>C:\Documents and Settings\ms5913\Desktop\5.References\IMAGES\nuvola\32x32\devices\camera.png</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.2</text></item></note>
+

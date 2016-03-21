@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<div class="panel panel-default">
+			<xp:div styleClass="panel-heading">
+				<xp:this.attrs>
+					<xp:attr name="id"
+						value="#{javascript:compositeData.accordianID}">
+					</xp:attr>
+					<xp:attr name="role" value="tab"></xp:attr>
+				</xp:this.attrs>
+				<h4 class="panel-title">
+					<a class="collapsed" role="button"
+						data-toggle="collapse" data-parent="#accordion"
+						href="#collapseTwo" aria-expanded="false"
+						aria-controls="collapseTwo">
+						Section Header...
+					</a>
+				</h4>
+			</xp:div>
+			<div id="collapseTwo" class="panel-collapse collapse"
+				role="tabpanel" aria-labelledby="headingTwo">
+				<div class="panel-body">
+					
+					<xp:div styleClass="section">
+						<div class="container">
+							...
+						</div>
+					</xp:div><!-- /section -->					
+				</div>
+			</div>
+		</div>
+</xp:view>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	<xp:this.beforePageLoad><![CDATA[#{javascript://From Mark Leusink
+//So it seems that the no-store header actually causes the XPage not to be cached at all 
+//and opening an XPage using the back button had the same effect as initial opening it.
+var response=facesContext.getExternalContext().getResponse();
+response.setHeader("Cache-Control", "no-cache, no-store");
+//---
+	
+var paramUNID = paramValues.get("UNID");
+var paramNAME = paramValues.get("NAME");
+
+if (paramUNID != null){
+	Album.reset();
+	Album.loadByUnid(paramUNID.toString());
+	Album.setReadOnly(true);
+}
+
+else if (paramNAME != null){
+	Album.reset();
+	Album.loadByName(paramNAME.toString());
+	Album.setReadOnly(true);
+}
+else{
+	Album.create();
+}
+
+viewScope.put("gallery",true);}]]></xp:this.beforePageLoad>
+	<xc:ccNavBar></xc:ccNavBar>
+	<xp:panel id="AlbumWrapper">
+		<div class="container">
+		
+		<xp:div styleClass="card light" style="padding:30px 20px;">
+		
+			<div class="row">
+			
+				<div class="col-md-8">
+					
+
+						<xc:ccUniteGallery>
+							<xc:this.rendered><![CDATA[#{javascript:
+if (Album.readOnly==false){
+					return false;
+				}
+				else if (viewScope.get("gallery") ==false){
+					return false;
+				}
+				else {
+					return true;
+				}}]]></xc:this.rendered>
+						</xc:ccUniteGallery>
+						<xc:ccAlbumPictures>
+							<xc:this.rendered><![CDATA[#{javascript:
+!viewScope.get("gallery")}]]></xc:this.rendered>
+						</xc:ccAlbumPictures>
+					<xp:panel id="pnlAlbumBody"
+		rendered="#{javascript:!Album.readOnly}">
+					<xc:ccAlbumPicturesAdd
+						albumNoteId="#{javascript:Album.unid}"
+						rendered="#{javascript:!Album.readOnly}">
+					</xc:ccAlbumPicturesAdd>
+					</xp:panel>
+				</div>
+			
+				<div class="col-md-4">	
+				
+					<xp:panel id="ccAlbumTableWrapper">
+						<xc:ccAlbumTable></xc:ccAlbumTable>
+					</xp:panel>	
+				
+				</div>
+				
+				
+				
+			</div>
+			
+			</xp:div>
+			
+		
+		</div>
+	</xp:panel>
+	
+	<div class="container">
+	<xp:div styleClass="card light"
+		rendered="#{javascript:Album.readOnly}">
+		<div class="row">
+			<div class="col-md-6">
+				<xc:ccComments infiniteScroll="false"
+					header="Comments">
+					<xc:this.parentID><![CDATA[#{javascript:paramValues.get("UNID")}]]></xc:this.parentID>
+					<xc:this.ArrayListJSONObject><![CDATA[#{javascript:var parentID = paramValues.get("UNID")[0];
+			CommentController.loadComments(parentID);}]]></xc:this.ArrayListJSONObject>
+
+				</xc:ccComments>
+			</div>
+			<div class="col-md-6">
+				<xc:ccComment header="What do you think?">
+					<xc:this.parentID><![CDATA[#{javascript:paramValues.get("UNID")}]]></xc:this.parentID>
+				</xc:ccComment>
+			</div>
+
+		</div><!-- /row -->
+	</xp:div><!-- /card -->
+	</div>	
+
+	<xc:ccJavaScrips></xc:ccJavaScrips>	
+</xp:view>

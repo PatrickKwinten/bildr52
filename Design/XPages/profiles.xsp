@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view 
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" 
+	pageTitle="Profiles"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xc:ccNavBar></xc:ccNavBar>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-8"><h1>Profiles</h1>
+				<xc:ccProfiles header="List of all profiles"
+					ArrayListJSONObject="#{javascript:ProfileController.loadProfiles();}"
+					headerSize="h4">
+				</xc:ccProfiles>
+			</div>
+			<div class="col-md-4">
+				<h3><center>Spotlight</center></h3>
+				<xc:ccProfileRandom></xc:ccProfileRandom>
+			</div>
+		</div>
+	</div>
+</xp:view>

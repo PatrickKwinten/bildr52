@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="67a" sequence="16" unid="35431CF38847550EC1257F6F0033C06F">
+<created><datetime>20160307T102515,99+01</datetime></created>
+<modified><datetime>20160315T085053,02+01</datetime></modified>
+<revised><datetime>20160315T085053,01+01</datetime></revised>
+<lastaccessed><datetime>20160315T085053,02+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215652,22+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$Flags"><text>34567Cg~`</text></item>
+<item name="$TITLE" sign="true"><text>default.theme</text></item>
+<item name="$Comment" sign="true"><text>Bildr4</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>default.theme</text></item>
+<item name="$CSSFiles"><textlist><text>font-awesome-4.4.0/css/font-awesome-fontFamily.css</text><text>font-awesome-4.4.0/css/font-awesome-fontFamily.min.css</text><text>font-awesome-4.4.0/css/font-awesome.min.css</text><text>ekko-lightbox/ekko-lightbox.css</text></textlist></item></note>

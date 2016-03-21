@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='view' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
+ replicaid='C1257F70007055B8'>
+<noteinfo noteid='15a' unid='D8FE45FE93FEACE9C1257E3B004B6DE4' sequence='9'>
+<created><datetime dst='true'>20150504T154353,32+02</datetime></created>
+<modified><datetime>20160308T212700,26+01</datetime></modified>
+<revised><datetime dst='true'>20151009T115205,12+02</datetime></revised>
+<lastaccessed><datetime>20160308T212700,26+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T212700,26+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name='$FormatNote' summary='true' sign='true'>
+<rawitemdata type='4'>
+AQAsBYCrwK8rLS5oCADUdSWF
+</rawitemdata></item>
+<item name='$FormulaClass' sign='true'><text>1</text></item>
+<item name='$TITLE' sign='true'><text>User Profiles by Notes Name|$v-profiles</text></item>
+<item name='$Index' sign='true'><text/></item>
+<item name='$Formula' summary='true' sign='true'><formula compiled='true'>
+eAAFAB4AGgACAAkACQBub3Rlc25hbWUkQ29uZmxpY3QEAAQAAAA8AAUABABGb3JtAQAHAHByb2Zp
+bGUACgIEAAUABABGb3JtAQAKACRmLXByb2ZpbGUKAgQAHQIEAAMABwAYABIACUwxUzRTNVM3UzhT
+MTBTMTFT
+</formula></item>
+<item name='$Collation' summary='true'>
+<rawitemdata type='2'>
+FgABAABEAGYAAAAJAG5vdGVzbmFtZQ==
+</rawitemdata></item>
+<item name='$ViewFormat' summary='true' sign='true'>
+<rawitemdata type='5'>
+AQABAAMACggAAFZDAQAJAAkAAAAAAKwAAQACCAAAAAAAAAAAAAICAAAAbm90ZXNuYW1lVXNlciBO
+YW1lJgABAAAAAQEACQEAAgoBAQQKAAABAK0rCQEBAAEAAAAAAAAAAABXQwEAAggAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAQgAQAAAAAQD///8ABQD///8AAQDv7+8AAAAA
+AAAAAQABAP///wABAPf39wAAAAEA/wAAAAEAAAD/AAEAAAAAAAAACAAAAAAAAQA=
+</rawitemdata></item>
+<item name='$Comment' sign='true'><text>Bildr4</text></item>
+<item name='$Flags'><text>Y</text></item>
+<item name='$DesignerVersion'><text>8.5.3</text></item>
+<item name='$V5ACTIONS' sign='true'>
+<rawitemdata type='1'>
+vRxPAAAAAQABAAAAAQAAAAAAAAAAAAAACAACAHn/bAABAODf4wABAAAAAAAJAAAAAAABAODf4wAA
+AB8AAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/OgAAAAAAAQAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=
+</rawitemdata></item></note>
+

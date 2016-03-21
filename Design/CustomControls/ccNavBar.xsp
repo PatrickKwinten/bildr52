@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:debug="http://www.openntf.org/xsp/debugtoolbar"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	<debug:toolbar defaultCollapsed="false" collapseTo="left"
+		rendered="#{!!Configuration.debugMode}">
+	</debug:toolbar>
+	<xc:ccResourcesHead></xc:ccResourcesHead>
+	<xc:ccStandbyDialog></xc:ccStandbyDialog>
+	<xe:keepSessionAlive id="keepSessionAlive1" delay="180"></xe:keepSessionAlive>
+	<xp:div id="xsp-navbar" >
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+
+				<div class="navbar-header">
+					<button type="button"
+						class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar" />
+						<span class="icon-bar" />
+						<span class="icon-bar" />
+					</button>
+					<xp:div styleClass="section"
+						rendered="#{!!Configuration.titleDisplay}">
+						<xp:link escape="true"
+							text="#{ Configuration.title }" id="link5"
+							styleClass="navbar-brand">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:openPage name="/index.xsp"></xp:openPage>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</xp:div>
+				</div><!-- /navbar-header -->
+
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<xp:panel>
+						<xp:this.rendered><![CDATA[#{javascript:!(session.getEffectiveUserName()=="Anonymous")}]]></xp:this.rendered>
+					</xp:panel>
+					<ul class="nav navbar-nav">
+
+						<li>
+							<xp:link escape="true"
+								text="New Configuration" id="linkNewConfig">
+								<xp:this.rendered><![CDATA[${javascript:var userName:NotesName = session.createName(session.getEffectiveUserName());
+if (AppController.hasConfiguration() == true){
+	return false;
+}
+else if (userName.getCommon() == "Anonymous"){
+ return false;
+}
+else{
+	return true;
+}}]]></xp:this.rendered>
+								<i class="fa fa-cog" />
+								&#160;
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:actionGroup>
+											<xp:executeScript
+												script="#{javascript:Configuration.create()}" />
+											<xp:openPage
+												name="/configuration.xsp" />
+										</xp:actionGroup>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+						</li>
+						<li>
+							<xp:link escape="true"
+								text="Open Configuration" id="link2">
+								<xp:this.rendered><![CDATA[${javascript:var userName:NotesName = session.createName(@UserName());
+if (userName.getCommon() == "Anonymous"){
+	return false;
+}
+else if (AppController.hasConfiguration() == true){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+								<i class="fa fa-cog" />
+								&#160;
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:actionGroup>
+
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:var id = AppController.getConfigurationID();
+Configuration.loadByUnid(id);}]]></xp:this.script>
+											</xp:executeScript>
+											<xp:openPage
+												name="/configuration.xsp" />
+										</xp:actionGroup>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+						</li>
+
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">
+								<i class="fa fa-user" />
+								&#160; Profile
+								<span class="caret" />
+							</a>
+							<ul class="dropdown-menu">
+
+								<li>
+									<xp:link escape="true"
+										text="My Profile" id="link1"
+										rendered="${javascript:AppController.isRegistered();}">
+										<i class="fa fa-user" />
+										&#160;
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+
+											<xp:this.action>
+												<xp:actionGroup>
+													<xp:executeScript>
+														<xp:this.script><![CDATA[#{javascript:var id = AppController.getProfileID();
+Profile.loadByUnid(id);}]]></xp:this.script>
+													</xp:executeScript>
+													<xp:openPage>
+														<xp:this.name><![CDATA[#{javascript:var id = AppController.getProfileID();
+return "profile.xsp?UNID=" +id;}]]></xp:this.name>
+													</xp:openPage>
+												</xp:actionGroup>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true"
+										text="Register" id="link3"
+										rendered="${javascript:!AppController.isRegistered();}">
+
+										<i class="fa fa-user-plus" />
+										&#160;
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:actionGroup>
+													<xp:executeScript
+														script="#{javascript:Profile.create()}" />
+													<xp:openPage
+														name="/profile.xsp" />
+												</xp:actionGroup>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+
+								<li>
+									<xp:link escape="true"
+										text="My files" id="link10"
+										rendered="#{javascript:AppController.isRegistered();}">
+										<i class="fa fa-files-o"></i>
+										&#160;
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:openPage
+													name="/files.xsp" />
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+							</ul>
+						</li>
+
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">
+								<i class="fa fa-list"></i>
+								&#160; Explore
+								<span class="caret" />
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<xp:link escape="true"
+										text="Profiles" id="link11">
+										<i class="fa fa-users" />
+										&#160;
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:openPage
+													name="/profiles.xsp" />
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true" text="Albums"
+										id="link12">
+										<i class="fa fa-folder-o"></i>
+										&#160;
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:openPage
+													name="/albums.xsp" />
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true"
+										text="Pictures" id="link13">
+										<i class="fa fa-picture-o"></i>
+										&#160;
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:openPage
+													name="/pictures.xsp" />
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true"
+										text="Comments" id="link14">
+										<i class="fa fa-comments-o"></i>
+										&#160;
+
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:openPage
+													name="/comments.xsp" />
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+							</ul>
+						</li>
+
+
+						<li>
+							<xp:link escape="true" text="Upload"
+								id="link4">
+								<xp:this.rendered><![CDATA[${javascript://AppController.isRegistered();
+context.getUser().getRoles().contains("[upload]")}]]></xp:this.rendered>
+								<i class="fa fa-upload" />
+								&#160;
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:openPage name="/upload.xsp" />
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:link>
+						</li>
+						<li>
+							<xp:link escape="true" text="Sign out"
+								id="link7">
+								<xp:this.rendered><![CDATA[${javascript:if (session.getEffectiveUserName() != "Anonymous"){
+	return true;
+}}]]></xp:this.rendered>
+								<xp:this.value><![CDATA[#{javascript:var href = facesContext.getExternalContext().getRequest().getContextPath() + "?Logout&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath();
+return href;
+}]]></xp:this.value>
+								<i class="fa fa-sign-out" />
+								&#160;
+
+							</xp:link>
+						</li>
+						<li>
+							<xp:link escape="true" text="Sign in"
+								id="link8">
+								<xp:this.rendered><![CDATA[${javascript:if (session.getEffectiveUserName() == "Anonymous"){
+	return true;
+}}]]></xp:this.rendered>
+								<xp:this.value><![CDATA[#{javascript:var href = facesContext.getExternalContext().getRequest().getContextPath() + "?Login&redirectTo=" + facesContext.getExternalContext().getRequest().getContextPath();
+return href;
+}]]></xp:this.value>
+								<i class="fa fa-sign-in" />
+								&#160;
+
+							</xp:link>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle"
+								data-toggle="dropdown" href="#">
+								<i class="fa fa-info-circle"></i>
+								&#160; More...
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<xp:link escape="true" text="About"
+										id="link6" target="_new">
+
+										<i class="fa fa-info-circle"></i>
+										&#160;
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:actionGroup>
+													<xp:openPage
+														name="/about.xsp" />
+												</xp:actionGroup>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true"
+										text="Project page" id="link15" target="_new">
+
+										<xp:this.value><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=Bildr]]></xp:this.value>
+										<i class="fa fa-medkit"></i>
+										&#160;
+
+									</xp:link>
+								</li>
+								<li>
+									<xp:link escape="true" id="link9"
+										text="RSS Feed">
+										<xp:this.value><![CDATA[#{javascript:return "/feed.xsp?source=$v-feed"}]]></xp:this.value>
+										<i class="fa fa-rss-square"></i>
+										&#160;
+									</xp:link>
+								</li>
+							</ul>
+						</li>
+
+					</ul>
+					<div
+						class="col-sm-3 col-md-3 pull-right navbar-search"
+						style="margin-top:7px;">
+						
+						
+					
+						
+
+						<div class="input-group">
+							<xp:inputText id="inputSearch"
+								styleClass="form-control" type="text"
+								value="#{sessionScope.searchQuery}">
+								<xp:this.attrs>
+									<xp:attr name="placeholder"
+										value="Search">
+									</xp:attr>
+								</xp:this.attrs>
+								<xp:eventHandler event="onkeyup"
+									submit="false">
+									<xp:this.script><![CDATA[
+            var kc = thisEvent.keyCode?thisEvent.keyCode:"";
+            if(kc != "" && kc == "13") {
+                var input = dojo.byId("#{id:inputSearch}");
+                input.blur();
+                window.location = "search.xsp?q=" + input.value;
+            }]]>
+									</xp:this.script>
+								</xp:eventHandler>
+
+
+
+								<xp:eventHandler event="onchange"
+									submit="true" refreshMode="norefresh">
+								</xp:eventHandler>
+								
+							</xp:inputText>
+							<div class="input-group-btn">
+
+								<xp:button styleClass="btn btn-default"
+									id="btnSearch" style="padding:6px 12px;">
+									<i
+										class="glyphicon glyphicon-search">
+									</i>
+									&#160;
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="norefresh">
+									<xp:this.action>
+										<xp:openPage>
+											<xp:this.name><![CDATA[#{javascript:var query = sessionScope.get("searchQuery");
+return "search.xsp?q=" + query;}]]></xp:this.name>
+										</xp:openPage>
+									</xp:this.action></xp:eventHandler>
+								</xp:button>
+
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</nav>
+	</xp:div>
+
+
+	<xp:scriptBlock id="scriptBlock1">
+
+		<xp:this.value><![CDATA[x$("#{id:inputSearch}").keypress(function(e) {
+	if(e.which == 13) {
+	/*
+		alert('You pressed enter!');
+		var query = x$("#{id:inputSearch}").val();
+		alert(query)
+        //SJSJ: facesContext.getExternalContext().getRequest().getContextPath()
+		var currPath = '#{javascript:return facesContext.getExternalContext().getRequest().getContextPath()}';
+		window.location.href = currPath + "/search.xsp?q=" + query;
+*/
+x$("#{id:btnSearch}").click();
+    }
+});
+
+]]></xp:this.value>
+	</xp:scriptBlock>
+	
+	
+	<xp:eventHandler event="onClientLoad" submit="true"
+		refreshMode="norefresh">
+		<xp:this.action><![CDATA[#{javascript:sessionScope.put("searchQuery","")}]]></xp:this.action>
+	</xp:eventHandler></xp:view>

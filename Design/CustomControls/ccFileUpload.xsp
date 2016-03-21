@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:fileUpload 
+		id="fileUploadAvatar"
+    	value="#{Profile.fileUpload}">
+	</xp:fileUpload>	
+</xp:view>

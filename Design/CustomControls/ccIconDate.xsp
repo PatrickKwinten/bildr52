@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<span title="date given">
+		<i class="fa fa-calendar" />
+		&#160;
+		<xp:text escape="true">
+			<xp:this.value><![CDATA[#{javascript:var theDate = compositeData.date;
+p = new org.ocpsoft.pretty.time.PrettyTime();
+p.format(new Date(theDate))}]]></xp:this.value>
+		</xp:text>
+		&#160;
+	</span>
+</xp:view>

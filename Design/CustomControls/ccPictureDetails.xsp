@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<div class="container">
+	
+
+	
+		<div class="card light" style="padding:30px 20px;">
+			
+			<div class="row">
+				<div class="col-sm-8">
+					<xp:link escape="true" id="link2"
+						title="click to zoom in...">
+
+						<xp:this.attrs>
+							<xp:attr name="data-toggle"
+								value="lightbox">
+							</xp:attr>
+							<xp:attr name="data-title"
+								value="#{javascript:picture.getSubject()}">
+							</xp:attr>
+							<xp:attr name="data-footer"
+								value="#{javascript:picture.getCreator()}">
+							</xp:attr>
+						</xp:this.attrs>
+						<xp:this.value><![CDATA[#{javascript:
+var db = dao.getDatabase();
+			var id = picture.getUnid();
+			var px = picture.getOriginal();
+			
+			return "../" + db.toString() + "/0/" + id + "/$File/" + px;}]]></xp:this.value><xp:image id="image1"
+							styleClass="img-responsive img-thumbnail">
+							<xp:this.url><![CDATA[#{javascript:var db = dao.getDatabase();
+							
+			var id = picture.getUnid();
+			var px = picture.getSmall();
+			
+			return "../" + db.toString() + "/0/" + id + "/$File/" + px;}]]></xp:this.url>
+						</xp:image>
+					</xp:link>
+
+
+				</div>
+				<div class="col-sm-4">
+					<div class="bs-callout bs-callout-bildr">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="pull-left" style="margin-top:-20px;margin-left:-20px;">
+								
+									<xc:ccMediaImage
+							styleClass="media-object pull-left img-circle">
+							<xc:this.url><![CDATA[#{javascript:var person = PictureController.picture.getCreator();
+	var pic = ProfileController.loadProfilePicURL(person);
+	if (pic == ""){
+		return "profileNoPhoto.png";
+	}
+	else{
+		return pic;
+	}}]]></xc:this.url>
+							<xc:this.title><![CDATA[#{javascript:var nam:NotesName = session.createName(PictureController.picture.getCreator());
+	return nam.getCommon();}]]></xc:this.title>
+						</xc:ccMediaImage>
+									<xc:ccMediaImage
+										styleClass="media-object pull-left img-circle"
+										title="#{javascript:picture.getCreator()}" rendered="false">
+										<xc:this.url><![CDATA[#{javascript:var name = PictureController.picture.getCreator();
+
+var db:NotesDatabase = dao.getDatabase();
+				key = @DbLookup(db,"$v-profiles",name,"id");
+				
+				
+				var doc:NotesDocument = db.getDocumentByUNID(key);
+				
+				
+				docid = doc.getUniversalID();
+				pic = doc.getItemValueString("attachments");
+				//docid = @DbLookup(db,"$v-profilepicture",key,"primaryKey");
+				prefix = "http://" + context.getUrl().getHost() + "/" + db.getFilePath();
+				if (pic == null || pic == ""){
+					return "/profileNoPhoto.png";
+				}
+				else {	
+					return prefix+ "/0/" + docid + "/$FILE/" + pic;
+				}}]]></xc:this.url>
+									</xc:ccMediaImage>
+								</div>
+							</div>
+							<div class="col-md-9" >
+								<div style="margin-top:-20px;">
+									<h5>
+										<xp:text escape="true"
+											id="computedField1"
+											value="#{javascript:picture.getSubject();}">
+
+										</xp:text>
+									</h5>
+									<div>
+										<xc:ccIconProfileLinkName
+											NotesName="#{javascript:picture.getCreator()}">
+										</xc:ccIconProfileLinkName>
+									</div>
+									<div>
+										<xc:ccIconDate
+											date="#{javascript:picture.getCreated()}">
+										</xc:ccIconDate>
+									</div>
+									<div>
+										<xc:ccIconComment
+											docUNID="#{javascript:picture.getUnid()}">
+										</xc:ccIconComment>
+									</div>
+									
+								</div>					
+							</div><!-- /col-md-9 -->
+						</div><!-- /row -->
+											
+					</div>
+					<h6>Description</h6>
+					<p>
+					
+						
+						<xp:text escape="true" id="computedField2">
+
+							<xp:this.value><![CDATA[#{javascript:
+picture.getDescription();}]]></xp:this.value>
+						</xp:text>
+					</p>
+				</div><!-- /col-sm-3 -->
+				
+			</div><!-- /row -->				
+			
+	
+		</div><!-- /.card -->	
+
+	</div><!-- /.container -->
+</xp:view>

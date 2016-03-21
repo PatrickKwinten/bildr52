@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.beforePageLoad><![CDATA[#{javascript://From Mark Leusink
+//So it seems that the no-store header actually causes the XPage not to be cached at all 
+//and opening an XPage using the back button had the same effect as initial opening it.
+var response=facesContext.getExternalContext().getResponse();
+response.setHeader("Cache-Control", "no-cache, no-store");
+//---
+	
+var paramUNID = paramValues.get("UNID");
+var paramNAME = paramValues.get("NAME");
+
+if (paramUNID != null){
+	Profile.reset();
+	Profile.loadByUnid(paramUNID.toString());
+	Profile.setReadOnly(true);
+}
+
+else if (paramNAME != null){
+	Profile.reset();
+	Profile.loadByName(paramNAME.toString());
+	Profile.setReadOnly(true);
+}
+else{
+	Profile.create();
+}
+
+/**
+if ((paramUNID == null || paramUNID == "")) {
+	Profile.create();
+}
+else{
+	Profile.reset();
+	Profile.loadByUnid(paramUNID.toString());
+}
+**/}]]></xp:this.beforePageLoad>
+	<xc:ccNavBar />
+	
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<xc:ccProfile />
+				
+				<div class="card light">
+					
+					<div class="row">
+						<div class="col-md-12">
+							<xc:ccComments
+								rendered="${!Profile.newNote}"
+								parentID="${javascript:Profile.getUnid();}" header="Responses"
+								infiniteScroll="true" showAsCard="false" headerSize="h4">
+								<xc:this.ArrayListJSONObject><![CDATA[#{javascript:var parentID = Profile.getUnid();
+						CommentController.loadComments(parentID);}]]></xc:this.ArrayListJSONObject>
+							</xc:ccComments>
+						</div>			
+					</div><!-- /row -->
+					<div class="row">
+						<div class="col-md-12">
+							<xc:ccComment
+								parentID="${javascript:Profile.getUnid();}" headerSize="h4">
+								<xc:this.rendered><![CDATA[${javascript:var userName:NotesName = session.getEffectiveUserName();
+						if (userName == Profile.getNotesName()){
+							return false;
+						}
+						else{
+							return true;
+						}}]]></xc:this.rendered>
+
+								<xc:this.header><![CDATA[#{javascript:"Say something to " + Profile.getFirstName()}]]></xc:this.header>
+							</xc:ccComment>
+						</div>
+					</div>
+	</div>					
+			</div>
+			<div class="col-md-6">
+			<xc:ccAlbums header="Albums"
+				ArrayListJSONObject="#{javascript:ProfileController.loadAlbums(Profile.notesName)}"
+				headerSize="h4">
+			</xc:ccAlbums>
+			<xc:ccPictures header="Pictures"
+				ArrayListJSONObject="#{javascript:PictureController.loadPictures(Profile.notesName)}"
+				headerSize="h4">
+			</xc:ccPictures>
+
+			</div>			
+		</div>
+	</div>
+	
+	
+	
+	<xc:ccJavaScrips></xc:ccJavaScrips>
+	<xc:ccFooter />
+</xp:view>

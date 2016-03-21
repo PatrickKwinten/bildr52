@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xp:this.resources>
+		<xp:styleSheet href="/profileRandom.css"></xp:styleSheet>
+	</xp:this.resources>
+	<div>
+	<xp:panel id="dataContextPanel">
+		<xp:this.dataContexts>
+			<xp:dataContext var="docRandom">
+				<xp:this.value><![CDATA[#{javascript://Database dataDB = dao.getDatabase()
+var db:NotesDatabase = dao.getDatabase();
+var vw:NotesView = db.getView("$v-picturesJSON-flat");
+var numEntries = vw.getEntryCount();
+if (numEntries==0){ 
+	return null; 
+}
+var randomIndex = @Integer( (numEntries)*@Random() + 1 );
+vw.getNthDocument(randomIndex);}]]></xp:this.value>
+			</xp:dataContext>
+		</xp:this.dataContexts>
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="user-details ">
+					<div class="user-image">
+						<xp:image id="image1" styleClass="img-circle"
+							style="height:100px;width:100px;">
+							<xp:this.title><![CDATA[#{javascript:docRandom.getItemValueString("Photo_Title");}]]></xp:this.title>
+							<xp:this.url><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var doc:NotesDocument = docRandom;
+
+docid = doc.getUniversalID();
+thumb = docRandom.getItemValueString("Photo_ThumbFilename");
+//docid = @DbLookup(db,"$v-profilepicture",key,"primaryKey");
+prefix = "http://" + context.getUrl().getHost() + "/" + db.getFilePath();
+if (thumb == null || thumb == ""){
+	return "/profileNoPhoto.png";
+}
+else {	
+	return prefix+ "/0/" + docid + "/$FILE/" + thumb;
+}}]]></xp:this.url>
+						</xp:image>
+
+					</div>
+					<div class="user-info-block card light" style="padding:30px 0px;">
+						<div class="user-heading">
+							<h3>
+								<xp:text escape="true"
+									id="computedField2">
+									<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("Photo_Title")}]]></xp:this.value>
+								</xp:text>
+							</h3>
+							<span class="help-block">
+								<xp:text escape="true"
+									id="computedField1">
+									<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("PhotoDescription");}]]></xp:this.value>
+								</xp:text>
+							</span>
+						</div>
+						<ul class="navigation">
+							<li>
+								<a data-toggle="tab"
+									href="#information">
+									<i class="fa fa-user"></i>
+								</a>
+							</li>
+							<li class="active">
+								<a data-toggle="tab"
+									href="#picture">
+									<i class="fa fa-camera"></i>
+								</a>
+							</li>
+							
+						</ul>
+						
+						
+						<div class="user-body">
+							<div class="tab-content">
+								<div id="information"
+									class="tab-pane">
+									<h4>Details</h4>
+									<p>
+										<xc:ccIconProfileLinkName>
+											<xc:this.NotesName><![CDATA[#{javascript:docRandom.getItemValueString("Au_Author")}]]></xc:this.NotesName>
+										</xc:ccIconProfileLinkName>
+			
+										<xc:ccIconDate>
+											<xc:this.date><![CDATA[#{javascript:var id = docRandom.getItemValueString("Tx_id");
+var db:NotesDatabase = dao.getDatabase();
+var doc:NotesDocument = db.getDocumentByUNID(id);
+var theDate = doc.getCreated().toJavaDate();
+return theDate;}]]></xc:this.date>
+										</xc:ccIconDate>
+
+									</p>									
+								</div>	
+								<div id="picture" class="tab-pane active">
+									<h4>Preview</h4>
+									<xp:panel>
+										<xp:this.dataContexts>
+											<xp:dataContext var="Picture">
+												<xp:this.value><![CDATA[#{javascript:var id = docRandom.getItemValueString("Tx_id");
+var pic = new org.openntf.bildr.Picture;
+pic.loadByUnid(id);
+return pic;}]]></xp:this.value>
+											</xp:dataContext>
+										</xp:this.dataContexts>
+										
+										<xp:link escape="true" id="link1">
+					<xp:this.value><![CDATA[#{javascript:var db = dao.getDatabase();
+		var id = Picture.getUnid();
+		var px = Picture.getOriginal();
+		
+		return "../" + db.toString() + "/0/" + id + "/$File/" + px;}]]></xp:this.value>
+					<xp:this.attrs>
+						<xp:attr name="data-toggle" value="lightbox"></xp:attr>
+						<xp:attr name="data-title"
+							value="#{Picture.subject}">
+						</xp:attr>
+						<xp:attr name="data-footer"
+							value="#{Picture.creator}">
+						</xp:attr>
+					</xp:this.attrs>
+					<xp:image id="image2"
+						styleClass="img-responsive img-thumbnail">
+						<xp:this.url><![CDATA[#{javascript:var db = dao.getDatabase();
+		var id = Picture.getUnid();
+		var px = Picture.getSmall();
+		
+		return "../" + db.toString() + "/0/" + id + "/$File/" + px;}]]></xp:this.url>
+					</xp:image>
+				</xp:link>
+										
+										
+									</xp:panel>
+									
+									
+								</div>						
+								
+							</div>
+						</div>					
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</xp:panel>
+
+	</div>
+</xp:view>

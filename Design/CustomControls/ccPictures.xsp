@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:div styleClass="section">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+					<xp:panel
+						tagName="#{javascript:compositeData.headerSize}">
+						<xp:text escape="true"
+							value="#{javascript:compositeData.header}">
+						</xp:text>
+					</xp:panel>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<xp:text escape="false" id="computedField3"
+						styleClass="pull-right"
+						rendered="#{javascript:compositeData.showTotals}">
+						<xp:this.value><![CDATA[#{javascript:return "<span class='badge'>" + getComponent("list").getRowCount() + "</span> matches"}]]></xp:this.value>
+					</xp:text>
+				</div>
+			</div><!-- /row -->
+
+			<xp:div styleClass="card light">
+			<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()> 0}]]></xp:this.rendered>
+				<xp:panel>
+					
+					<xp:repeat id="list" rows="${Configuration.rowsDefault}"
+						var="obj" value="#{javascript:compositeData.ArrayListJSONObject;}"
+						indexVar="idx">
+	
+						<xc:ccMedia>
+							<xp:this.facets>
+								<xp:span xp:key="facetMediaIcons">
+								
+								<xc:ccIconProfileLinkName
+									NotesName="#{javascript:obj.creator}">
+								</xc:ccIconProfileLinkName>
+										
+								<xc:ccIconDate
+									date="#{javascript:obj.created}">
+								</xc:ccIconDate>								
+								
+								<xc:ccIconComment
+									docUNID="#{javascript:obj.docUNID}">
+								</xc:ccIconComment>
+								
+								<xc:ccIconPictureFilter
+									filter="#{javascript:obj.category}">
+								</xc:ccIconPictureFilter>
+
+								</xp:span>
+								<xp:span xp:key="facetMediaContent">
+									<xp:inputTextarea>
+										<xp:this.value><![CDATA[#{javascript:var txt = obj.desc;
+							if (txt==null){
+								return "No Description";
+							}
+							else{
+								return txt;
+							}}]]></xp:this.value>
+									</xp:inputTextarea>
+								</xp:span>
+								<xp:span xp:key="facetMediaLink">
+									<xc:ccMediaBodyLink subject="#{javascript:obj.subject}">
+										<xc:this.address><![CDATA[#{javascript:var id = obj.docUNID;
+							return "picture.xsp?UNID=" +id;}]]></xc:this.address>
+									</xc:ccMediaBodyLink>
+								</xp:span>
+								<xp:span xp:key="facetMediaImage">
+									<xp:link escape="true" id="link2"
+									styleClass="media-object pull-left" title="Open lightbox...">
+		
+									<xp:this.attrs>
+										<xp:attr name="data-toggle"
+											value="lightbox">
+										</xp:attr>
+										<xp:attr name="data-title"
+											value="#{javascript:obj.subject}">
+										</xp:attr>
+										<xp:attr name="data-footer">
+											<xp:this.value><![CDATA[#{javascript:return "Published under category: " + obj.category}]]></xp:this.value>
+										</xp:attr>
+									</xp:this.attrs>
+									<xp:this.value><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+			var id = obj.docUNID;
+			var orig = obj.picoriginal;
+			return "../" + db + "/0/" + id + "/$FILE/" + orig;}]]></xp:this.value>
+										<xp:image id="image1"
+											styleClass="img-responsive img-thumbnail">
+											<xp:this.url><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+				var id = obj.docUNID;
+				var thumb = obj.picthumb;
+				return "../" + db + "/0/" + id + "/$FILE/" + thumb;}]]></xp:this.url>
+										</xp:image>
+									</xp:link>
+								</xp:span>
+							</xp:this.facets>
+						</xc:ccMedia>					
+	
+					</xp:repeat>
+					<xp:pager layout="Previous Group Next"
+						partialRefresh="true" for="list"
+						rendered="#{javascript:isPagerVisible(this)}">
+					</xp:pager>		
+					
+	
+				</xp:panel>
+			</xp:div><!-- /card -->
+			
+		</div><!-- /container-fluid -->
+	</xp:div><!-- /section -->
+	
+	<xc:ccListNoItems>
+		<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()== 0}]]></xp:this.rendered>
+	</xc:ccListNoItems>
+</xp:view>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="63e" sequence="5" unid="70F1EC25FEE5A2E7C1257F4E006881A2">
+<created><datetime>20160203T200129,30+01</datetime></created>
+<modified><datetime>20160308T215651,92+01</datetime></modified>
+<revised><datetime>20160203T200157,12+01</datetime></revised>
+<lastaccessed><datetime>20160308T215651,92+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215651,92+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>material.theme</text></item>
+<item name="$Flags"><text>34567Cg~`</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>material.theme</text></item>
+<item name="$CSSFiles"><textlist><text>material.css</text></textlist></item></note>

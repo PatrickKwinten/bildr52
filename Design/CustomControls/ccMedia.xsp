@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:div>
+		<xp:this.styleClass><![CDATA[#{javascript:if(idx == 0){
+	return "media first";
+	}
+	else{
+	return "media";
+	}}]]></xp:this.styleClass>
+		<xp:callback 
+			facetName="facetMediaImage" 
+			id="callback1"></xp:callback>
+		<div class="media-body">
+			<h4 class="media-heading">
+				<xp:callback 
+					facetName="facetMediaLink"
+					id="callback2">
+				</xp:callback>
+			</h4>
+			<p>				
+				<xp:callback facetName="facetMediaContent"
+					id="callback3">
+				</xp:callback>
+			</p>
+			<h5>			
+				<xp:callback facetName="facetMediaIcons"
+					id="callback4">
+				</xp:callback>
+			</h5>
+		</div>
+	</xp:div>
+</xp:view>

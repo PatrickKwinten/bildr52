@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+
+	<xp:this.beforePageLoad><![CDATA[#{javascript:Comment.create()}]]></xp:this.beforePageLoad>
+	<div class="section">
+		<div class="container-fluid">
+			<xp:panel tagName="#{javascript:compositeData.headerSize}">
+				<xp:text escape="true" id="computedField1"
+					value="#{javascript:compositeData.header}">
+				</xp:text>
+			</xp:panel>
+		</div>
+	</div><!-- /section -->
+
+	<xp:div styleClass="section">
+		<xp:this.rendered><![CDATA[#{javascript:if (session.getEffectiveUserName() != "Anonymous"){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+		<div class="container-fluid">
+			<xp:div>
+
+				<xp:this.styleClass><![CDATA[#{javascript:if (compositeData.showAsCard == true){
+	return "card light";
+}}]]></xp:this.styleClass>
+				<div
+					style="margin-left: 15px;
+    margin-right: 15px;">
+
+					<div class="form-horizontal" role="form">
+
+						<div class="row">
+							<div class="form-group">
+								<div class="col-sm-2">
+									<xp:label value="Subject"
+										id="label9" for="subject" styleClass="control-label">
+									</xp:label>
+								</div>
+								<div class="col-sm-10">
+									<xp:inputText
+										styleClass="form-control" id="subject"
+										value="#{Comment.subject}">
+										<xp:this.attrs>
+											<xp:attr name="type"
+												value="text">
+											</xp:attr>
+											<xp:attr name="placeholder"
+												value="Enter a Subject">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputText>
+								</div>
+							</div>
+						</div><!-- /row -->
+
+						<div class="row">
+							<div class="form-group">
+								<div class="col-sm-2">
+									<xp:label value="Submitter"
+										id="label1" for="creator" styleClass="control-label">
+									</xp:label>
+								</div>
+								<div class="col-sm-10">
+									<xp:inputText
+										styleClass="form-control" id="creator"
+										value="#{Comment.creator}" disabled="true">
+										<xp:this.attrs>
+											<xp:attr name="type"
+												value="text">
+											</xp:attr>
+											<xp:attr name="placeholder"
+												value="Your Name">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputText>
+								</div>
+							</div>
+						</div><!-- /row -->
+
+						<div class="row">
+							<div class="form-group">
+								<div class="col-sm-2">
+									<xp:label value="Comment"
+										id="label2" for="comment" styleClass="control-label">
+									</xp:label>
+								</div>
+								<div class="col-sm-10">
+									<xp:inputTextarea id="comment"
+										styleClass="form-control" value="#{Comment.comment}">
+										<xp:this.attrs>
+											<xp:attr name="type"
+												value="text">
+											</xp:attr>
+											<xp:attr name="placeholder"
+												value="Enter a comment...">
+											</xp:attr>
+										</xp:this.attrs>
+									</xp:inputTextarea>
+								</div>
+							</div>
+						</div><!-- /row -->
+
+						<div class="row">
+							<xp:button id="btnSubmit"
+								styleClass="btn-primary btn-primary-material pull-right"
+								title="submit...">
+								<i class="fa fa-check" />
+								
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action>
+										<xp:actionGroup>
+											<xp:executeScript>
+												<xp:this.script><![CDATA[#{javascript:var parentID = compositeData.parentID;
+Comment.save(parentID);
+Comment.clear();}]]></xp:this.script>
+											</xp:executeScript>
+										</xp:actionGroup>
+									</xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+						</div>
+
+					</div><!-- /.form-horizontal -->
+				</div>
+			</xp:div><!-- /.card -->
+		</div><!-- /container -->
+	</xp:div><!-- /section -->
+	
+	<xp:panel>
+		<xp:this.rendered><![CDATA[#{javascript:if (session.getEffectiveUserName() == "Anonymous"){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+		<div class="alert alert-info">
+			<strong><i class="fa fa-info-circle"></i></strong>
+			&#160;Please&#160;
+			<xp:link escape="true" text="sign in" id="link8">
+				<xp:this.rendered><![CDATA[${javascript:if (session.getEffectiveUserName() == "Anonymous"){
+	return true;
+}}]]></xp:this.rendered>
+				
+				<xp:this.value><![CDATA[#{javascript:currAddress = context.getUrl().toString();
+var href = facesContext.getExternalContext().getRequest().getContextPath() + "?Login&redirectTo=" + currAddress;
+return href;
+}]]></xp:this.value><i class="fa fa-sign-in" />
+				&#160;
+
+			</xp:link>
+			&#160;first.
+		</div>
+	</xp:panel>
+
+</xp:view>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	dojoForm="true"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	
+	<xp:scriptBlock id="scriptXPageUploader">
+		<xp:this.value><![CDATA[var runtimes = "#{javascript: upload['runtimes']}";
+var maxsize = "#{javascript: upload['maxsize']}";
+var filetypes = "#{javascript: upload['filetypes']}";
+var filedesc = "#{javascript: upload['filedescription']}";
+
+dojo.addOnLoad( function() {
+	var xpageUploader = new XPageUploader( {
+		runtimes : runtimes,
+		max_file_size : ( maxsize > 0 ? maxsize + 'kb' : '1000mb'),
+		container : 'uploader',
+		dragdrop : true,
+		rename : true,
+		browse_button : '#{id:buttonSelect}',
+		start_button : '#{id:buttonUpload}',
+		supported_file_types : filetypes,
+		filters : [
+			{
+				title : filedesc, 
+				extensions : filetypes
+			}
+		],
+		flash_swf_url : 'plupload.flash.swf',
+		silverlight_xap_url : 'plupload.silverlight.xap'
+	},
+	false);
+});]]></xp:this.value>
+	</xp:scriptBlock>
+
+	<xp:div styleClass="section" id="header">
+		<div class="container">
+			<xp:panel tagName="h2">
+				Upload Step 2 - Select Image Files
+			</xp:panel>
+			<xp:panel tagName="h4">
+				Select the file(s) and start uploading. You can repeat this process.
+			</xp:panel>
+		</div>
+	</xp:div><!-- /section -->
+	
+	<xp:div styleClass="section" id="formSection">
+		<xp:div styleClass="container" id="formContainer">
+		
+		<div class="form-horizontal card light" role="form">
+		
+			<xp:div styleClass="" id="rowRuntime"
+				rendered="#{!!Configuration.debugMode}">
+
+				<div class="form-group">
+					<div class="col-sm-2">
+						<xp:label value="Runtime:" id="label1"
+							for="runtime" styleClass="control-label">
+						</xp:label>
+					</div>
+					<div class="col-sm-10">
+						<xp:comboBox id="runtime">
+							<xp:selectItem itemLabel="auto detect"
+								itemValue="">
+							</xp:selectItem>
+							<xp:eventHandler event="onchange"
+								submit="true" refreshMode="complete">
+							</xp:eventHandler>
+							<xp:selectItems>
+								<xp:this.value><![CDATA[#{javascript:var runtimes = upload.getString('runtimes');
+@Explode(runtimes)}]]></xp:this.value>
+							</xp:selectItems>
+						</xp:comboBox>
+					</div>
+				</div><!-- /form-group -->
+			</xp:div><!-- /row -->
+			
+			<xp:div styleClass="" id="rowMaxFileSize">
+				<div class="form-group">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-10">
+						<xp:text escape="true" id="cfMaxFileSize"
+							tagName="div" styleClass="alert alert-info">
+							<xp:this.value><![CDATA[#{javascript:var maxSize = upload.getString('maxsize'); 
+if (maxSize > 0 ) {	
+	var txt = "Note: As maximum file-size is set "; 	
+	if (maxSize >= 1024) {
+		maxSize = maxSize / 1024;
+		if (maxSize == @Integer(maxSize)){
+			txt += @Round(maxSize) + " MB.";
+		} else {
+			txt += @Round(maxSize, 0.1) + " MB.";
+		}		
+	} else {
+		txt += maxSize + " KB.";
+	}	
+	return txt;	
+}}]]></xp:this.value>
+						</xp:text>
+					</div>
+				</div><!-- /form-group -->
+			</xp:div><!-- /row -->
+			
+			<xp:div styleClass="" id="rowSelectFiles">
+				<div class="form-group">
+					<div class="col-sm-2">
+						<xp:button
+			value="Select files"
+			id="buttonSelect"
+			
+			styleClass="btn btn-primary"
+			disableTheme="true">
+			<i class="fa fa-picture-o"></i>&#160;
+		</xp:button>
+					</div>
+					<div class="col-sm-10">
+						<div id="uploader">
+							<p>
+								You browser doesn't have Flash,
+								Silverlight, HTML5, or HTML4
+								support.
+							</p>
+						</div>						
+					</div>
+				</div><!-- /form-group -->
+			</xp:div><!-- /row -->
+			
+			<xp:div styleClass="" id="rowResultPreview">
+				<div class="form-group">
+					<div class="col-sm-2">
+						<xp:button value="Start upload"
+							id="buttonUpload" >
+							<i class="fa fa-upload"></i>&#160;
+						</xp:button>
+					</div>
+					<div class="col-sm-10">
+						<div id="thumbnails" class="well">
+							<div class="title">Result preview</div>
+							<div class="content"></div>
+						</div>
+					</div>
+				</div><!-- /form-group -->
+			</xp:div><!-- /row -->
+			
+			<xp:div styleClass="" id="div4">
+				<div class="form-group">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-10">
+					<xp:button value="Startpage" id="button1"
+							styleClass="btn btn-success">
+							<i class="fa fa-home"></i>&#160;
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" immediate="true">
+								<xp:this.action>
+									<xp:openPage name="/index.xsp"></xp:openPage>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+						<xp:button
+							value="Change configuration"
+							id="buttonConfig" 
+							styleClass="btn btn-warning">
+							<i class="fa fa-cogs"></i>&#160;			
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="complete">
+								<xp:this.action><![CDATA[#{javascript:sessionScope.remove("uploadStep");
+				context.reloadPage();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+						
+					</div>
+				</div><!-- /form-group -->
+			</xp:div><!-- /row -->
+			
+			</div>
+			
+		</xp:div><!-- /container -->
+	</xp:div><!--  /section -->
+
+</xp:view>

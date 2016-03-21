@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:scriptBlock id="scriptBlock1">
+		<xp:this.value><![CDATA[$(document).ready(
+	function() {
+		$("#gallery").unitegallery({
+			slider_enable_arrows:true,
+			slider_enable_zoom_panel:true,
+			theme_enable_text_panel: false,
+			thumb_border_width:2,
+			thumb_over_border_width:2,
+			thumb_selected_border_width:4,
+			gallery_width:500,
+			gallery_height:500
+		});
+	}
+)]]></xp:this.value>
+	</xp:scriptBlock>
+
+	<div class="container">
+		
+			<div id="gallery" style="display:none;">
+				<xp:repeat rows="100"
+					value="#{javascript:Album.getPictures();}" var="obj" indexVar="idx"
+					disableOutputTag="true" removeRepeat="true">
+					<xp:text escape="false">
+						<xp:this.value><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+var id = obj;
+
+var Picture = new org.openntf.bildr.Picture();
+Picture.loadByUnid(obj);
+var original = Picture.getOriginal();
+
+var pic = "../" + db + "/0/" + id + "/$FILE/" + original;
+
+return '<img src="' + pic + '" data-image="' + pic + '"></img>'}]]></xp:this.value>
+					</xp:text>
+					<xp:image rendered="false">
+						<xp:this.attrs>
+							<xp:attr name="data-image">
+								<xp:this.value><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+var id = obj;
+
+var Picture = new org.openntf.bildr.Picture();
+Picture.loadByUnid(obj);
+var original = Picture.getOriginal();
+
+return "../" + db + "/0/" + id + "/$FILE/" + original;}]]></xp:this.value>
+							</xp:attr>
+						</xp:this.attrs>
+						<xp:this.url><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+var id = obj;
+
+var Picture = new org.openntf.bildr.Picture();
+Picture.loadByUnid(obj);
+var thumb = Picture.getThumb();
+
+return "../" + db + "/0/" + id + "/$FILE/" + thumb;}]]></xp:this.url>
+					</xp:image>
+
+				</xp:repeat>
+
+
+			
+
+		</div>
+	</div>
+
+	<link rel='stylesheet' href='unitegallery/css/unite-gallery.css'
+		type='text/css' />
+	
+	<link rel='stylesheet'
+		href='unitegallery/themes/default/ug-theme-default.css'
+		type='text/css' />
+	
+</xp:view>

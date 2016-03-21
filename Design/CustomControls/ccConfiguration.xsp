@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<div class="container">
+		<h1>Configuration</h1>
+		<div class="card light">
+		
+		<div class="row">
+			<div class="col-md-9">
+			
+				<div class="form-horizontal" role="form" style="margin-bottom:40px;">
+			
+			<div class="bs-callout bs-callout-info">
+				<h4>Debug</h4>
+				<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Toolbar" id="label9" for="debugMode"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:checkBox id="debugMode" value="#{Configuration.debugMode}"
+									text="Run this application in debug mode with the debug toolbar">
+									<xp:eventHandler event="onclick" submit="true"
+										refreshMode="complete" />
+								</xp:checkBox>
+							</div>
+						</div>
+			</div>	
+			
+			<div class="bs-callout bs-callout-danger">
+				<h4>Cleanup</h4>
+				<div class="form-group">
+							<div class="col-sm-2">
+								
+							</div>
+							<div class="col-sm-10">
+								<xp:button value="Remove ALL content" id="button4"
+									styleClass="btn-danger">
+									<i class="fa fa-database"></i>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										<xp:this.action>
+											<xp:actionGroup>
+												<xp:this.condition><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var dc:NotesDocumentCollection = db.getAllDocuments();
+var vw:NotesView = db.getView("$v-preferences");
+var doc:NotesDocument = vw.getFirstDocument();
+if (dc.getCount() > 0){
+    if (doc != null){
+        dc.subtract(doc);
+    }
+    dc.removeAll(false);
+}}]]></xp:this.condition>
+											</xp:actionGroup>
+										</xp:this.action>
+										<xp:this.script><![CDATA[return confirm("Are you 100% sure you want to remove ALL content documents (profiles, pictures, albums, comments, ...) ?");]]></xp:this.script>
+									</xp:eventHandler>
+								</xp:button>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-sm-2">
+								
+							</div>
+							<div class="col-sm-10">
+								<xp:button value="Remove Comments" id="button5"
+									styleClass="btn-warning">
+									<i class="fa fa-comment"></i>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										
+										<xp:this.script><![CDATA[return confirm("Are you 100% sure you want to remove all comments ?");]]></xp:this.script>
+										<xp:this.action>
+											<xp:actionGroup>
+												<xp:this.condition><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var vec:NotesViewEntryCollection = db.getView("$v-commentsJSON-flat").getAllEntries();
+if (vec.getCount() > 0) {
+	vec.removeAll(true);
+}}]]></xp:this.condition>
+											</xp:actionGroup>
+										</xp:this.action></xp:eventHandler>
+								</xp:button>
+								
+								<xp:button value="Remove Pictures" id="button6"
+									styleClass="btn-warning">
+									<i class="fa fa-picture-o"></i>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										
+										<xp:this.script><![CDATA[return confirm("Are you 100% sure you want to remove all pictures (this includes albums) ?");]]></xp:this.script>
+										<xp:this.action>
+											<xp:actionGroup>
+												<xp:this.condition><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var vec:NotesViewEntryCollection = db.getView("$v-picturesJSON-flat").getAllEntries();
+if (vec.getCount() > 0) {
+	vec.removeAll(true);
+}
+var vec:NotesViewEntryCollection = db.getView("$v-albumsJSON-flat").getAllEntries();
+if (vec.getCount() > 0) {
+	vec.removeAll(true);
+}}]]></xp:this.condition>
+											</xp:actionGroup>
+										</xp:this.action></xp:eventHandler>
+								</xp:button>
+								
+								<xp:button value="Remove Profiles" id="button7"
+									styleClass="btn-warning">
+									<i class="fa fa-user"></i>
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										
+										<xp:this.script><![CDATA[return confirm("Are you 100% sure you want to remove all profiles ?");]]></xp:this.script>
+										<xp:this.action>
+											<xp:actionGroup>
+												<xp:this.condition><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var vec:NotesViewEntryCollection = db.getView("$v-profilesJSON-flat").getAllEntries();
+if (vec.getCount() > 0) {
+	vec.removeAll(true);
+}}]]></xp:this.condition>
+											</xp:actionGroup>
+										</xp:this.action></xp:eventHandler>
+								</xp:button>
+								
+								
+							</div>
+						</div>
+			</div>				
+			
+			<div class="bs-callout bs-callout-default">
+					<h4>Display</h4>
+					<xp:panel>
+												<xp:div styleClass="">
+						<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Name" id="label2" for="inputName"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputName"
+									value="#{Configuration.title}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="text" />
+										<xp:attr name="placeholder" value="Name for the application" />
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</div><!-- /form-group -->
+
+						<div class="form-group">
+							<div class="col-sm-10 col-sm-offset-2">
+								<xp:checkBox id="inputShowName" value="#{Configuration.titleDisplay}"
+									text="display Application Name" />
+							</div>
+						</div><!-- /form-group -->
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Search" id="label1" for="inputSearch"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:checkBox id="inputSearch" value="#{Configuration.searchDisplay}"
+									text="display Search option" />
+							</div>
+						</div><!-- /form-group -->
+
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<xp:div styleClass="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Legal" id="label3" for="inputLegal"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputLegal"
+									value="#{Configuration.legal}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="text" />
+										<xp:attr name="placeholder" value="Legal text for application" />
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</xp:div><!-- /form-group -->
+
+						<xp:div styleClass="form-group">
+							<div class="col-sm-10 col-sm-offset-2">
+								<xp:checkBox id="checkBox1" value="#{Configuration.legalDisplay}"
+									text="display Legal text" />
+							</div>
+						</xp:div><!-- /form-group -->
+
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<xp:div styleClass="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Default rows" id="label4" for="inputRowsDefault"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputRowsDefault"
+									value="#{Configuration.rowsDefault}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="number" />
+										<xp:attr name="placeholder" value="Number of default rows for lists" />
+										<xp:attr name="pattern">
+											<xp:this.value><![CDATA[[0-9]]]></xp:this.value>
+										</xp:attr>
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</xp:div><!-- /form-group -->
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<xp:div styleClass="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Latest rows" id="label6" for="inputRowsLatest"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputRowsLatest"
+									value="#{Configuration.rowsLatest}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="number" />
+										<xp:attr name="placeholder"
+											value="Number of default rows for the latest list" />
+										<xp:attr name="pattern">
+											<xp:this.value><![CDATA[[0-9]]]></xp:this.value>
+										</xp:attr>
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</xp:div><!-- /form-group -->
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<xp:div styleClass="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Search rows" id="label5" for="inputRowsSearch"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputRowsSearch"
+									value="#{Configuration.rowsSearch}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="number" />
+										<xp:attr name="placeholder"
+											value="Number of default rows for the search result list" />
+										<xp:attr name="pattern">
+											<xp:this.value><![CDATA[[0-9]]]></xp:this.value>
+										</xp:attr>
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</xp:div><!-- /form-group -->
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<xp:div styleClass="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Carrousel items" id="label7"
+									for="inputRowsCarrousel" styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:inputText styleClass="form-control" id="inputRowsCarrousel"
+									value="#{Configuration.rowsCarrousel}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="number" />
+										<xp:attr name="placeholder" value="Number of default items for carrousel" />
+
+										<xp:attr name="pattern">
+
+											<xp:this.value><![CDATA[[0-9]]]></xp:this.value>
+										</xp:attr>
+									</xp:this.attrs>
+								</xp:inputText>
+							</div>
+						</xp:div><!-- /form-group -->
+					</xp:div><!-- /row -->
+
+					<xp:div styleClass="">
+						<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Carrousel" id="label8" for="inputCarrousel"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:checkBox id="inputCarrousel" value="#{Configuration.carrouselDisplay}"
+									text="display Carrousel" />
+							</div>
+						</div><!-- /form-group -->
+					</xp:div><!-- /row -->
+					<xp:div styleClass="">
+						<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Search" id="label11" for="Tx_PrefSearch"
+									styleClass="control-label" />
+							</div>
+							<div class="col-sm-10">
+								<xp:checkBox id="Tx_PrefSearch" value="#{Configuration.search}"
+									checkedValue="1" uncheckedValue="0" text="Enable" rendered="false" />
+							</div>
+						</div><!-- /form-group -->
+					</xp:div><!--  /row -->
+							</xp:panel>
+				</div>				
+
+				<div class="bs-callout bs-callout-success">
+				<h4>Upload</h4>
+				<div class="form-group">
+							<div class="col-sm-2">
+								<xp:label value="Categories" id="label10" for="categories"
+									styleClass="control-label" />
+							</div><!-- /.col-sm-2 -->
+							<div class="col-sm-10">
+								<xp:inputTextarea id="categories"
+									value="#{Configuration.category}">
+									<xp:this.attrs>
+										<xp:attr name="type" value="text" />
+										<xp:attr name="placeholder" value="Write each category on a new line" />
+
+									</xp:this.attrs>
+									<xp:this.multipleSeparator><![CDATA[#{javascript:"\n"}]]></xp:this.multipleSeparator>
+								</xp:inputTextarea>
+							</div><!-- /.col-sm-10 -->
+						</div><!-- /.form-group -->
+			</div>
+
+			
+				<!-- button group -->
+				<xp:div styleClass="form-actions">
+					<xp:button id="button1"
+						styleClass="btn-primary btn-primary-material pull-right"
+						title="save...">
+						<i class="fa fa-check" />
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:actionGroup>
+									<xp:executeScript
+										script="#{Configuration.save}" />
+
+
+									<xp:openPage name="$$HomePage" />
+								</xp:actionGroup>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="Load Defaults" id="button3">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action><![CDATA[#{javascript:Configuration.clear()}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+					<xp:button value="Cancel" id="button2">
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="complete">
+							<xp:this.action>
+								<xp:openPage name="$$PreviousPage" />
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+				</xp:div><!-- /form-actions -->
+				
+
+
+			</div><!-- /form-horizontal -->
+			</div>
+			<div class="col-md-3">
+			
+			<div class="bs-callout bs-callout-bildr">
+			<div style="margin-top:-20px;margin-left:-20px;">
+				<div class="pull-left" >
+									<xc:ccMediaImage
+										styleClass="media-object pull-left img-circle"
+										title="#{javascript:Configuration.notesName}">
+
+										<xc:this.url><![CDATA[#{javascript:var person = Configuration.notesName;
+
+try{
+	var pic = ProfileController.loadProfilePicURL(person);
+	if (pic == ""){
+		return "profileNoPhoto.png";
+	}
+	else{
+		return pic;
+	}
+}catch(e){
+    //e.getErrorLine();
+}}]]></xc:this.url>
+									</xc:ccMediaImage>
+				</div>
+				<h5>
+					Updated by
+				</h5>
+				<div style="display:table">
+				<div>
+					<xc:ccIconProfileLinkName
+						NotesName="#{javascript:Configuration.notesName}">
+					</xc:ccIconProfileLinkName>
+				</div>
+				<div>
+					<xc:ccIconDate>
+						<xc:this.date><![CDATA[#{javascript:var dt:NotesDateTime = session.createDateTime(Configuration.getUpdated())
+var theDate = dt.toJavaDate();
+return theDate;}]]></xc:this.date>
+					</xc:ccIconDate>					
+				</div>
+				
+				</div>
+
+</div>
+</div>
+			
+			
+			
+			</div>
+		</div>
+		
+			
+		</div><!-- /card -->
+	</div><!-- /container -->
+</xp:view>

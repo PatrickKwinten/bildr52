@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.beforePageLoad><![CDATA[#{javascript:viewScope.put("allowTipFriend",false)}]]></xp:this.beforePageLoad>
+	<xp:panel id="pnlMailLink" style="clear:both;">
+
+		<xp:panel>
+			<xp:this.rendered><![CDATA[#{javascript:if (viewScope.get("allowTipFriend") == true){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+
+			<xe:formTable id="formTable1" formTitle="Tip a friend" formDescription="Send a mail with a doc-link..."><xp:this.facets>
+	<xp:panel xp:key="footer">
+		<xp:link outerStyleClass="lotusBtn"
+			styleClass="lotusLeft lotusFormButton" text="Send" id="link1">
+
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="partial" disableValidators="true"
+				refreshId="pnlMailLink" id="eventHandler2">
+				<xp:this.action>
+					<xp:actionGroup>
+
+
+						<xp:this.condition><![CDATA[#{javascript:var doc:NotesDocument = database.createDocument();
+doc.replaceItemValue( 'Form', 'Memo' );
+doc.replaceItemValue( 'Subject', getComponent("mailSubject").getValue() );
+
+var userName:NotesName = session.createName(@UserName());
+var bodyRt:NotesRichTextItem=doc.createRichTextItem("Body");
+var reference = "http://" + context.getUrl().getHost() + sessionScope.get("prefDbPath") + "/0/" + docPic.getDocument().getUniversalID();
+bodyRt.appendText(userName.getCommon() + " wants your attention for this photo:" + reference);
+//doc.replaceItemValue( 'Body', 'hi');
+bodyRt.addNewLine(2);
+bodyRt.appendText("Personal comment:");
+bodyRt.addNewLine(1);
+bodyRt.appendText(getComponent("mailComment").getValue());
+doc.replaceItemValue( 'SendTo', getComponent("mailReceiver").getValue() );
+doc.send();
+viewScope.put("allowTipFriend",false)}]]></xp:this.condition>
+
+
+
+					</xp:actionGroup>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:link></xp:panel></xp:this.facets>
+				<xe:formRow id="formRow1" label="Subject:">
+					<xe:formColumn id="formColumn1">
+						<xp:inputText id="mailSubject" required="true"
+							style="width:300px;">
+							<xp:this.validators>
+								<xp:validateLength minimum="2"
+									message="Your name is longer as supposed." />
+								<xp:validateRequired
+									message="Please enter your name." />
+							</xp:this.validators>
+							<xp:this.defaultValue><![CDATA[#{javascript:"Please take a look at this great photo..."}]]></xp:this.defaultValue>
+						</xp:inputText>
+					</xe:formColumn>
+				</xe:formRow>
+				<xe:formRow id="formRow2" label="Email:">
+					<xe:formColumn id="formColumn2">
+						<xp:inputText id="mailReceiver" required="true"
+							style="width:300px;" disableClientSideValidation="false">
+							<xp:this.validators>
+								<xp:validateRequired
+									message="A valid email address is required." />
+								<xp:validateLength
+									message="The email is not long enough." minimum="5" />
+
+								<xp:validateConstraint
+									message="please provide a proper email address">
+									<xp:this.regex><![CDATA[[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}]]></xp:this.regex>
+								</xp:validateConstraint>
+							</xp:this.validators>
+							<xp:this.defaultValue><![CDATA[#{javascript://try to retrieve email address from profile
+var email = "";
+
+try {
+	email = @DbLookup( @DbName(), "$v-profilesusername", sessionScope.get("prefUserName"), 5);
+} catch (e) { 
+}
+return email;
+}]]></xp:this.defaultValue>
+						</xp:inputText>
+						<xe:namePicker id="namePicker1" for="mailReceiver">
+	<xe:this.dataProvider>
+		<xe:dominoNABNamePicker addressBookSel="db-name"
+			addressBookDb="names.nsf">
+		</xe:dominoNABNamePicker>
+	</xe:this.dataProvider>
+</xe:namePicker>
+						</xe:formColumn></xe:formRow>
+				<xe:formRow id="formRow3" label="Message:">
+					<xe:formColumn id="formColumn3">
+						<xp:panel><xp:inputTextarea id="mailComment"
+							required="true" rows="10" cols="40"
+							disableClientSideValidation="true">
+							<xp:this.validators>
+								<xp:validateRequired
+									message="A comment is required." />
+
+								<xp:validateLength minimum="2"
+									maximum="500"
+									message="You may enter a comment between 2-500 characters." />
+
+							</xp:this.validators>
+						</xp:inputTextarea></xp:panel></xe:formColumn></xe:formRow>
+			</xe:formTable>
+			
+		</xp:panel>
+	</xp:panel>
+
+	
+</xp:view>

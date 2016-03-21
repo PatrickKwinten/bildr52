@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex" dojoParseOnLoad="true">
+	<xp:this.data>
+		<xp:dominoDocument var="docPic" formName="$f-picture" />
+	</xp:this.data>
+	
+
+	
+	
+	<xe:formTable id="formTable1" formTitle="Picture" formDescription="Update picture details..."><xp:this.facets>
+	<xp:panel xp:key="footer"><xp:button value="Update" id="button1" styleClass="lotusBtn lotusBtnSpecial">
+						<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+							<xp:this.action>
+
+								<xp:actionGroup>
+									<xp:saveDocument></xp:saveDocument>
+									<xp:openPage name="/picture.xsp" target="openDocument" documentId="#{javascript:docPic.getDocument().getUniversalID()}">
+									</xp:openPage>
+
+
+									<xp:actionGroup>
+										<xp:this.condition><![CDATA[#{javascript:// write activy
+var userName:NotesName = session.createName(@UserName());
+registerActivity(userName.getCommon(),"updated","a photo",docPic.getDocument().getUniversalID());
+}]]></xp:this.condition>
+									</xp:actionGroup>
+								</xp:actionGroup>
+							</xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+		<xp:link escape="true" text="Cancel" id="link1">
+		<xp:eventHandler event="onclick" submit="true"
+							refreshMode="norefresh" immediate="true">
+							<xp:this.action>
+								<xp:openPage name="/picture.xsp"
+									target="openDocument"
+									documentId="#{javascript:docPic.getDocument().getUniversalID()}">
+								</xp:openPage>
+							</xp:this.action>
+						</xp:eventHandler>
+		</xp:link></xp:panel></xp:this.facets>
+		<xe:formRow id="formRow6">
+			
+			<xp:image id="image1"
+				style="border:1px solid #BDC4CA;padding:3px;background-color:#FFF;">
+				<xp:this.url><![CDATA[#{javascript:var prefix = docPic.getDocument().getUniversalID() + "/$file/";
+var picSmall = docPic.getItemValueString("Photo_SmallFilename");
+return prefix + picSmall;}]]></xp:this.url>
+			</xp:image></xe:formRow>
+		<xe:formRow id="formRow1" label="Title:">
+			<xe:formColumn id="formColumn1">
+				<xe:tooltip id="tooltip3" for="inputTitle"
+					label="Enter an outstanding title for the picture...">
+				</xe:tooltip>
+				<xp:inputText id="inputTitle"
+					value="#{docPic.Photo_Title}" style="width:400px">
+				</xp:inputText></xe:formColumn></xe:formRow>
+		<xe:formRow id="formRow2" label="Description:">
+			<xe:formColumn id="formColumn2">
+				<xe:tooltip id="tooltip2" for="inputDescription"
+					label="The better you describe your images the greater the chance they will appear in searches...">
+				</xe:tooltip>
+				<xp:inputTextarea id="inputDescription"
+					value="#{docPic.PhotoDescription}"
+					styleClass="lotusText dijitTextArea" rows="5" cols="60">
+				</xp:inputTextarea></xe:formColumn></xe:formRow>
+				
+				<xe:formRow id="formRow7" label="Slider:">
+			<xe:tooltip id="tooltip6" for="cbSlider"
+				label="(Optional) You can promote your pictures by adding them to the slider on the startpage..."
+				position="below">
+			</xe:tooltip>
+			<xe:formColumn id="formColumn6">
+				<xp:checkBox
+					text="I would like to include my picture(s) in the gallery/slider"
+					id="cbSlider" checkedValue="Y" value="#{docPic.Photo_GalleryDisplay}">
+					<xp:this.readonly><![CDATA[#{javascript:!context.getUser().getRoles().contains('[admin]'); }]]></xp:this.readonly>
+				</xp:checkBox></xe:formColumn></xe:formRow>
+		<xe:formRow id="formRow3" label="Category:">
+			<xe:formColumn id="formColumn3">
+				<xe:tooltip id="tooltip4" for="comboBoxCategory"
+					label="Select a category for this picture...">
+				</xe:tooltip>
+				<xp:comboBox id="comboBoxCategory"
+					value="#{docPic.Photo_Category}">
+					<xp:this.defaultValue><![CDATA[#{javascript:docPic.getItemValueString("Photo_Category")}]]></xp:this.defaultValue>
+					<xp:selectItem itemLabel="- select a category -"></xp:selectItem><xp:selectItems id="selectItems1">
+						<xp:this.value><![CDATA[#{javascript:var prefView:NotesView = database.getView("$v-preferences");
+if (prefView != null){
+	var pref:NotesDocument = prefView.getFirstDocument();
+	if (pref != null) {
+		return pref.getItemValue("Tx_AllowedCategories");
+	}
+}}]]></xp:this.value>
+					</xp:selectItems>
+
+					<xp:eventHandler event="onchange" submit="false"
+						id="eventHandler2">
+						<xp:this.script><![CDATA[var visible = (thisEvent.target.options[thisEvent.target.selectedIndex].value == "newCat");
+
+dojo.style( dojo.byId("#{id:inputNewCategory}"), "display", (visible ? "" : "none"));
+
+if (visible) {
+	dojo.byId("#{id:inputNewCategory}").focus();
+}]]></xp:this.script>
+					</xp:eventHandler>
+					
+				</xp:comboBox></xe:formColumn></xe:formRow>
+		
+		
+		
+		<xe:formRow id="formRow4" label="Tag(s):">
+			<xe:formColumn id="formColumn4">				
+				
+				<xe:tooltip id="tooltip1" for="inputTag"
+					label="Start typing for suggestions, separate multiple tags by a space...">
+				</xe:tooltip>
+				<xp:inputText id="inputTag" value="#{docPic.Photo_Tags}" multipleSeparator=" ">
+				
+				</xp:inputText>
+			</xe:formColumn></xe:formRow>
+		<xe:formRow id="formRow5" label="Country:">
+			<xe:formColumn id="formColumn5">
+				<xe:tooltip id="tooltip5" for="comboBoxCountry"
+					label="Select a country from the list...">
+				</xe:tooltip>
+				<xp:comboBox id="comboBoxCountry"
+					value="#{docPic.Photo_Country}" styleClass="lotusText">
+					<xp:this.defaultValue><![CDATA[#{javascript:docPic.getItemValueString("Photo_Country")}]]></xp:this.defaultValue>
+
+					<xp:selectItem itemLabel="- select a country -"></xp:selectItem><xp:selectItems id="selectItems2">
+						<xp:this.value><![CDATA[#{javascript:var countries = ["Afghanistan",
+"Albania",
+"Algeria",
+"American Samoa",
+"Andorra",
+"Angola",
+"Anguilla",
+"Antarctica",
+"Antigua and Barbuda",
+"Argentina",
+"Armenia",
+"Aruba",
+"Australia",
+"Austria",
+"Azerbaijan",
+"Bahamas",
+"Bahrain",
+"Bangladesh",
+"Barbados",
+"Belarus",
+"Belgium",
+"Belize",
+"Benin",
+"Bermuda",
+"Bhutan",
+"Bolivia",
+"Bosnia and Herzegovina",
+"Botswana",
+"Bouvet Island",
+"Brazil",
+"British Indian Ocean Territory",
+"Brunei Darussalam",
+"Bulgaria",
+"Burkina Faso",
+"Burundi",
+"Cambodia",
+"Cameroon",
+"Canada",
+"Cape Verde",
+"Cayman Islands",
+"Central African Republic",
+"Chad",
+"Chile",
+"China",
+"Christmas Island",
+"Cocos (Keeling) Islands",
+"Colombia",
+"Comoros",
+"Congo",
+"Congo, The Democratic Republic",
+"Cook Islands",
+"Costa Rica",
+"Cote D'Ivoire",
+"Croatia",
+"Cuba",
+"Cyprus",
+"Czech Republic",
+"Denmark",
+"Djibouti",
+"Dominica",
+"Dominican Republic",
+"East Timor",
+"Ecuador",
+"Egypt",
+"El Salvador",
+"Equatorial Guinea",
+"Eritrea",
+"Estonia",
+"Ethiopia",
+"Falkland Islands (Malvinas)",
+"Faroe Islands",
+"Fiji",
+"Finland",
+"Fmr Yugoslav Rep of Macedonia",
+"France",
+"French Guiana",
+"French Polynesia",
+"French Southern Territories",
+"Gabon",
+"Gambia",
+"Georgia",
+"Germany",
+"Ghana",
+"Gibraltar",
+"Greece",
+"Greenland",
+"Grenada",
+"Guadeloupe",
+"Guam",
+"Guatemala",
+"Guinea",
+"Guinea-Bissau",
+"Guyana",
+"Haiti",
+"Heard and McDonald Islands",
+"Holy See (Vatican City State)",
+"Honduras",
+"Hong Kong",
+"Hungary",
+"Iceland",
+"India",
+"Indonesia",
+"Iran (Islamic Republic Of)",
+"Iraq",
+"Ireland",
+"Israel",
+"Italy",
+"Jamaica",
+"Japan",
+"Jordan",
+"Kazakstan",
+"Kenya",
+"Kiribati",
+"Korea, Democratic People's Rep",
+"Korea, Republic of",
+"Kuwait",
+"Kyrgyzstan",
+"Lao People's Democratic Rep",
+"Latvia",
+"Lebanon",
+"Lesotho",
+"Liberia",
+"Libyan Arab Jamahiriya",
+"Liechtenstein",
+"Lithuania",
+"Luxembourg",
+"Macao",
+"Madagascar",
+"Malawi",
+"Malaysia",
+"Maldives",
+"Mali",
+"Malta",
+"Marshall Islands",
+"Martinique",
+"Mauritania",
+"Mauritius",
+"Mayotte",
+"Mexico",
+"Micronesia, Federated States",
+"Moldova, Republic of",
+"Monaco",
+"Mongolia",
+"Montserrat",
+"Morocco",
+"Mozambique",
+"Myanmar",
+"Namibia",
+"Nauru",
+"Nepal",
+"Netherlands",
+"Netherlands Antilles",
+"New Caledonia",
+"New Zealand",
+"Nicaragua",
+"Niger",
+"Nigeria",
+"Niue",
+"Norfolk Island",
+"Northern Mariana Islands",
+"Norway",
+"Oman",
+"Out of Scope Country",
+"Pakistan",
+"Palau",
+"Palestinian Territory, Occupie",
+"Panama",
+"Papua New Guinea",
+"Paraguay",
+"Peru",
+"Philippines",
+"Pitcairn",
+"Poland",
+"Portugal",
+"Puerto Rico",
+"Qatar",
+"Reunion",
+"Romania",
+"Russia",
+"Rwanda",
+"Saint Helena",
+"Saint Kitts and Nevis",
+"Saint Lucia",
+"Saint Pierre and Miquelon",
+"Samoa",
+"San Marino",
+"Sao Tome and Principe",
+"Saudi Arabia",
+"Senegal",
+"Serbia",
+"Seychelles",
+"Sierra Leone",
+"Singapore",
+"Slovakia",
+"Slovenia",
+"Solomon Islands",
+"Somalia",
+"South Africa",
+"Spain",
+"Sri Lanka",
+"St Vincent and the Grenadines",
+"Sth Georgia & Sth Sandwich Is",
+"Sudan",
+"Suriname",
+"Svalbard and Jan Mayen",
+"Swaziland",
+"Sweden",
+"Switzerland",
+"Syrian Arab Republic",
+"Taiwan",
+"Tajikistan",
+"Tanzania",
+"Thailand",
+"Togo",
+"Tokelau",
+"Tonga",
+"Trinidad and Tobago",
+"Tunisia",
+"Turkey",
+"Turkmenistan",
+"Turks and Caicos Islands",
+"Tuvalu",
+"Uganda",
+"Ukraine",
+"United Arab Emirates",
+"United Kingdom",
+"United States",
+"Uruguay",
+"US Minor Outlying Islands",
+"Uzbekistan",
+"Vanuatu",
+"Venezuela",
+"Viet Nam",
+"Virgin Islands (British)",
+"Virgin Islands (U.S.)",
+"Wallis and Futuna Islands",
+"Western Sahara",
+"Yemen",
+"Yugoslavia",
+"Zambia",
+"Zimbabwe"];
+
+for (var i=0; j=countries.length, i<j; i++) {
+		countries[i] = countries[i] + "|" + countries[i];
+	}
+
+return countries}]]></xp:this.value>
+					</xp:selectItems>
+
+
+
+					
+				</xp:comboBox></xe:formColumn></xe:formRow>
+				
+				<xe:formRow id="formRow8" label="Latitude:">
+			<xe:tooltip id="tooltip7" for="inputLatitude"
+				label="Geolocation meta-data. Will be used in Maps.">
+			</xe:tooltip>
+			<xe:formColumn id="formColumn8">
+				<xp:inputText id="inputLatitude"
+					value="#{docPic.PhotoLat}"
+					styleClass="lotusText dijitTextBox"/><xp:link
+					escape="true" text="Help" id="link2"
+					value="http://www.getlatlon.com/" target="_new">
+</xp:link></xe:formColumn></xe:formRow>
+		<xe:formRow id="formRow9" label="Longitude"><xp:this.facets>
+	
+</xp:this.facets>
+			<xe:tooltip id="tooltip8" for="inputLongitude"
+				label="Geolocation meta-data. Will be used in Maps.">
+			</xe:tooltip>
+			<xe:formColumn id="formColumn9"><xp:inputText id="inputLongitude" value="#{docPic.PhotoLng}" styleClass="lotusText dijitTextBox" /></xe:formColumn></xe:formRow>
+				
+		</xe:formTable></xp:view>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="3f6" sequence="19" unid="B79E833C02249E91C1257F1500350E00">
+<created><datetime>20151208T103929,92+01</datetime></created>
+<modified><datetime>20160308T215649,00+01</datetime></modified>
+<revised><datetime>20151208T111852,38+01</datetime></revised>
+<lastaccessed><datetime>20160308T215649,00+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215649,00+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE" sign="true"><text>xpFeed</text></item>
+<item name="$Flags"><text>.5834Q</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+<item name="$Comment"><text>generates a RSS feed</text></item></note>

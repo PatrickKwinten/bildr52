@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	dojoForm="true"
+	styleClass="upload"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.resources>
+		<xp:dojoModule name="dijit.form.Button"></xp:dojoModule>
+	</xp:this.resources>
+	
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript://get a list of albums by this user
+var dataDB:NotesDatabase = dao.getDatabase();
+var v:NotesView = dataDB.getView("$v-albumsbyuser");
+var dc:NotesDocumentCollection = v.getAllDocumentsByKey(session.getEffectiveUserName());
+var albums = [];
+var doc:NotesDocument = dc.getFirstDocument();
+while (doc != null) {
+	albums.push( doc.getItemValueString("Tx_name") + "|" + doc.getUniversalID() );
+	var tmpdoc = dc.getNextDocument();
+	doc.recycle();
+	doc = tmpdoc;
+}
+dc.recycle();
+viewScope.put("albums", albums);}]]></xp:this.beforeRenderResponse>
+
+	<xp:this.beforePageLoad><![CDATA[#{javascript:sessionScope.put("uploadTitleType", "afterwards");}]]></xp:this.beforePageLoad>
+	<xp:div styleClass="section" id="header">
+		<div class="container">
+			<xp:panel tagName="h2">
+				Upload Step 1 - Configuration
+			</xp:panel>
+			<xp:panel tagName="h4">
+				Gain maximum exposure by providing best details.
+			</xp:panel>
+		</div>
+	</xp:div><!-- /section -->
+	
+	<xp:div styleClass="section" id="formSection">
+		<xp:div styleClass="container" id="formContainer">		
+			<div class="form-horizontal card light" role="form">
+			
+				<xp:div styleClass="" id="rowSubjectChoice">
+					<div class="form-group">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-10">
+							<xp:radio
+								id="radioButtonSubject"
+								text="Use filename as subject (e.g. modify later)"
+								selectedValue="afterwards"
+								value="#{sessionScope.uploadTitleType}"
+								groupName="rgTitle"
+								defaultSelected="true">
+								<xp:eventHandler
+									event="onclick"
+									submit="false">
+									<xp:this.script><![CDATA[dojo.byId("#{id:inputTitle}").disabled = true;]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:radio>
+							<xp:radio
+								text="Use as subject: "
+								id="radioTitleGeneric"
+								selectedValue="generic"
+								value="#{sessionScope.uploadTitleType}"
+								groupName="rgTitle">
+								<xp:eventHandler
+									event="onclick"
+									submit="false">
+									<xp:this.script><![CDATA[dojo.byId("#{id:inputTitle}").disabled = false;]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:radio>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowSubjectInput">
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Subject:" id="label1"
+								for="inputTitle" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+						<xp:inputText
+								id="inputTitle"
+								value="#{sessionScope.uploadTitle}"
+								required="true">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Write an outstanding subject line">
+									</xp:attr>
+								</xp:this.attrs>
+								<xp:this.disabled><![CDATA[#{javascript:sessionScope.get("uploadTitleType") == "afterwards" }]]></xp:this.disabled>
+								<xp:this.validators>
+									<xp:validateRequired
+										message="Enter a title">
+									</xp:validateRequired>
+								</xp:this.validators>
+								<xp:this.disableValidators><![CDATA[#{javascript:var r = getComponent("radioTitleGeneric");
+return r.getValue().equals("afterwards");}]]></xp:this.disableValidators>
+							</xp:inputText>
+							<xp:message
+								id="message1"
+								for="inputTitle">
+							</xp:message>							
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowDescription">
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Description:" id="label3"
+								for="inputDescription" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputTextarea 
+								id="inputDescription" 
+								value="#{sessionScope.uploadDescription}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Write a powerful summary about the files you are about to upload">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputTextarea>							
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				
+				
+				<xp:div styleClass="" id="rowTagging">
+				<xe:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefTagsDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xe:this.rendered>
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Tagging" id="label4"
+								for="subject" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText
+								id="inputTags"
+								value="#{sessionScope.uploadTags}"
+								multipleSeparator=" ">
+								<xp:this.dojoAttributes>
+									<xp:dojoAttribute
+										name="required"
+										value="true">
+									</xp:dojoAttribute>
+								</xp:this.dojoAttributes>
+								<xp:typeAhead
+									mode="partial"
+									minChars="1"
+									ignoreCase="true"
+									id="typeAhead1">
+									<xp:this.valueList><![CDATA[#{javascript:var options = @DbColumn( @DbName(), "$v-pixbytag", 1);
+
+//print ("options: " + @Implode(@Unique(options), "-") );
+@Unique(options);}]]></xp:this.valueList>
+								</xp:typeAhead>
+							</xp:inputText>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowCategory">
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Category:" id="label5"
+								for="comboBoxCategory" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:comboBox
+								id="comboBoxCategory"
+								value="#{sessionScope.uploadCategory}">
+
+								<xp:selectItems id="selectItems1">
+									<xp:this.value><![CDATA[#{javascript://get a list of categories by this user
+var dataDB:NotesDatabase = dao.getDatabase();
+var v:NotesView = dataDB.getView("$v-pixbyuser");
+var dc:NotesDocumentCollection = v.getAllDocumentsByKey(session.getEffectiveUserName());
+var cats = ["Select an EXISTING category:|"];
+var doc:NotesDocument = dc.getFirstDocument();
+var entryVal = '';
+while (doc != null) {
+	
+	entryVal = doc.getItemValueString("Photo_Category");
+	
+
+		cats.push(entryVal);
+
+	var tmpdoc = dc.getNextDocument();
+	doc.recycle();
+	doc = tmpdoc;
+}
+var newCat = "Enter a NEW category:|newCat";
+cats.push(newCat);
+dc.recycle();
+return @Unique(cats);}]]></xp:this.value>
+								</xp:selectItems>
+
+								<xp:eventHandler
+									event="onchange"
+									submit="false"
+									id="eventHandler2">
+									<xp:this.script><![CDATA[var visible = (thisEvent.target.options[thisEvent.target.selectedIndex].value == "newCat");
+
+dojo.style( dojo.byId("#{id:inputNewCategory}"), "display", (visible ? "" : "none"));
+
+if (visible) {
+	dojo.byId("#{id:inputNewCategory}").focus();
+}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:comboBox>
+							&#160;
+							<xp:inputText
+								id="inputNewCategory"
+								value="#{sessionScope.uploadCategoryNew}">
+								<xp:this.style><![CDATA[#{javascript:"display: " + ( sessionScope.get("uploadCategory") == "newCat" ? "" : "none");}]]></xp:this.style>
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Come up with a sensible name for the category">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowStartpage">
+					<div class="form-group">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-10">
+							<xp:checkBox
+								text="Show uploads in Carousel"
+								id="checkBox1"
+								checkedValue="1"
+								value="#{sessionScope.uploadinCarousel}">
+								<xp:this.readonly><![CDATA[#{javascript:!sessionScope.get("prefUserAdmin");}]]></xp:this.readonly>
+							</xp:checkBox>
+							
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowAlbum">
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Album:" id="label2"
+								for="comboBoxAlbum" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:comboBox
+								id="comboBoxAlbum"
+								value="#{sessionScope.uploadAlbumId}">
+								<xp:this.defaultValue><![CDATA[#{javascript:if (viewScope.get("albums").length==0) {
+	"newAlbum";
+}}]]></xp:this.defaultValue>
+								<xp:selectItems id="selectItems3">
+									<xp:this.value><![CDATA[#{javascript:var newAlbum = "Include in a NEW album:|newAlbum";
+var dontAdd = "DON'T add to an album...|";
+var albums = viewScope.get("albums");
+if (albums.length == 0) {
+	albums = [dontAdd, newAlbum];
+} else {
+	albums = albums.sort();
+	albums = albums.concat([newAlbum]);
+	return [dontAdd].concat(albums);
+}}]]></xp:this.value>
+								</xp:selectItems>
+
+								<xp:eventHandler
+									event="onchange"
+									submit="false"
+									id="eventHandler3">
+									<xp:this.script><![CDATA[var visible = (thisEvent.target.options[thisEvent.target.selectedIndex].value == "newAlbum");
+
+dojo.style( dojo.byId("#{id:inputNewAlbum}"), "display", (visible ? "" : "none"));
+
+if (visible) {
+	dojo.byId("#{id:inputNewAlbum}").focus();
+}]]></xp:this.script>
+								</xp:eventHandler>
+							</xp:comboBox>
+							&#160;
+							<xp:inputText
+								id="inputNewAlbum"
+								value="#{sessionScope.uploadAlbumNew}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Come up with a distinguished name for the album">
+									</xp:attr>
+								</xp:this.attrs>
+								<xp:this.style><![CDATA[#{javascript:"display: " + ( sessionScope.get("uploadAlbumId")=="newAlbum" || viewScope.get("albums").length==0 ? "" : "none");}]]></xp:this.style>
+							</xp:inputText>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				
+				
+				<xp:div styleClass="" id="rowLatitude">
+					<xe:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+	if (tmp!==null){
+		if (sessionScope.prefGeoDisplay === true){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}}]]></xe:this.rendered>
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Latitude:" id="label6"
+								for="inputGeoLat" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText
+								id="inputGeoLat"
+								value="#{sessionScope.uploadGeoLat}"
+								styleClass="lotusText dijitTextBox">
+							</xp:inputText>
+						</div>
+						<xp:link
+							escape="true"
+							text="Assist"
+							id="link2"
+							value="http://itouchmap.com/latlong.html"
+							target="_new"
+							title="Find your coordinates on this external web-site">
+						</xp:link>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<xp:div styleClass="" id="rowLongitude">
+					<xe:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+	if (tmp!==null){
+		if (sessionScope.prefGeoDisplay === true){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}}]]></xe:this.rendered>
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Longitude:" id="label7"
+								for="inputGeoLon" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText
+								id="inputGeoLon"
+								value="#{sessionScope.uploadGeoLon}"
+								styleClass="lotusText dijitTextBox">
+							</xp:inputText>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div>
+				
+				<xp:div styleClass="" id="rowButtons">
+					<div class="form-group">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-10">
+							<xp:button id="button1"
+								styleClass="btn-primary btn-primary-material pull-right"
+								title="next step...">
+								<i class="fa fa-arrow-circle-right"></i>
+								
+								<xp:eventHandler event="onclick"
+									submit="true" refreshMode="complete">
+									<xp:this.action><![CDATA[#{javascript:sessionScope.put("uploadStep", "upload");
+						context.reloadPage();}]]></xp:this.action>
+								</xp:eventHandler>
+							</xp:button>
+							<xp:button 
+								value="Cancel" 
+								id="button2"
+								styleClass="btn btn-default">
+								<i class="fa fa-ban"></i>&#160;
+								<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+	<xp:this.action>
+		<xp:openPage name="/index.xsp"></xp:openPage>
+	</xp:this.action></xp:eventHandler>
+							</xp:button>
+						</div>
+					</div><!-- /form-group -->
+				</xp:div><!-- /row -->
+				
+				<!-- /row -->
+			
+			</div><!-- /form-group -->				
+		</xp:div><!-- /container -->
+	</xp:div><!--  /section -->
+	
+	
+	<xp:eventHandler event="onClientLoad" submit="false">
+		<xp:this.script><![CDATA[$( document ).ready(function() {
+    x$("#{id:radioButtonSubject}").val();
+});]]></xp:this.script>
+	</xp:eventHandler>
+	</xp:view>

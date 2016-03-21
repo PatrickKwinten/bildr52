@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:panel tagName="#{javascript:compositeData.headerSize}">
+		<xp:text escape="true" id="computedField1"
+			value="#{javascript:compositeData.header}">
+		</xp:text>
+	</xp:panel>
+	<xp:panel>
+		<xp:this.styleClass><![CDATA[#{javascript:if (compositeData.showAsCard == true){
+	return "card light";
+}}]]></xp:this.styleClass>
+		<xp:this.style><![CDATA[#{javascript:if (compositeData.showCardWithPadding != true){
+	return "padding:0 0 0 0;"
+}}]]></xp:this.style>
+		
+			<ul class="list-group">
+				<xp:repeat id="repeat1" rows="30" var="obj"
+					indexVar="idx">
+					<xp:this.value><![CDATA[#{javascript:var viewName = compositeData.viewName;
+//Picture.categoriesMap(viewName);
+PictureController.categoriesMap(viewName);}]]></xp:this.value>
+
+					<li class="list-group-item">
+						<span class="badge">
+							<xp:text escape="true" id="computedField2"
+								value="#{javascript:obj.getValue()}">
+							</xp:text>
+						</span>
+
+						<xp:link escape="true" id="link1"
+							style="font-weight:bold">
+
+							<xp:this.text><![CDATA[#{javascript:if (compositeData.objectType == "notesName"){
+  	var nam:NotesName = session.createName(obj.getKey());
+	return nam.getCommon();
+ }
+ else{
+ 	obj.getKey();
+ }}]]></xp:this.text>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:openPage>
+										<xp:this.name><![CDATA[#{javascript:var target = compositeData.targetPage;
+return target + "?filter=" + obj.getKey();}]]></xp:this.name>
+									</xp:openPage>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+
+					</li>
+				</xp:repeat>
+			</ul>
+		
+	</xp:panel>
+</xp:view>

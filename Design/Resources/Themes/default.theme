@@ -1,0 +1,189 @@
+<!--
+	The default theme contents use theme inheritance.
+
+	Application themes can extend an existing global theme using the
+	extends attribute.  Existing themes include the following options:
+
+	1. webstandard 2. oneui 3. notes
+-->
+<theme extends="Bootstrap3.2.0_flat" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="platform:/plugin/com.ibm.designer.domino.stylekits/schema/stylekit.xsd" >
+	<!-- 
+		Use this pattern to include resources (such as style sheets
+		and JavaScript files that are used by this theme.
+	-->
+	
+	<!-- 
+	Not the following is not working in conjuction with the 
+	XSP Property 'runtime optimized resources'.
+	
+	Therefor the following workaround is applied:
+	- Move the @font-face part into 2 new CSS e.g. 
+		./font-awesome-4.2.0/css/font-awesome-fontFamily.css
+		./font-awesome-4.2.0/css/font-awesome-fontFamily.min.css
+	  
+	  Note the paths to the fonts differ in these files.	
+	  
+	- Load 1 of the css via the Theme based upon the context.getProperty('xsp.resources.aggregate') property
+	 -->
+	<resources>
+		<metaData>
+			<name>author</name>
+			<content>Patrick Kwinten</content>
+		</metaData>
+		<metaData>
+            <name>Description</name>
+            <content>Bildr is a Picture sharing application for the IBM Domino platform using XPages</content>
+        </metaData>
+		<metaData>
+            <name>keywords</name>
+            <content>file-sharing, pictures, photography, images, bilder, foto's, photos</content>
+        </metaData>        
+        <metaData>
+			<httpEquiv>expires</httpEquiv>
+			<content>86400</content>
+		</metaData>
+		<metaData>
+			<name>viewport</name>
+			<content>width=device-width, initial-scale=1.0</content>
+		</metaData>
+	</resources>
+	 
+	 <resources>
+		<script 
+			src="amd/amd_disable.js" 
+			clientSide="true">
+		</script>			
+		<script
+			src="plupload.full.js"
+			clientSide="true"
+			rendered="#{javascript:@Name('[CN]',session.getEffectiveUserName()) !=
+			'Anonymous'}"
+			>
+		</script>
+		
+		<script 
+			src="unitegallery/js/unitegallery.min.js"
+			clientSide="true">
+		</script>	
+		<script 
+			src="unitegallery/themes/default/ug-theme-default.js"
+			clientSide="true">
+		</script>	
+		
+		<script 
+			src="amd/amd_enable.js" 
+			clientSide="true">
+		</script>
+	</resources>	
+	
+	
+	<resource rendered="#{javascript:context.getProperty('xsp.resources.aggregate').equals('false')}">
+	    <content-type>text/css</content-type>
+	    <href>font-awesome-4.4.0/css/font-awesome-fontFamily.css</href>
+	</resource>
+	<resource rendered="#{javascript:context.getProperty('xsp.resources.aggregate').equals('true')}">
+	    <content-type>text/css</content-type>
+	    <href>font-awesome-4.4.0/css/font-awesome-fontFamily.min.css</href>
+	</resource>
+	<resource>
+		<content-type>text/css</content-type>
+		<href>font-awesome-4.4.0/css/font-awesome.min.css</href>
+	</resource>
+	
+	<resource>
+		<content-type>text/css</content-type>
+		<href>ekko-lightbox/ekko-lightbox.css</href>
+	</resource>
+	<resource>
+		<content-type>application/x-javascript</content-type>
+		<href>ekko-lightbox/ekko-lightbox.js</href>
+	</resource>
+	
+	
+	
+	<resources>
+		<styleSheet 
+			href="/style.css">
+		</styleSheet>
+	
+		<styleSheet 
+			href="/upload.css">
+		</styleSheet>
+		<script
+			src="/xpUtils.jss"
+			clientSide="false">
+		</script>
+		<script
+			src="/xpUtilsDocuments.jss"
+			clientSide="false">
+		</script>
+		
+		<!-- 
+		Download and install the jquery.plupload.queue.js file adapted for xpages in combination with dojo from the following URL:
+		https://github.com/PatrickKwinten/xsp.plupload.queue.js
+		 -->
+		<script
+		clientSide="true"
+		src="XSPUploader.js">
+		</script>
+		
+		<bundle
+			src="/layout.properties"
+			var="layout">
+		</bundle>
+		<bundle
+			src="/upload.properties"
+			var="upload">
+		</bundle>
+		<bundle
+			src="/datasource.properties"
+			var="datasource">
+		</bundle>	
+		<script
+			src="/utils.js"
+			clientSide="true">
+		</script>
+		
+		<dojoModule
+			name="dojox.image.Lightbox"
+			rendered="true"
+			loaded="true">
+		</dojoModule>
+		<dojoModule 
+			name="dijit.form.Button"
+			rendered="true"
+			loaded="true">
+		</dojoModule>
+
+	</resources>
+
+	<!--
+		Use the following pattern to define property name/value pairs for controls
+	-->
+	<!--
+	<control>
+		<name>[Control Name]</name>
+		<property>
+			<name>[property Name]</name>
+			<value>[property Value]</value>
+		</property>
+	</control>
+	-->
+	<!-- theme id for links acting as buttons -->
+	<control>
+		<name>button</name>
+		<property mode="override">
+			<name>styleClass</name>
+			<value>btn</value>
+		</property>
+	</control>
+	<!-- it looks like a link, but acts like a button -->
+	<control>
+		<name>link.button</name>
+		<property mode="override">
+			<name>styleClass</name>
+			<value>btn btn-link</value>
+		</property>
+	</control>
+	
+</theme>

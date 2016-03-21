@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="342" sequence="5" unid="9D76D81AA4A2D442C1257EF50038DEFD">
+<created><datetime>20151106T112111,01+01</datetime></created>
+<modified><datetime>20160308T215648,10+01</datetime></modified>
+<revised><datetime>20160209T202458,03+01</datetime></revised>
+<lastaccessed><datetime>20160308T215648,10+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215648,10+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>profileNoPhoto.png</text></item>
+<item name="$FlagsExt" sign="true"><text>D</text></item>
+
+<item name="$MimeType" sign="true"><text>image/jpeg</text></item>
+<item name="$FileModDT" sign="true"><datetime>20151209T160716,85+01</datetime></item>
+
+<item name="$Flags"><text>345CgQ</text></item>
+<item name="$FileNames" sign="true"><text>download.jpg</text></item>
+<item name="$Comment" sign="true"><text>Profile.class</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5.3</text></item></note>

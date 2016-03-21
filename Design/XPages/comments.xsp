@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view 
+	xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" 
+	
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+<xc:ccNavBar></xc:ccNavBar>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-8"><h1>Comments</h1>
+				<xc:ccComments header="List of all comments"
+					ArrayListJSONObject="#{javascript:CommentController.loadComments();}"
+					showAsCard="true" headerSize="h4">
+				</xc:ccComments>
+			</div>
+			<div class="col-md-4" >
+				<h3><center>Spotlight</center></h3>
+				<xc:ccProfileRandom></xc:ccProfileRandom>
+			</div>
+		</div>
+	</div>
+</xp:view>

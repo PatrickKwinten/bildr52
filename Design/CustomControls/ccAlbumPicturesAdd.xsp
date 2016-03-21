@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex" dojoParseOnLoad="true"
+	dojoTheme="true">
+	<xp:inputText id="selectedItem" value="#{viewScope.selectedItem}"
+		style="display:none;">
+	</xp:inputText>
+	
+		<div class="section">
+		<div class="container-fluid">
+<h3>			
+				Current pictures
+			</h3>
+		<xp:repeat id="repeat1" rows="30"
+			value="#{javascript:Album.getPictures();}" var="pix"
+			indexVar="idx">
+		<xp:image id="image2" styleClass="SetCase">
+			<xp:this.url><![CDATA[#{javascript:var pic = new org.openntf.bildr.Picture;
+
+pic.loadByUnid(pix);
+var id =  pic.getUnid();
+var thumb = pic.getThumb();
+
+var db = datasource.getString('DB_FILEPATH');
+
+
+return "../" + db + "/0/" + id + "/$FILE/" + thumb;}]]></xp:this.url>
+		</xp:image>
+		</xp:repeat>
+		<h3>			
+				Add pictures
+			</h3>
+			<xp:panel>
+				<xp:this.rendered><![CDATA[#{javascript:getComponent("repeatMyPictures").getRowCount() == 0;}]]></xp:this.rendered>
+				<div class="alert alert-warning">
+					<strong>Warning!</strong>
+					&#160;You have no pictures to upload.
+				</div>
+			</xp:panel>
+			<xp:panel>
+				<xp:this.rendered><![CDATA[#{javascript:getComponent("repeatMyPictures").getRowCount() > 0;}]]></xp:this.rendered>
+				<div class="alert alert-info">
+					<strong><i class="fa fa-info-circle"></i></strong>
+					&#160;Select the pictures you would like to add to this album.
+				</div>
+			</xp:panel>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		
+		<xp:repeat id="repeatMyPictures" rows="1000"
+				var="docMyPics">
+
+
+				<xp:this.value><![CDATA[#{javascript://PictureController.loadPictures(session.getEffectiveUserName())
+//PictureController.loadPictures(Profile.notesName)
+var nm = session.createName( session.getEffectiveUserName());
+var dbString = datasource.getString('DB_FILEPATH');
+var db:NotesDatabase = session.getDatabase("", dbString);
+var dc = db.getView("$v-pixbyauthor").getAllDocumentsByKey( session.getEffectiveUserName(), true);
+return dc;}]]></xp:this.value>
+				
+				<xp:div id="div1" styleClass="SetCase">
+
+					<xp:this.style><![CDATA[#{javascript:var selected = viewScope.get("selectedPictures") || [];
+	var thisId = docMyPics.getUniversalID();	
+	"cursor:pointer; float: left; " + ( @IsMember( thisId, selected) ? "background: #659ee2;" : "")}]]></xp:this.style>
+
+
+					<xp:this.rendered><![CDATA[#{javascript:var current = Album.getPictures();
+var thisId = docMyPics.getUniversalID().toLowerCase();	
+(current.contains(thisId) ? false : true)}]]></xp:this.rendered>
+					<xp:image id="image1" styleClass="viewThumb">
+						<xp:this.url><![CDATA[#{javascript:		
+var db = datasource.getString('DB_FILEPATH');
+return "../" + db + "/0/" + docMyPics.getUniversalID() + "/$File/" + docMyPics.getItemValueString("Photo_ThumbFilename");}]]></xp:this.url>
+					</xp:image>
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="repeatMyPictures">
+						<xp:this.action><![CDATA[#{javascript:var id = viewScope.get("selectedItem");
+	var key = "selectedPictures";
+	
+	var selected = (viewScope.containsKey(key) ? viewScope.get(key) : []);
+	
+	if (@IsMember(id, selected) == @True()) {
+		selected = @Trim(@Replace(selected, id, ""));
+	} else {
+		selected.push(id);
+	}
+	
+	if (typeof selected == 'string') { selected = [selected]; }
+	
+	viewScope.put(key, selected);}]]></xp:this.action>
+						<xp:this.script><![CDATA[dojo.query('[id$="selectedItem"]')[0].value = '#{javascript:docMyPics.getUniversalID();}']]></xp:this.script>
+					</xp:eventHandler>
+					<xp:eventHandler event="onmouseover"
+						submit="false">
+						<xp:this.script><![CDATA[/*if (typeof thisEvent.target != undefined) {
+		source = thisEvent.target;
+	} else if (typeof thisEvent.srcElement != undefined) {
+		source = thisEvent.srcElement;
+	}
+	dojo.style(source, "background", "pink");*/]]></xp:this.script>
+					</xp:eventHandler>
+					<xp:eventHandler event="onmouseout"
+						submit="false">
+						<xp:this.script><![CDATA[/*if (typeof thisEvent.target != undefined) {
+		source = thisEvent.target;
+	} else if (typeof thisEvent.srcElement != undefined) {
+		source = thisEvent.srcElement;
+	}
+	//dojo.style(source, "background", "");*/]]></xp:this.script>
+					</xp:eventHandler>
+				</xp:div>
+
+		</xp:repeat>
+	</div>
+	
+	<div class="container-fluid" style="margin:20px 0;">
+		<div class="row">
+			<div class="col-md-12">	
+			<xp:button styleClass="btn-primary"
+					value="Add selected pictures" id="button1">
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:var selected = viewScope.get("selectedPictures");
+if (selected == null) {
+    return;
+}
+
+var dbString = datasource.getString('DB_FILEPATH');
+var db: NotesDatabase = session.getDatabase("", dbString);
+if (db == null) {
+    return;
+}
+var docAlbum: NotesDocument = db.getDocumentByUNID(compositeData.albumNoteId);
+if (docAlbum == null) {
+   return;
+}
+
+for (var i = 0; j = selected.length, i < j; i++) {
+    addItemValue(docAlbum, "Tx_pictureIds", selected[i].toLowerCase());
+}
+docAlbum.replaceItemValue("Tx_pictureIds", @Trim(@Unique(docAlbum.getItemValue("Tx_pictureIds"))));
+
+//unmark pictures list as summary item
+var itm = docAlbum.getFirstItem("Tx_pictureIds");
+itm.setSummary(true);
+
+//update modified time
+var n = session.createDateTime("Today");
+n.setNow();
+docAlbum.save();
+//clear selection from viewscope
+viewScope.remove("selectedPictures");
+
+//hide "select pictures" section
+//viewScope.put("selectPicturesMode", false);
+
+var url = context.getUrl().toString();
+facesContext.getExternalContext().redirect(url);}]]></xp:this.action>
+					</xp:eventHandler>
+			</xp:button>			
+			</div>			
+		</div>
+	</div>
+	
+	
+
+</xp:view>

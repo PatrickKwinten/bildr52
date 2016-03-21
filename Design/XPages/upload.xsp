@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+<xp:this.beforePageLoad><![CDATA[#{javascript:var tmp = applicationScope.initPref;
+initBase();}]]></xp:this.beforePageLoad>
+<xp:this.resources>		
+		<xp:bundle src="/datasource.properties" var="datasource" />
+		<xp:bundle src="/upload.properties" var="upload" />
+		<xp:script src="/xpConfig.jss" clientSide="false" />
+	</xp:this.resources>
+	<xc:ccNavBar></xc:ccNavBar>
+	
+	<xp:this.acl>
+		<xp:acl>
+			<xp:this.entries>
+				<xp:aclEntry right="EDITOR" type="ROLE">
+					<xp:this.name><![CDATA[[upload]]]></xp:this.name>
+				</xp:aclEntry>
+			</xp:this.entries>
+		</xp:acl>
+	</xp:this.acl>
+
+	<xp:this.resources>
+		<xp:dojoModule name="dijit.form.Button" />
+	</xp:this.resources>
+
+	
+
+
+	<xp:include id="include1">
+		<xp:this.pageName><![CDATA[${javascript://load the appropriate custom control
+
+if (sessionScope.get("uploadStep") == "upload" ) {
+	return "ccUploadImages.xsp";
+} else {
+	return "ccUploadConfig.xsp";
+}}]]></xp:this.pageName>
+	</xp:include>
+
+
+	</xp:view>

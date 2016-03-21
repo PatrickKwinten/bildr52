@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view 
+	xmlns:xp="http://www.ibm.com/xsp/core" 
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xc:ccNavBar />
+	<div class="container">
+		<div class="section">
+			<h3>
+				Search
+				<xp:br></xp:br></h3>
+			<xp:panel>
+				<xp:this.rendered><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var index =  db.isFTIndexed();
+return !index;}]]></xp:this.rendered>
+				<div class="alert alert-warning">
+					<strong>Full-index not available</strong>
+					&#160;This search function requires a full-index for
+					the data-store (
+					<xp:text escape="true" id="computedField1">
+						<xp:this.value><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+return db.getFileName()}]]></xp:this.value>
+					</xp:text>
+					), which is not available at the moment.
+				</div>
+				
+			</xp:panel>
+			<xp:div id="nav-pills-container">
+				<ul class="nav nav-pills">
+					<li id="Pictures" class="dclist">
+						<xp:link escape="true" text="Pictures" id="link4">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial">
+								<xp:this.action>
+							<![CDATA[#{javascript:getComponent("dynC").show("Pictures")}]]>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</li>
+
+					<li id="Albums" class="dclist">
+						<xp:link escape="true" text="Albums" id="link1">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial">
+								<xp:this.action>
+							<![CDATA[#{javascript:getComponent("dynC").show("Albums")}]]>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</li>
+					<li id="Profiles" class="dclist">
+						<xp:link escape="true" text="Profiles" id="link2">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial">
+								<xp:this.action>
+							<![CDATA[#{javascript:getComponent("dynC").show("Profiles")}]]>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</li>
+					<li id="Comments" class="dclist">
+						<xp:link escape="true" text="Comments" id="link3">
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="partial">
+								<xp:this.action>
+							<![CDATA[#{javascript:getComponent("dynC").show("Comments")}]]>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:link>
+					</li>
+
+				</ul>
+
+
+			</xp:div>
+
+		</div>
+	</div>
+
+	
+	<div class="container">
+	
+		<xe:dynamicContent id="dynC" useHash="true"
+			defaultFacet="Pictures">
+			<xp:this.facets>
+				<xp:panel xp:key="Pictures">
+					<xc:ccPictures showTotals="true" headerSize="h6">
+						<xc:this.header><![CDATA[#{javascript:return "Showing Pictures matching query = " + param.get("q");}]]></xc:this.header>
+						<xc:this.ArrayListJSONObject><![CDATA[#{javascript:PictureController.searchJSONObjects(param.get("q"),Configuration.rowsSearch);}]]></xc:this.ArrayListJSONObject>
+					</xc:ccPictures>
+				</xp:panel>
+				<xp:panel xp:key="Albums">
+					<xc:ccAlbums showAuthor="true" showTotals="true"
+						headerSize="h6">
+						<xc:this.header><![CDATA[#{javascript:return "Showing Albums matching query = " + param.get("q");}]]></xc:this.header>
+						<xc:this.ArrayListJSONObject><![CDATA[#{javascript:AlbumController.searchJSONObjects(param.get("q"),Configuration.rowsSearch)}]]></xc:this.ArrayListJSONObject>
+					</xc:ccAlbums>
+				</xp:panel>
+
+				<xp:panel xp:key="Profiles">
+					<xc:ccProfiles showTotals="true" headerSize="h6">
+						<xc:this.header><![CDATA[#{javascript:"Showing Profiles matching query = " + param.get("q");}]]></xc:this.header>
+						<xc:this.ArrayListJSONObject><![CDATA[#{javascript:ProfileController.searchJSONObjects(param.get("q"),Configuration.rowsSearch)}]]></xc:this.ArrayListJSONObject>
+					</xc:ccProfiles>
+				</xp:panel>
+
+				<xp:panel xp:key="Comments">
+					<xc:ccComments infiniteScroll="false"
+						showTotals="true" showAsCard="true" headerSize="h6">
+						<xc:this.header><![CDATA[#{javascript:"Showing Comments matching query = " + param.get("q")}]]></xc:this.header>
+						<xc:this.ArrayListJSONObject><![CDATA[#{javascript:CommentController.searchJSONObjects(param.get("q"),Configuration.rowsSearch)}]]></xc:this.ArrayListJSONObject>
+					</xc:ccComments>
+				</xp:panel>
+			</xp:this.facets>
+		</xe:dynamicContent>
+	</div>
+	
+	<xp:eventHandler event="onClientLoad" submit="false">
+		<xp:this.script><![CDATA[function setActive(id){
+	$( "li.dclist" ).removeClass( "active" );
+	var id = "#" + id;
+	$(id).addClass( "active" );
+}
+
+var hash = dojo.queryToObject( dojo.hash() );
+var active = hash["content"];
+var defaultActive = "Pictures";
+if (active!=null){
+	setActive(active);
+}
+else{
+setActive(defaultActive);
+}
+
+]]></xp:this.script>
+	</xp:eventHandler>
+	<xc:ccJavaScrips></xc:ccJavaScrips>
+</xp:view>

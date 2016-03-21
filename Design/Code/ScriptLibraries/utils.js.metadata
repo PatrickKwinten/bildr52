@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="filter" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="1fa" sequence="13" unid="06FD6765F557D23DC12578BC004E24D7">
+<created><datetime dst="true">20110627T161332,39+02</datetime></created>
+<modified><datetime>20160308T215646,46+01</datetime></modified>
+<revised><datetime>20151228T162958,47+01</datetime></revised>
+<lastaccessed><datetime>20160308T215646,46+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215646,46+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Information Systems/O=SANDVIK</name><name>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$POID"><datetime>20110103T092943,05+01</datetime></item>
+<item name="$TITLE" sign="true"><text>utils</text></item>
+<item name="$Flags"><text>h534Q</text></item>
+<item name="$PublicAccess" sign="true"><text>1</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+</note>

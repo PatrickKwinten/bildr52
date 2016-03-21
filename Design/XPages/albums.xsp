@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xc:ccNavBar></xc:ccNavBar>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-8"><h1>Albums</h1>
+				<xc:ccAlbums header="List of all albums"
+					ArrayListJSONObject="#{javascript:ProfileController.loadAlbums()}"
+					headerSize="h4">
+				</xc:ccAlbums>
+			</div>
+			<div class="col-md-4">
+				<h3><center>Spotlight</center></h3>
+				<xc:ccProfileRandom></xc:ccProfileRandom>
+			</div>
+		</div>
+	</div>
+	<xc:ccJavaScrips></xc:ccJavaScrips></xp:view>

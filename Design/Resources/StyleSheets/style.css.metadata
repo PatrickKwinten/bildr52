@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="256" sequence="110" unid="0A40931786F8EFB9C12578BC004E0463">
+<created><datetime dst="true">20110627T161209,31+02</datetime></created>
+<modified><datetime>20160308T215646,92+01</datetime></modified>
+<revised><datetime>20160301T150731,50+01</datetime></revised>
+<lastaccessed><datetime>20160308T215646,92+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215646,92+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$MimeType" sign="true"><text>text/css</text></item>
+<item name="$Flags"><text>34C=Q&amp;</text></item>
+<item name="$$ScriptName" sign="true" summary="false"><text>custom.css</text></item>
+<item name="$TITLE" sign="true"><text>style.css</text></item>
+<item name="$Comment" sign="true"><text>default Stylesheet</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>style.css</text></item></note>

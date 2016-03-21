@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:this.beforePageLoad><![CDATA[#{javascript:var filter = context.getUrlParameter("filter");
+viewScope.put("filter",filter);}]]></xp:this.beforePageLoad>
+	<xc:ccNavBar></xc:ccNavBar>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4">
+				<xc:ccCategorieLinks header="Category"
+					viewName="$v-pixbycategory" targetPage="pictures.xsp"
+					headerSize="h4" showAsCard="true">
+				</xc:ccCategorieLinks>
+				<xc:ccCategorieLinks header="Submitter"
+					viewName="$v-pixbyauthor" targetPage="pictures.xsp"
+					objectType="notesName" headerSize="h4" showAsCard="true">
+				</xc:ccCategorieLinks>
+			</div>
+			<div class="col-md-4">
+
+			
+			<xp:panel id="xsp-list">
+
+			<xc:ccPictures headerSize="h4">
+				<xc:this.header><![CDATA[#{javascript:if(viewScope.get("filter") == null || viewScope.get("filter") == ''){
+	return "List of all pictures";
+}
+else{
+	return "List of all pictures matching '" + viewScope.get("filter") + "'";
+}	}]]></xc:this.header>
+				<xc:this.ArrayListJSONObject><![CDATA[#{javascript:PictureController.loadPictures(viewScope.get("filter"));}]]></xc:this.ArrayListJSONObject>
+			</xc:ccPictures>
+
+			</xp:panel>
+			</div>
+			<div class="col-md-4">
+				<h3><center>Spotlight</center></h3>
+				<xc:ccPictureRandom></xc:ccPictureRandom>
+			</div>
+			
+		</div>
+	</div>
+	
+	<xc:ccJavaScrips></xc:ccJavaScrips>
+</xp:view>

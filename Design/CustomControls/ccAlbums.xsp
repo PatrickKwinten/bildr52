@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xp_1="http://www.ibm.com/xsp/coreex">
+	<xp:this.beforePageLoad><![CDATA[#{javascript:viewScope.put("showAuthor",compositeData.showAuthor)}]]></xp:this.beforePageLoad>
+	<xp:div styleClass="section">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+					<xp:panel
+						tagName="#{javascript:compositeData.headerSize}">
+						<xp:text escape="true"
+							value="#{javascript:compositeData.header}" />
+					</xp:panel>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<xp:text escape="false" id="computedField1"
+						styleClass="pull-right"
+						rendered="#{javascript:compositeData.showTotals}">
+						<xp:this.value><![CDATA[#{javascript:return "<span class='badge'>" + getComponent("list").getRowCount() + "</span> matches"}]]></xp:this.value>
+					</xp:text>
+				</div>
+			</div><!-- /row -->
+			
+			<xp:div styleClass="card light">
+				<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()> 0}]]></xp:this.rendered>
+				<xp:panel>
+
+					<xp:repeat id="list"
+						rows="${Configuration.rowsDefault}" var="obj"
+						value="#{javascript:compositeData.ArrayListJSONObject;}"
+						indexVar="idx">
+
+						<xc:ccMedia>
+							<xp:this.facets>
+								<xp:span xp:key="facetMediaIcons">
+									
+									<xp:span>
+										<xp:this.rendered><![CDATA[#{javascript:viewScope.get("showAuthor")}]]></xp:this.rendered>
+										<xc:ccIconProfileLinkUNID
+											docUNID="#{javascript:obj.docUNID}"
+											NotesName="#{javascript:obj.creator}" />
+									</xp:span>
+
+
+									<i class="fa fa-picture-o" />
+									&#160;
+									<xp:text escape="true"
+										id="computedField3" value="#{javascript:obj.numPics}" />
+									&#160;
+									<xc:ccIconDate
+										date="#{javascript:obj.created}" />
+								</xp:span>
+								<xp:span xp:key="facetMediaLink">
+									<xp:link escape="true"
+										text="#{javascript:obj.subject;}" id="link1">
+										<xp:this.value><![CDATA[#{javascript:return "album.xsp?UNID=" + obj.docUNID;}]]></xp:this.value>
+										<xp:eventHandler event="onclick"
+											submit="true" refreshMode="complete">
+											<xp:this.action>
+												<xp:actionGroup>
+													<xp:executeScript>
+														<xp:this.script><![CDATA[#{javascript:var id = obj.docUNID;
+Album.loadByUnid(id);}]]></xp:this.script>
+													</xp:executeScript>
+
+													<xp:openPage
+														name="/album.xsp" />
+
+												</xp:actionGroup>
+											</xp:this.action>
+										</xp:eventHandler>
+									</xp:link>
+								</xp:span>
+								<xp:span xp:key="facetMediaImage"
+									styleClass="media-object pull-left iconAlbum"
+									style="font-size:0.85em">
+									<i class="fa fa-folder fa-4" />
+								</xp:span>
+							</xp:this.facets>
+						</xc:ccMedia>
+												
+					</xp:repeat>
+					<xp:pager layout="Previous Group Next"
+						partialRefresh="true" for="list"
+						rendered="#{javascript:isPagerVisible(this)}" />
+
+				</xp:panel>
+			</xp:div><!-- /card -->
+
+		</div><!-- /container-fluid -->
+	</xp:div><!-- /section -->
+
+	<xc:ccListNoItems>
+		<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()== 0}]]></xp:this.rendered>
+	</xc:ccListNoItems>
+</xp:view>

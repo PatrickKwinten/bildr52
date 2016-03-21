@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	
+	<xp:panel rendered="#{javascript:Album.readOnly}">
+		<div class="section">
+			<div class="container-fluid">
+			
+			<div class="bs-callout bs-callout-bildr">
+			<div style="margin-top:-20px;margin-left:-20px;">
+				<div class="pull-left" >
+									<xc:ccMediaImage
+										styleClass="media-object pull-left img-circle"
+										title="#{javascript:Album.notesName}">
+										<xc:this.url><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+				key = @DbLookup(db,"$v-profiles",Album.notesName,"id");
+				
+				
+				var doc:NotesDocument = db.getDocumentByUNID(key);
+				
+				
+				docid = doc.getUniversalID();
+				pic = doc.getItemValueString("attachments");
+				//docid = @DbLookup(db,"$v-profilepicture",key,"primaryKey");
+				prefix = "http://" + context.getUrl().getHost() + "/" + db.getFilePath();
+				if (pic == null || pic == ""){
+					return "/profileNoPhoto.png";
+				}
+				else {	
+					return prefix+ "/0/" + docid + "/$FILE/" + pic;
+				}}]]></xc:this.url>
+									</xc:ccMediaImage>
+				</div>
+				
+				<h5>
+					<xp:text escape="true" id="computedField1">
+						<xp:this.value><![CDATA[#{javascript:if (Album.getNewNote()){
+			return "New album";
+		}
+		else{		
+				return Album.getSubject();
+		
+}}]]></xp:this.value>
+					</xp:text>
+				</h5>
+				<div style="display:table">
+				<div>
+					<xc:ccIconProfileLinkName
+						NotesName="#{javascript:Album.notesName}">
+					</xc:ccIconProfileLinkName>
+				</div>
+				
+								<div>
+					<xc:ccIconDate>
+						<xc:this.date><![CDATA[#{javascript:var dt:NotesDateTime = session.createDateTime(Album.getCreated())
+var theDate = dt.toJavaDate();
+return theDate;}]]></xc:this.date>
+					</xc:ccIconDate>					
+				</div>
+				<div>
+					
+					<i class="fa fa-picture-o"></i>&#160;
+						<xp:text escape="true"
+							id="computedField2">
+							<xp:this.value><![CDATA[#{javascript:var list = Album.getPictures();
+return list.size()}]]></xp:this.value>
+							<xp:this.converter>
+								<xp:convertNumber type="number"
+									integerOnly="true">
+								</xp:convertNumber>
+							</xp:this.converter>
+						</xp:text>
+				</div>
+				</div>
+
+			</div>
+			<h6>Description</h6>
+				<p>
+					<xp:text escape="true" id="computedField3"
+						value="#{javascript:Album.getDescription()}">
+					</xp:text>
+				</p>
+			</div>
+			</div>
+		</div>
+	</xp:panel>
+	
+	
+	<xp:panel rendered="#{javascript:!Album.readOnly}">
+	
+		<div class="section">
+			<div class="container-fluid">
+				<div class="form-horizontal" role="form">
+				<h3>Album</h3>
+				<div class="row">
+				
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Subject" id="label9" for="subject"
+								styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control" id="subject"
+								value="#{Album.subject}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter a Subject">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+						</div>
+					</div>
+					
+				</div><!-- /row -->
+		
+				<div class="row">
+				
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Description" id="label2"
+								for="comment" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputTextarea id="comment"
+								styleClass="form-control" value="#{Album.description}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter a description...">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputTextarea>
+						</div>
+					</div>
+					
+					
+				</div><!-- /row -->
+				
+				
+				</div>
+			</div>
+		</div>
+		
+	</xp:panel>
+	
+	<xc:ccAlbumButtons></xc:ccAlbumButtons>
+
+</xp:view>

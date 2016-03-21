@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config>
+  <faces-config-extension>
+    <namespace-uri>http://www.ibm.com/xsp/custom</namespace-uri>
+    <default-prefix>xc</default-prefix>
+  </faces-config-extension>
+  <composite-component>
+    <component-type>ccJavaScrips</component-type>
+    <composite-name>ccJavaScrips</composite-name>
+    <composite-file>/ccJavaScrips.xsp</composite-file>
+    <composite-extension>
+      <designer-extension>
+        <in-palette>true</in-palette>
+        <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt; &#xd;
+&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt; &#xd;
+	&lt;div style="border: 2px dotted #CCC; padding: 5px; margin: 3px;"&gt;&#xd;
+	&lt;h3&gt;ccJavaScripts&lt;/h3&gt;&#xd;
+	&lt;p&gt;&#xd;
+	Place to drop script blocks that will be loaded&#xd;
+	&lt;/p&gt;&#xd;
+&lt;/div&gt;&#xd;
+&lt;/xp:view&gt;</render-markup>
+      </designer-extension>
+    </composite-extension>
+  </composite-component>
+</faces-config>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:div styleClass="section">
+		<div class="container-fluid">
+			<xp:panel tagName="h3">
+				<xp:text escape="true" id="computedField1">
+					<xp:this.value><![CDATA[#{javascript:Profile.firstName + "'s Profile"}]]></xp:this.value>
+				</xp:text></xp:panel>
+		</div>
+	</xp:div><!-- /section -->
+
+
+	<xp:div styleClass="section">
+		<xp:div styleClass="container-fluid">	
+			<div class="card light">
+			<div style="margin-left: 15px;
+    margin-right: 15px;">
+			<div class="form-horizontal" role="form">
+			
+				<xp:div styleClass="row">
+			
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:image id="image1"
+								styleClass="profileImgHeader img-circle">
+								<xp:this.url><![CDATA[#{javascript:var pic = Profile.getAvatar();
+if (pic ==""){
+	return "profileNoPhoto.png";
+}
+else{
+	var db = datasource.getString('DB_FILEPATH');
+	var id = Profile.getUnid();
+	return "../" + db + "/0/" + id + "/$FILE/" + pic;
+}}]]></xp:this.url>
+							</xp:image>
+						</div>
+						<div class="col-sm-10">
+							<xc:ccFileUpload rendered="#{!Profile.readOnly}"></xc:ccFileUpload>
+						</div>
+					</div><!-- /form-group -->
+			
+		
+		</xp:div>
+
+				<xp:div styleClass="row">
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="First Name" id="label2"
+								for="inputFName" styleClass="control-label"
+								rendered="#{javascript:!Profile.readOnly}">
+							</xp:label>
+							<xp:span
+								rendered="#{javascript:Profile.readOnly}">
+								First Name
+							</xp:span>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputFName" value="#{Profile.firstName}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter your firstname">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField2"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.firstName}"
+								style="font-weight:bold">
+							</xp:text>
+
+						</div>
+					</div><!-- /form-group -->
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Last Name" id="label1"
+								for="inputLName" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputLName" value="#{Profile.lastName}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter your lastname">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField3"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.lastName}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Notes Name" id="label3"
+								for="inputNName" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputNName" value="#{Profile.notesName}" disabled="true"
+								rendered="#{javascript:!Profile.readOnly}">
+							</xp:inputText>
+							<xp:text escape="true" id="computedField4"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.notesName}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Title" id="label4"
+								for="inputTitle" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputTitle" value="#{Profile.title}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter your preferred title e.g. sir, mr., mrs. etcetera">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField5"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.title}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Email" id="label5"
+								for="inputEmail" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputEmail" value="#{Profile.email}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter your email address">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField6"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.email}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Camera" id="label6"
+								for="inputCamera" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputCamera" value="#{Profile.camera}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="What camera are your using?">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField7"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.camera}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+					<div class="form-group">
+						<div class="col-sm-2">
+							<xp:label value="Avatar" id="label7"
+								for="inputAvatar" styleClass="control-label">
+							</xp:label>
+						</div>
+						<div class="col-sm-10">
+							<xp:inputText styleClass="form-control"
+								id="inputAvatar" value="#{Profile.avatar}"
+								disabled="#{Profile.readOnly}"
+								rendered="#{javascript:!Profile.readOnly}">
+								<xp:this.attrs>
+									<xp:attr name="type" value="text"></xp:attr>
+									<xp:attr name="placeholder"
+										value="Enter the URL of your avatar">
+									</xp:attr>
+								</xp:this.attrs>
+							</xp:inputText>
+							<xp:text escape="true" id="computedField8"
+								rendered="#{javascript:Profile.readOnly}"
+								value="#{javascript:Profile.avatar}">
+							</xp:text>
+						</div>
+					</div><!-- /form-group -->
+
+					<!-- button group -->
+					<xp:panel styleClass="form-actions" tagName="div">
+						<xp:button id="btnEdit"
+							styleClass="btn-primary btn-primary-material pull-right"
+							title="edit...">
+							<xp:this.rendered><![CDATA[#{javascript:if (Profile.isReadOnly()==false){
+	return false;
+}
+var userName:NotesName = session.getEffectiveUserName();
+if (userName == Profile.getNotesName()){
+	return true;
+}
+else{
+	return false;
+}	}]]></xp:this.rendered>
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete" immediate="true">
+								<xp:this.action><![CDATA[#{javascript:Profile.setReadOnly(false);}]]></xp:this.action>
+							</xp:eventHandler>
+							<i class="fa fa-edit" />
+						</xp:button>
+						<xp:button id="btnUpdate"
+							styleClass="btn-primary btn-primary-material pull-right"
+							rendered="#{!Profile.readOnly}">
+
+
+							<xp:this.title><![CDATA[#{javascript:if (Profile.getNewNote() == true){
+	return "save...";
+}
+else{
+	return "update...";
+}}]]></xp:this.title>
+							<i class="fa fa-check" />
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:actionGroup>
+										<xp:executeScript
+											script="#{Profile.save}">
+										</xp:executeScript>
+										<xp:openPage
+											name="$$PreviousPage">
+										</xp:openPage>
+									</xp:actionGroup>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+
+						<xp:button value="Reset" id="button3"
+							rendered="#{!Profile.readOnly}">
+
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action><![CDATA[#{javascript:Profile.clear();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+						<xp:button value="Cancel" id="button2"
+							rendered="#{!Profile.readOnly}">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+
+									<xp:actionGroup>
+										<xp:actionGroup
+											condition="#{javascript:Profile.setReadOnly(true);}">
+										</xp:actionGroup>
+										<xp:openPage
+											name="$$PreviousPage">
+										</xp:openPage>
+
+									</xp:actionGroup>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+						<xp:button value="Close" id="button5"
+							rendered="#{!Profile.readOnly}">
+							<xp:eventHandler event="onclick"
+								submit="true" refreshMode="complete">
+								<xp:this.action>
+									<xp:openPage name="/index.xsp"></xp:openPage>
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+					</xp:panel><!-- /form-actions -->
+
+
+
+				</xp:div><!-- /row -->
+
+			</div><!-- /form -->
+			</div>
+</div>
+		</xp:div>
+	</xp:div>
+	
+	</xp:view>

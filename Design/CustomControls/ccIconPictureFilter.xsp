@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<span title="view pictures for this filter">
+		<i class="fa fa-filter" />
+		&#160;
+		<xp:link escape="true" text="#{javascript:compositeData.filter}"
+			id="link5">
+		<xp:this.value><![CDATA[#{javascript:return "/pictures.xsp?filter=" + compositeData.filter}]]></xp:this.value></xp:link>
+	</span>	
+</xp:view>

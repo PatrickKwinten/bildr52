@@ -1,0 +1,8 @@
+2016-01-29	Code reduction, increase use of custom controls
+2016-01-29	Spotlight function expanded
+2016-01-29	Data NSF contains license free sample images created by Patrick Kwinten
+2015-12-28	Updated classes for Profil, Comment, Album
+2015-12-28	Updated search.xsp 
+2015-12-28	Updated NOTICE.txt 
+2015-12-28	Added link to YouTube movie
+2015-12-28	Included Change LOG.txt

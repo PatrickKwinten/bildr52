@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" dojoParseOnLoad="true"
+	dojoTheme="true" xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xp_1="http://www.ibm.com/xsp/coreex">
+	<xp:this.data>
+		<xp:dominoDocument var="docMemo" formName="memo" />
+		<xp:dominoView var="viewRating" viewName="$v-rating"
+			categoryFilter="#{javascript:docPic.getDocument().getUniversalID();}" />
+		<xp:dominoDocument var="docPic" action="openDocument"
+			formName="$f-picture" />
+	</xp:this.data>
+	
+	<xp:this.resources>
+		<xp:script src="http://maps.google.com/maps/api/js?sensor=true"
+			clientSide="true">
+		</xp:script>
+	</xp:this.resources>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:var doc:NotesDocument = docPic.getDocument();
+var UNID = doc.getUniversalID();
+sessionScope.put("pictureID",UNID); }]]></xp:this.beforePageLoad>
+
+	
+
+	<xp:panel id="pictures">
+
+		<xp:panel style="margin-bottom:5px;" id="pnlThumbnailImg">
+			<xp:this.rendered><![CDATA[#{javascript:viewScope.showAllSizes}]]></xp:this.rendered>
+			<xp_1:widgetContainer id="wgThumb">
+				<xp_1:this.titleBarText><![CDATA[#{javascript:var doc:NotesDocument = docPic;
+return doc.getItemValueString("Photo_Title") + " (thumbnail)"}]]></xp_1:this.titleBarText>
+				<xp:text
+					escape="false"
+					id="imgThumb">
+					<xp:this.value><![CDATA[#{javascript:var prefix = docPic.getDocument().getUniversalID() + "/$file/";
+var file = docPic.getItemValueString("Photo_ThumbFilename");
+var picThumb = "<img class=\"SetCase\" src=\"" + prefix + file + "\" ></img>"
+return picThumb}]]></xp:this.value>
+				</xp:text>
+			</xp_1:widgetContainer>
+
+		</xp:panel>
+
+		<xp:panel id="pnlSmallImg">
+			<xp_1:widgetContainer id="widgetContainer1">
+
+				<xp_1:this.titleBarText><![CDATA[${javascript:var doc:NotesDocument = docPic;
+return doc.getItemValueString("Photo_Title") + " (small/preview)"}]]></xp_1:this.titleBarText>
+				<xp:text
+					escape="false"
+					id="imageSmall">
+					<xp:this.value><![CDATA[#{javascript:var prefix = docPic.getDocument().getUniversalID() + "/$file/";
+var title = docPic.getItemValueString("Photo_Title");
+var smallImg = prefix + docPic.getItemValueString("Photo_SmallFilename");
+var originalImg = prefix + docPic.getItemValueString("Photo_OriginalFilename");
+return "<a href=\"" + originalImg + "\" title=\"" + title + "\" alt=\"click to enlarge\" dojoType=\"dojox.image.Lightbox\"><img class=\"SetCase\" src=\"" + smallImg + "\"></img></a>"}]]></xp:this.value>
+				</xp:text>
+
+			</xp_1:widgetContainer>
+
+		</xp:panel>
+
+		<xp:panel id="pnlOriginalImg">
+			<xp:this.rendered><![CDATA[#{javascript:viewScope.showAllSizes}]]></xp:this.rendered>
+			<xp_1:widgetContainer id="widgetContainer2">
+				<xp_1:this.titleBarText><![CDATA[#{javascript:var doc:NotesDocument = docPic;
+return doc.getItemValueString("Photo_Title") + " (original)"}]]></xp_1:this.titleBarText>
+				<xp:text
+					escape="false"
+					id="imgOriginal">
+					<xp:this.value><![CDATA[#{javascript:var prefix = docPic.getDocument().getUniversalID() + "/$file/";
+var picOriginal = prefix + docPic.getItemValueString("Photo_OriginalFilename");
+return "<img class=\"SetCase\" src=\"" + picOriginal + "\"></img>"}]]></xp:this.value>
+				</xp:text>
+			</xp_1:widgetContainer>
+
+		</xp:panel>
+
+		<xp:panel style="clear:both; margin-top: 5px;" styleClass="lotusActionBar lotusBtnContainer"
+			id="pnlControls">
+			<xp:button value="Show all sizes" id="btnShowAll"
+				styleClass="lotusBtn">
+				<xp:this.rendered><![CDATA[#{javascript:!viewScope.showAllSizes}]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="pictures" immediate="true">
+					<xp:this.action><![CDATA[#{javascript:viewScope.put("showAllSizes", true);}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+
+			<xp:button value="Hide all sizes" id="btnHideAll"
+				styleClass="lotusBtn"
+				rendered="#{javascript:viewScope.showAllSizes}">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" refreshId="pictures" immediate="true">
+					<xp:this.action><![CDATA[#{javascript:viewScope.put("showAllSizes", false);}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+
+			
+			
+			<xp:button id="btnBookmark">
+				<xp:this.value><![CDATA[#{javascript:var refID = docPic.getDocument().getUniversalID();
+var v:NotesView = database.getView("$v-bookmarks");
+var doc:NotesDocument = v.getDocumentByKey(refID);
+if (doc == null) {
+	return "Bookmark";
+}
+else{
+	return "Remove Bookmark"
+}}]]></xp:this.value>
+				<xp:this.styleClass><![CDATA[#{javascript:var refID = docPic.getDocument().getUniversalID();
+var v:NotesView = database.getView("$v-bookmarks");
+var doc:NotesDocument = v.getDocumentByKey(refID);
+if (doc == null) {
+	return "lotusBtn";
+}
+else{
+	return "lotusBtn lotusBtnDisabled"
+}}]]></xp:this.styleClass>
+				<xp:this.rendered><![CDATA[#{javascript:var userName:NotesName = session.createName(@UserName());
+if (userName.getCommon()=="Anonymous"){
+	return false;
+}
+else{
+	return true;
+}}]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" immediate="true"
+					refreshId="btnBookmark">
+					<xp:this.action><![CDATA[#{javascript:var refID = docPic.getDocument().getUniversalID();
+var v:NotesView = database.getView("$v-bookmarks");
+var doc:NotesDocument = v.getDocumentByKey(refID);
+if (doc == null) {
+	//add action
+	var docBookmark:NotesDocument = database.createDocument();
+	docBookmark.replaceItemValue("form", "$f-bookmark");
+	docBookmark.replaceItemValue("Tx_REFID", docPic.getDocument().getUniversalID() );
+	var user = session.getEffectiveUserName();
+	docBookmark.replaceItemValue("Au_Authors", user );
+	docBookmark.computeWithForm(false,false);
+	docBookmark.save();
+	
+	// write activy
+	var userName:NotesName = session.createName(@UserName());
+	registerActivity(userName.getCommon(),"bookmarked", "a picture",docPic.getDocument().getUniversalID())
+}
+else{
+	//remove action
+	var v:NotesView = database.getView("$v-bookmarks");
+	var docBookmark:NotesDocument = v.getDocumentByKey(refID);
+	if(docBookmark != null){
+		docBookmark.remove(true);
+	}
+	
+}
+}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+			
+			<xp:button value="Bookmark" id="btnBookmarkAnonymous"
+				styleClass="lotusBtn lotusBtnDisabled" title="login first...">
+				<xp:this.rendered><![CDATA[#{javascript:var userName:NotesName = session.createName(@UserName());
+if (userName.getCommon()=="Anonymous"){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+			</xp:button>
+
+			<xp:button value="Tip a friend" id="btnTip"
+				styleClass="lotusBtn">
+				<xp:this.rendered><![CDATA[#{javascript:var userName:NotesName = session.createName(@UserName());
+if (userName.getCommon()=="Anonymous"){
+	return false;
+}
+else{
+	return true;
+}}]]></xp:this.rendered>
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="partial" immediate="true" refreshId="pnlMailLink">
+					<xp:this.action><![CDATA[#{javascript:viewScope.put("allowTipFriend",true)}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+
+			<xp:button value="Tip a friend (login first)"
+				id="btnTipAnonymous" styleClass="lotusBtn lotusBtnDisabled">
+				<xp:this.rendered><![CDATA[#{javascript:var userName:NotesName = session.createName(@UserName());
+if (userName.getCommon()=="Anonymous"){
+	return true;
+}
+else{
+	return false; 
+}}]]></xp:this.rendered>
+				
+			</xp:button>
+
+
+
+						
+			<xp:span styleClass="lotusBtn">
+				<xp:link
+					escape="true"
+					text="Download"
+					id="link6"
+					styleClass="lotusBtn">
+					<xp:this.value><![CDATA[#{javascript:var doc:NotesDocument = docPic.getDocument();
+var UNID = doc.getUniversalID();
+return "xDownloadAllAttachments.xsp?documentUNID=" + UNID + "&zipFileName=bildr.zip"}]]></xp:this.value>
+				</xp:link>
+			</xp:span>
+			
+
+			</xp:panel>
+
+	</xp:panel>
+	
+	<xc:ccMailLink></xc:ccMailLink>
+	
+	
+	
+	
+	
+
+	<xp:section id="sectionDetails" header="Details" styleClass="lotusSection"
+		style="padding-top:15px;">
+
+		<xp:panel styleClass="lotusChunk" id="pnlDetails">
+			<xp:panel styleClass="lotusForum" id="pnlForum">
+				<div class="lotusPost">
+					<div class="lotusPostAuthorInfo">
+						<div class="lotusPostAvatar">
+							<xp:image id="image3" style="height:45px;width:45.0px"
+								rendered="false">
+
+								<xp:this.url><![CDATA[#{javascript:var name = docPic.getItemValueString("Au_Author");
+var docid = @DbLookup("","lkp_Photos",name,"primaryKey");
+prefix = "http://" + context.getUrl().getHost() + context.getUrl().getPath();
+if (docid == "undefined"){
+	return prefix + "/profileNoPhoto.png";
+}
+else {
+	return prefix + "/0/" + docid + "/$FILE/" + "128x128_photo.jpg";
+}
+}]]></xp:this.url>
+							</xp:image>
+
+							<xp:text escape="false" id="computedField4">
+								<xp:this.value><![CDATA[#{javascript:var name = docPic.getItemValueString("Au_Author");
+var docid = @DbLookup("","lkp_Photos",name,"primaryKey");
+
+prefix = "http://" + context.getUrl().getHost() + @Left(context.getUrl().getPath(),"picture.xsp");
+if (docid == undefined){
+	return "<img src=\"" +  prefix + "/profileNoPhoto.png\" style=\"height:45px;width:45.0px\">";
+}
+else {
+	
+	return "<img src=\"" + prefix+ "/0/" + docid + "/$FILE/" + "128x128_photo.jpg\" style=\"height:45px;width:45.0px\">";
+	
+};}]]></xp:this.value>
+							</xp:text>
+						</div>
+						<div class="lotusPostName">
+							<xp:link escape="true" id="link1">
+								<xp:this.text><![CDATA[#{javascript:var aName = docPic.getItemValueString("Au_Author");
+@Name("[CN]",aName)}]]></xp:this.text>
+
+								<xp:this.value><![CDATA[#{javascript:var thisAuthor = @Name("[Abbreviate]",docPic.getItemValueString("Au_Author"));
+
+"/vwAuthor.xsp?category=" + thisAuthor}]]></xp:this.value>
+							</xp:link>
+
+						</div>
+
+					</div>
+					<xp:panel styleClass="lotusPostContent">
+						<q><xp:inputText value="#{docPic.PhotoDescription}" id="photoDescription1" /></q>
+						<xp:panel style="color:#666;font-size:11px;padding-top:10px;">
+							Uploaded on&#160;
+							<xp:link escape="true" id="link5" text="#{javascript:@Created();}">
+
+								<xp:this.value><![CDATA[#{javascript:
+var ThisDate = @Created();
+	var ThisYear = @Year(ThisDate);
+	var ThisMonth = @Month(ThisDate);
+	var ThisDay = @Day(ThisDate);
+	
+	if (ThisMonth < 10){
+		ThisMonth = "0" + ThisMonth;
+	}
+	if (ThisDay < 10){
+		ThisDay = "0" + ThisDay;
+	}
+	
+	var lkKey = ThisYear + "-" + ThisMonth + "-" + ThisDay; 
+
+"/vwDate.xsp?category=" + lkKey}]]></xp:this.value>
+
+							</xp:link>
+							<xp:panel styleClass="lotusMeta">
+								<xp:table>
+									<xp:tr>
+										<xp:td>Category:</xp:td>
+										<xp:td>
+											<xp:link
+												escape="true"
+												id="link4">
+												<xp:this.text><![CDATA[#{javascript:docPic.getItemValueString("Photo_Category");
+}]]></xp:this.text>
+												<xp:this.value><![CDATA[#{javascript:"/vwCategories.xsp?category=" + docPic.getItemValueString("Photo_Category")}]]></xp:this.value>
+											</xp:link>
+										</xp:td>
+										<xp:td>|<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefTagsDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered></xp:td>
+										<xp:td>Tagged:<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefTagsDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered></xp:td>
+										<xp:td>
+											<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefTagsDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered><xp:repeat
+												id="repeat1"
+												rows="30"
+												var="rowData"
+												indexVar="rowIndex"
+												disableOutputTag="true">
+												<xp:this.value><![CDATA[#{javascript:docPic.getItemValue("Photo_Tags")}]]></xp:this.value>
+												<xp:link
+													escape="true"
+													text="#{javascript:rowData}"
+													id="link2"
+													style="margin-right:3px;">
+													<xp:this.value><![CDATA[#{javascript:return "./vwTags.xsp?category=" + rowData;}]]></xp:this.value>
+												</xp:link>
+											</xp:repeat></xp:td>
+										<xp:td>|<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefGeoDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered></xp:td>
+										<xp:td>Location:<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefGeoDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered></xp:td>
+										<xp:td><xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefGeoDisplay") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered><xp:link escape="true" id="link3">
+								<xp:this.text><![CDATA[#{javascript:var res = [];
+country = docPic.getItemValueString("Photo_Country");
+if (country != "") { res.push(country); }
+
+city = docPic.getItemValueString("Photo_City");
+if (city != "") { res.push(city); }
+
+return res.join(", ");}]]></xp:this.text>
+
+								
+							<xp:this.value><![CDATA[#{javascript:var country = docPic.getItemValueString("Photo_Country");
+var city = docPic.getItemValueString("Photo_City");
+
+"/vwLocation.xsp?search=" +  @Trim(country + " " + city); }]]></xp:this.value></xp:link></xp:td>
+										<xp:td>
+											|
+											<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefAllowRating") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered>
+										</xp:td>
+										<xp:td>
+											Rate:
+											<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefAllowRating") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered>
+										</xp:td>
+										<xp:td>
+											<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.get("prefAllowRating") === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered>
+											
+										</xp:td>
+									</xp:tr>
+								</xp:table>
+							</xp:panel>
+							
+							</xp:panel>
+						<xp:button value="Edit" id="button4" styleClass="lotusBtn"
+							style="margin-top:10px;">
+							<xp:this.rendered><![CDATA[#{javascript:var userName:NotesName = session.createName(@UserName());
+var aName = docPic.getItemValueString("Au_Author");
+if (userName == aName){
+	return true;
+}
+else{
+	return false;
+}}]]></xp:this.rendered>
+							<xp:eventHandler event="onclick" submit="true"
+								refreshMode="norefresh" immediate="true">
+								<xp:this.action>
+									<xp:openPage name="/picture.xsp" target="editDocument"
+										documentId="#{javascript:docPic.getDocument().getUniversalID();}" />
+
+								</xp:this.action>
+							</xp:eventHandler>
+						</xp:button>
+
+						<xp:button
+							id="btnToggleCarroussel"
+							styleClass="lotusBtn">
+							<xp:this.value><![CDATA[#{javascript:if (currentDocument.getItemValueString("Photo_GalleryDisplay").equalsIgnoreCase("y") ){
+		"Remove from Carroussel";
+	} else {
+		"Show in Carroussel";
+	}}]]></xp:this.value>
+							<xp:this.rendered><![CDATA[#{javascript:var roles = context.getUser().getRoles();
+return roles.contains("[admin]")}]]></xp:this.rendered>
+							<xp:this.title><![CDATA[#{javascript:if (currentDocument.getItemValueString("Photo_GalleryDisplay").equalsIgnoreCase("y") ){
+		"Remove from Carroussel (Gallery on Homepage)";
+	} else {
+		"Show in Carroussel (Gallery on Homepage)";
+	}}]]></xp:this.title>
+							<xp:eventHandler
+								event="onclick"
+								submit="true"
+								refreshMode="partial"
+								refreshId="btnToggleCarroussel"
+								immediate="true">
+								<xp:this.action><![CDATA[#{javascript:if (docPic.getItemValueString("Photo_GalleryDisplay").equalsIgnoreCase("y") ){
+		docPic.replaceItemValue("Photo_GalleryDisplay", "");
+} else {
+	docPic.replaceItemValue("Photo_GalleryDisplay", "Y");
+}
+docPic.save();}]]></xp:this.action>
+							</xp:eventHandler>
+						</xp:button></xp:panel>
+
+				</div>
+
+			</xp:panel>
+
+		</xp:panel>
+
+	</xp:section>
+	<xp:panel tagName="h1">Buzz<xp:this.rendered><![CDATA[#{javascript:var tmp = sessionScope.initConfig;
+if (tmp!==null){
+	if (sessionScope.prefAllowComments === true){
+		return true;
+	}
+	else{
+		return false;
+	}
+}}]]></xp:this.rendered></xp:panel>
+	
+	
+	
+</xp:view>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<span title="number of received comments">
+	<i class="fa fa-comment"></i>
+	&#160;
+	<xp:text 
+		escape="true" 
+		value="#{javascript:CommentController.loadComments(compositeData.docUNID).size()}">
+		<xp:this.converter>
+			<xp:convertNumber 
+				type="number" 
+				integerOnly="true">
+			</xp:convertNumber>
+		</xp:this.converter>
+	</xp:text>
+	&#160;
+</span>
+</xp:view>

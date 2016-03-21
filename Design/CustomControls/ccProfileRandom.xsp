@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+	<xp:this.resources>
+		<xp:styleSheet href="/profileRandom.css"></xp:styleSheet>
+	</xp:this.resources>
+	<div>
+	<xp:panel id="dataContextPanel">
+		<xp:this.dataContexts>
+			<xp:dataContext var="docRandom">
+				<xp:this.value><![CDATA[#{javascript://Database dataDB = dao.getDatabase()
+var db:NotesDatabase = dao.getDatabase();
+var vw:NotesView = db.getView("$v-profiles");
+var numEntries = vw.getEntryCount();
+if (numEntries==0){ 
+	return null; 
+}
+var randomIndex = @Integer( (numEntries)*@Random() + 1 );
+vw.getNthDocument(randomIndex);}]]></xp:this.value>
+			</xp:dataContext>
+		</xp:this.dataContexts>
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="user-details">
+					<div class="user-image">
+						<xp:image id="image1" styleClass="img-circle"
+							style="height:100px;width:100px;">
+							<xp:this.title><![CDATA[#{javascript:var name = docRandom.getItemValueString("notesname");
+return @Name("[CN]",name)}]]></xp:this.title>
+							<xp:this.url><![CDATA[#{javascript:var db:NotesDatabase = dao.getDatabase();
+var doc:NotesDocument = docRandom;
+
+docid = doc.getUniversalID();
+pic = docRandom.getItemValueString("attachments");
+//docid = @DbLookup(db,"$v-profilepicture",key,"primaryKey");
+prefix = "http://" + context.getUrl().getHost() + "/" + db.getFilePath();
+if (pic == null || pic == ""){
+	return "/profileNoPhoto.png";
+}
+else {	
+	return prefix+ "/0/" + docid + "/$FILE/" + pic;
+}}]]></xp:this.url>
+						</xp:image>
+
+					</div>
+					<div class="user-info-block card light" style="padding:30px 0px;">
+						<div class="user-heading">
+							<h3>
+								
+								<xp:link escape="true" id="link3">
+									<xp:this.text><![CDATA[#{javascript:return @Name("[CN]",docRandom.getItemValueString("notesname"));}]]></xp:this.text>
+								<xp:this.value><![CDATA[#{javascript:return "profile.xsp?UNID=" + docRandom.getItemValueString("ID")}]]></xp:this.value></xp:link></h3>
+							<span class="help-block">
+								<xp:text escape="true"
+									id="computedField1">
+									<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("title");}]]></xp:this.value>
+								</xp:text>
+							</span>
+						</div>
+						<ul class="navigation">
+							<li class="active">
+								<a data-toggle="tab"
+									href="#information">
+									<i class="fa fa-user"></i>
+								</a>
+							</li>
+							<li>
+								<a data-toggle="tab" href="#camera">
+									<i class="fa fa-camera"></i>
+								</a>
+							</li>
+							<li>
+								<a data-toggle="tab" href="#email">
+									<i class="fa fa-envelope-o"></i>
+								</a>
+							</li>
+							<li>
+								<a data-toggle="tab" href="#work">
+									<i class="fa fa-picture-o"></i>
+								</a>
+							</li>
+						</ul>
+						<div class="user-body">
+							<div class="tab-content">
+								<div id="information"
+									class="tab-pane active">
+									<h4>Account Information</h4>
+									<p>
+										Firstname:
+										<xp:text escape="true"
+											id="computedField3">
+											<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("firstname");}]]></xp:this.value>
+										</xp:text>
+									</p>
+									<p>
+										Lastname:
+										<xp:text escape="true"
+											id="computedField4">
+											<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("lastname");}]]></xp:this.value>
+										</xp:text>
+									</p>
+								</div>
+								<div id="camera" class="tab-pane">
+									<h4>Camera</h4>
+									<p>
+										<xp:inputText id="inputText2">
+											<xp:this.value><![CDATA[#{javascript:docRandom.getItemValueString("camera");}]]></xp:this.value>
+										</xp:inputText>
+									</p>
+								</div>
+								<div id="email" class="tab-pane">
+									<h4>Send Message</h4>
+									<p>
+										<xp:link escape="true"
+											id="link1">
+											<xp:this.value><![CDATA[#{javascript:return "mailto:" + docRandom.getItemValueString("email")}]]></xp:this.value>
+											<xp:this.text><![CDATA[#{javascript:docRandom.getItemValueString("email")}]]></xp:this.text>
+										</xp:link>
+										<xp:text escape="true"
+											id="computedField5">
+										<xp:this.rendered><![CDATA[#{javascript:docRandom.getItemValueString("email") == ""}]]></xp:this.rendered><xp:this.value><![CDATA[#{javascript:return "no email available"}]]></xp:this.value></xp:text></p>
+									
+									
+								</div>
+								<div id="work" class="tab-pane">
+									<h4>Uploads</h4>
+
+									<xp:repeat id="repeat1" rows="10"
+										var="obj" indexVar="idx">
+										<xp:this.value><![CDATA[#{javascript:var name = docRandom.getItemValueString("notesname");
+PictureController.loadPictures(name);}]]></xp:this.value>
+
+										<xp:link escape="true" id="link2"
+						styleClass="media-object pull-left" title="Open..." style="margin:2px 2px;">
+
+						
+						<xp:this.value><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+	var id = obj.docUNID;
+	
+	return "/picture.xsp?UNID=" + id;}]]></xp:this.value>
+						<xp:image id="image3"
+							styleClass="media-object pull-left img-responsive img-thumbnail">
+							<xp:this.url><![CDATA[#{javascript:var db = datasource.getString('DB_FILEPATH');
+	var id = obj.docUNID;
+	var thumb = obj.picthumb;
+	return "../" + db + "/0/" + id + "/$FILE/" + thumb;}]]></xp:this.url>
+						</xp:image>
+					</xp:link>
+
+
+									</xp:repeat>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</xp:panel>
+	
+	</div>
+</xp:view>

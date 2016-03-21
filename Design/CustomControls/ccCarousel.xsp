@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+<head>
+<style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+  </style>
+</head>
+	
+<div class="container card light">
+
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators"></ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox"></div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+	<xp:scriptBlock id="scriptBlock1">
+		<xp:this.value><![CDATA[var urlJSON = '#{javascript:return facesContext.getExternalContext().getRequest().getRequestURI()}' + '/carousel';
+var urlPrefix = '#{javascript:return datasource.getString("DB_FILEPATH")}';
+
+$(document).ready(function() {
+    $.getJSON(urlJSON).done( function( data ) {
+        //data is the array you expected.
+        showCarousel(data);
+    })
+    $('.carousel').carousel({interval: 2500})
+});
+
+function showCarousel(data){
+	//alert (data.length);
+	
+
+	var img = '';
+	var caption = '';
+	
+	$.each( data, function(i) {
+	
+		//build the indicators list
+		if (i == 0){
+			$(".carousel-indicators").append($('<li data-target="#myCarousel" data-slide-to="' + i + '" class="active"></li>'));
+		}
+		else{
+			$(".carousel-indicators").append($('<li data-target="#myCarousel" data-slide-to="' + i + '"></li>'));
+		}
+	
+		//build the list with slidenotes
+		img = '<img src="/' + urlPrefix + '/0/' + data[i]["@unid"] + '/$File/' + data[i].Img + '" alt="' + data[i].title + '">';
+	    caption = '<div class="carousel-caption">' + '<h3>' + data[i].title + '</h3>' + '<p>' + data[i].Desc + '</p>' + '<p>Uploaded by ' + data[i].Name + '</p>' + '</div>';
+		if (i == 0){
+			$(".carousel-inner").append($('<div class="item active">' + img + caption + '</div>'));
+		}
+		else{
+			$(".carousel-inner").append($('<div class="item">' + img + caption + '</div>'));
+		}
+		
+	});
+
+}]]></xp:this.value>
+	</xp:scriptBlock>
+
+	<xe:restService id="restService1" pathInfo="carousel">
+		<xe:this.service>
+			<xe:viewJsonService viewName="$v-pixcarousel" var="pix">
+				<xe:this.columns>
+					<xe:restViewColumn columnName="Photo_Title"
+						name="title">
+					</xe:restViewColumn>
+					<xe:restViewColumn columnName="Photo_SmallFilename"
+						name="Img">
+					</xe:restViewColumn>
+					<xe:restViewColumn columnName="PhotoDescription"
+						name="Desc">
+					</xe:restViewColumn>
+					<xe:restViewColumn columnName="Author"
+						name="Name">
+					</xe:restViewColumn>
+				</xe:this.columns>
+				<xe:this.databaseName><![CDATA[#{javascript:
+dao.getDbpath()}]]></xe:this.databaseName>
+			</xe:viewJsonService>
+		</xe:this.service>
+	</xe:restService>
+
+	</xp:view>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config>
+  <faces-config-extension>
+    <namespace-uri>http://www.ibm.com/xsp/custom</namespace-uri>
+    <default-prefix>xc</default-prefix>
+  </faces-config-extension>
+  <composite-component>
+    <component-type>ccComment</component-type>
+    <composite-name>ccComment</composite-name>
+    <composite-file>/ccComment.xsp</composite-file>
+    <composite-extension>
+      <designer-extension>
+        <in-palette>true</in-palette>
+        <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt; &#xd;
+&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt; &#xd;
+	&lt;div style="border: 2px dotted #CCC; padding: 5px; margin: 3px;"&gt;&#xd;
+	&lt;h3&gt;ccComment&lt;/h3&gt;&#xd;
+	&lt;div&gt;&#xd;
+	Form to post a new comment&#xd;
+	&lt;/div&gt;&#xd;
+&lt;/div&gt;&#xd;
+&lt;/xp:view&gt;</render-markup>
+      </designer-extension>
+    </composite-extension>
+    <property>
+      <property-name>parentID</property-name>
+      <property-class>string</property-class>
+    </property>
+    <property>
+      <property-name>header</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <default-value>Comment</default-value>
+        </designer-extension>
+      </property-extension>
+      <description>What text should be displayed in the header tag? default = Comment</description>
+    </property>
+    <property>
+      <property-name>showAsCard</property-name>
+      <property-class>boolean</property-class>
+      <property-extension>
+        <designer-extension>
+          <editor>com.ibm.std.BooleanCheckBox</editor>
+          <default-value>false</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+    <property>
+      <property-name>headerSize</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+          <editor-parameter>h1&#xd;
+h2&#xd;
+h3&#xd;
+h4&#xd;
+h5&#xd;
+h6</editor-parameter>
+          <default-value>h3</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+  </composite-component>
+</faces-config>

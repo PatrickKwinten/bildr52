@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom"
+	xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xc:ccNavBar></xc:ccNavBar>
+	
+	<div class="container">
+		<div class="jumbotron">
+			<h1>About</h1>
+			<p>
+				Bildr is a photo sharing application build on IBM Notes
+				using XPages. Bildr allows you to share image files (e.g
+				.photos, graphics) within your private network or in
+				public.
+			</p>
+		</div>
+	</div>
+	
+	
+	<div class="container card light">
+	
+
+
+	<xp:div styleClass="section">
+		<div class="container">
+			<h1>Something you should be aware of</h1>
+			<div class="bs-callout bs-callout-success">
+				<h4>Great to see you have installed Bildr!</h4>
+				<p>
+					Bildr is a free and open-source project, meaning a
+					lot of free-time and evenings are put into this. Due
+					to this resource limitation we see this project as
+					never finished and we invite you to participate and
+					contribute to it's improvement!
+				</p>
+			</div>
+			<p>
+				In spite of limited development resources we hope you
+				enjoy this app and use it in it's full potential. Here
+				you will find more information on how to use it. For
+				more information about the project or to download the
+				latest release visit the&#160;
+				<xp:link escape="true" text="project page" id="link2"
+					target="_new">
+					<xp:this.value><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=Bildr]]></xp:this.value>
+				</xp:link>
+				&#160;on OpenNTF.
+			</p>
+			<h5>What is OpenNTF?</h5>
+			<p>
+				<xp:link escape="true" text="OpenNTF" id="link3"
+					value="http://www.openntf.org" target="_new">
+				</xp:link>
+				&#160;is a community devoted to enabling groups of
+				individuals all over the world to collaborate on IBM
+				Lotus Notes/Domino applications and release them as open
+				source. Visit the OpenNTF website to read more this
+				community and find interesting projects to download.
+				<xp:br></xp:br>
+				
+				<h5>Licensing</h5>
+				Bildr includes the following software and  &#160;<xp:link escape="true" text="licensing" id="link4">
+				<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action><![CDATA[#{javascript:getComponent('dlgLicensing').show()}]]></xp:this.action>
+		</xp:eventHandler>
+				</xp:link>.
+			</p>
+		</div>
+		<div class="container">
+			<h1>Getting started</h1>
+			<div class="container">
+				<div class="bs-callout bs-callout-default">
+					<h4>New version, New setup</h4>
+					<p>
+						Important to notice is this version of Bildr
+						separates Design from Data, in order to be used
+						in IBM Bluemix and to demonstrate design best
+						practice. Therefor a simple upgrade from a
+						previous installation is not impossible but not
+						the quickest solution.
+					</p>
+				</div>
+				<h5>Upgrade previous installation</h5>
+				<p>
+					In case you have an installed version of Bildr and
+					you want to continue with that here are some
+					guidelines:
+				</p>
+				<ul>
+					<li>
+						Consider your existing installation as the DATA
+						installation
+					</li>
+					<li>
+						Install a copy of the DESIGN part on your Domino
+						server
+					</li>
+					<li>
+						Connect the two via the datasource properties
+						file
+					</li>
+					<li>
+						Consider a design update of your DATA
+						installation with the newer design
+					</li>
+				</ul>
+				<h5>Fresh installation</h5>
+				<ul>
+					<li>
+						Install a copy of the DESIGN and the DATA part
+						on your Domino server
+					</li>
+					<li>
+						Connect the two via the datasource properties
+						file
+					</li>
+				</ul>
+				<p>For both scenarios these basic rules apply:</p>
+				<ul>
+					<li>
+						Sign the design elements in the DESIGN and DATA
+						parts
+					</li>
+					<li>Apply a suitable Access Control List</li>
+					<li>
+						Set the correct properties (upload, datasource,
+						strings)
+					</li>
+					<li>
+						Setup a configuration document. Open init.xsp in
+						your browser (this requires the admin role in
+						the ACL)
+					</li>
+				</ul>
+				<div class="bs-callout bs-callout-warning">
+					<h4>Need help?</h4>
+					In case you have problems getting started you can
+					always contact the project-owner or post a question
+					in the Project community on OpenNTF.
+				</div>
+			</div>
+
+		</div>
+	</xp:div>
+
+	<div class="section">
+		<div class="container">
+			<h1>Video instruction</h1>
+			<p>
+				I made a simple instructions video on Bildr, which is
+				available on&#160;
+				<xp:link escape="true" text="YouTube" id="link1"
+					value="https://youtu.be/tf9K5pItA9k">
+				</xp:link>
+				:
+			</p>
+			<iframe width="560" height="315"
+				src="https://www.youtube.com/embed/tf9K5pItA9k" frameborder="0"
+				allowfullscreen="1">
+			</iframe>
+		</div>
+	</div>
+	
+	</div>
+
+	<xe:dialog id="dlgLicensing" title="Licensing">
+		<xe:dialogContent id="dialogContent1">
+			
+			<h4>Extension Library</h4>
+			<p>Apache license</p>
+			<xp:link escape="true" text="Link" id="link5"
+				target="_new">
+				<xp:this.value><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=XPages%20Extension%20Library]]></xp:this.value>
+			</xp:link>
+			<h4>XPage Debug Toolbar</h4>
+			<p>Apache license</p>
+			<xp:link escape="true" text="Link" id="link7"
+				value="http://www.openntf.org/Projects/pmt.nsf/ProjectLookup/XPage%20Debug%20Toolbar"
+				target="_new">
+			</xp:link>
+			<h4>OpenLog</h4>
+			<p>Apache license</p>
+<xp:link escape="true" text="Link" id="link8"
+				value="http://www.openntf.org/projects/pmt.nsf/ProjectLookup/OpenLog"
+				target="_new">
+			</xp:link>
+			<h4>Standby dialog</h4>
+			<p>Apache license</p>
+			<xp:link escape="true" text="Link" id="link9"
+				value="http://openntf.org/XSnippets.nsf/snippet.xsp?id=standby-dialog-custom-control"
+				target="_new">
+			</xp:link>
+			<h4>DAOBean</h4>
+			<p>Apache license 2.0</p>
+			<xp:link escape="true" text="Link" id="link10"
+				value="http://openntf.org/XSnippets.nsf/snippet.xsp?id=daobean-for-xsp-on-bluemix"
+				target="_new">
+			</xp:link>
+			<h4>Feed generator XPage</h4>
+			<p>Apache license 2.0 - Copyright 2010 Thomas Ladehoff</p>
+			<xp:link escape="true" text="Link" id="link11"
+				target="_new">
+				<xp:this.value><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=Feed%20generator%20XPage%20agent]]></xp:this.value>
+			</xp:link>
+			<h4>Plupload</h4>
+			<p>GPLv2 license</p>
+			<xp:link escape="true" text="Link" id="link6"
+				target="_new">
+				<xp:this.value><![CDATA[http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=Feed%20generator%20XPage%20agent]]></xp:this.value>
+			</xp:link>
+			<h4>Lightbox</h4>
+			<p>MIT license</p>
+			<xp:link escape="true" text="Link" id="link12" target="_new"
+				value="https://github.com/ashleydw/lightbox">
+			</xp:link>
+			<h4>Font-Awesome</h4>
+			<p>SIL OFL 1.1</p>
+			<xp:link escape="true" text="Link" id="link13" target="_new"
+				value="https://fortawesome.github.io/Font-Awesome/license/">
+			</xp:link>
+			<p>Note
+			that the fonts are under SIL OFL 1.1 and are not covered by
+			the Apache (or GPL) license. The css and less files are
+			under the MIT license.</p>
+			<h4>code-prettify</h4>
+			<p>Apache License 2.0</p>
+			<xp:link escape="true" text="Link" id="link14" target="_new"
+				value="https://github.com/google/code-prettify">
+			</xp:link>
+			<h4>Unite Gallery</h4>
+			<p>MIT license</p>
+			<xp:link escape="true" text="Link" id="link15" target="_new"
+				value="http://unitegallery.net/">
+			</xp:link>
+			<div class="bs-callout bs-callout-default">
+					<h4>xpUtils.jss contains the following functions</h4>
+					<p>
+			@URLEncode() Michael Gollmick</p>
+					<xp:link escape="true" text="Link" id="link16"
+						value="http://blog.gollmick.de/mgoblog.nsf/dx/some-more-Functions-for-XPages-URLEncode-URLDecode.htm"
+						target="_new">
+					</xp:link>
+					<p>
+			@URLDecode() Michael Gollmick</p>
+			<xp:link escape="true" text="Link" id="link17"
+				value="http://blog.gollmick.de/mgoblog.nsf/dx/some-more-Functions-for-XPages-URLEncode-URLDecode.htm"
+				target="_new">
+			</xp:link>
+			<p>
+			CGIVariables() Thomas Gumz			
+			</p>
+				<xp:link escape="true" text="Link" id="link18"
+					value="https://www-10.lotus.com/ldd/ddwiki.nsf/dx/xpages-cgi-variables.htm">
+				</xp:link>
+			</div>			
+		</xe:dialogContent>
+
+		<xe:dialogButtonBar id="dialogButtonBar1">
+			<xp:button value="Close" id="button1">
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action><![CDATA[#{javascript:getComponent('dlgLicensing').hide()}]]></xp:this.action>
+				</xp:eventHandler>
+				<i class="fa fa-close"></i>&#160;
+			</xp:button>
+		</xe:dialogButtonBar>
+
+	</xe:dialog>
+</xp:view>

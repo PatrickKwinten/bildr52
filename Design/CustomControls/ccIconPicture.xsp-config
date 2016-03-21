@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config>
+  <faces-config-extension>
+    <namespace-uri>http://www.ibm.com/xsp/custom</namespace-uri>
+    <default-prefix>xc</default-prefix>
+  </faces-config-extension>
+  <composite-component>
+    <component-type>ccIconPicture</component-type>
+    <composite-name>ccIconPicture</composite-name>
+    <composite-file>/ccIconPicture.xsp</composite-file>
+    <composite-extension>
+      <designer-extension>
+        <in-palette>true</in-palette>
+        <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt; &#xd;
+&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt; &#xd;
+	&lt;div style="border: 2px dotted #CCC; padding: 5px; margin: 3px;"&gt;&#xd;
+	&lt;h3&gt;ccIconPicture&lt;/h3&gt;&#xd;
+	&lt;div&gt;&#xd;
+	Icon with uploaded picture count.&#xd;
+	&lt;/div&gt;&#xd;
+&lt;/div&gt;&#xd;
+&lt;/xp:view&gt;</render-markup>
+      </designer-extension>
+    </composite-extension>
+    <property>
+      <property-name>NotesName</property-name>
+      <property-class>string</property-class>
+      <description>NotesName value</description>
+    </property>
+  </composite-component>
+</faces-config>

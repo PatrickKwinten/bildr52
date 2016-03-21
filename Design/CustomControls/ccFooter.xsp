@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:div styleClass="section section-footer" rendered="#{!!Configuration.legalDisplay}">
+		<footer class="footer" id="legal">
+			<div class="container">
+				<p class="text-muted">
+					<xp:text escape="true" id="computedField2" value="#{Configuration.legal}" />
+				</p>
+			</div>
+		</footer>
+	</xp:div>
+</xp:view>

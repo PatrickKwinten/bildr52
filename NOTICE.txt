@@ -1,0 +1,77 @@
+The product Bildr 5.00 includes the following software:
+
+Extension Library - Apache license
+http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=XPages%20Extension%20Library
+
+XPage Debug Toolbar - Apache license
+http://www.openntf.org/Projects/pmt.nsf/ProjectLookup/XPage%20Debug%20Toolbar
+
+OpenNTF Domino API - Apache Licence V2.0
+https://www.openntf.org/main.nsf/project.xsp?r=project/OpenNTF%20Domino%20API
+
+OpenLog - Apache license
+http://www.openntf.org/projects/pmt.nsf/ProjectLookup/OpenLog
+
+Standby dialog - Apache license
+http://openntf.org/XSnippets.nsf/snippet.xsp?id=standby-dialog-custom-control
+
+DAOBean - Apache License 2.0
+http://openntf.org/XSnippets.nsf/snippet.xsp?id=daobean-for-xsp-on-bluemix
+
+Feed generator XPage  - Apache license
+Copyright 2010 Thomas Ladehoff
+http://www.openntf.org/internal/home.nsf/project.xsp?action=openDocument&name=Feed%20generator%20XPage%20agent
+
+Lightbox - MIT license
+https://github.com/ashleydw/lightbox
+
+Font-Awesome - SIL OFL 1.1
+https://fortawesome.github.io/Font-Awesome/license/
+Note that the fonts are under SIL OFL 1.1 and are not covered by the Apache (or GPL) license.  The css and less files are under the MIT license.
+
+code-prettify - Apache License 2.0
+https://github.com/google/code-prettify
+
+PrettyTime Core » 1.0.8.Final - Apache License
+http://www.ocpsoft.org/prettytime/
+
+JavaXT - MIT Licences 
+http://www.javaxt.com/
+http://www.javaxt.com/downloads/javaxt-core/LICENSE.TXT
+
+
+Unite Gallery - MIT license
+http://unitegallery.net/
+
+=====
+
+xpUtils.jss contains the following functions
+
+@URLEncode()
+Michael Gollmick
+http://blog.gollmick.de/mgoblog.nsf/dx/some-more-Functions-for-XPages-URLEncode-URLDecode.htm
+
+@URLDecode()
+Michael Gollmick
+http://blog.gollmick.de/mgoblog.nsf/dx/some-more-Functions-for-XPages-URLEncode-URLDecode.htm
+
+CGIVariables() - Apache license
+Thomas Gumz
+https://www-10.lotus.com/ldd/ddwiki.nsf/dx/xpages-cgi-variables.htm
+https://openntf.org/XSnippets.nsf/snippet.xsp?id=how-to-access-cgi-variables-in-xpages
+
+
+====
+
+Bildr utilizes Plupload which is distributed under GPLv2 license. If you can not use the GPLv2 license, perhaps the commercial license will be suitable for you.
+ 
+http://www.plupload.com/index.php
+
+A for XPages and Dojo adapted version of jquery.plupload.queue.js can be downloaded and installed from: https://github.com/PatrickKwinten/xsp.plupload.queue.js
+
+
+
+
+
+
+

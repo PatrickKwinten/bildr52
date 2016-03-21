@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config>
+  <faces-config-extension>
+    <namespace-uri>http://www.ibm.com/xsp/custom</namespace-uri>
+    <default-prefix>xc</default-prefix>
+  </faces-config-extension>
+  <composite-component>
+    <component-type>ccComments</component-type>
+    <composite-name>ccComments</composite-name>
+    <composite-file>/ccComments.xsp</composite-file>
+    <composite-extension>
+      <designer-extension>
+        <in-palette>true</in-palette>
+        <render-markup>&lt;?xml version="1.0" encoding="UTF-8"?&gt; &#xd;
+&lt;xp:view xmlns:xp="http://www.ibm.com/xsp/core"&gt; &#xd;
+	&lt;div style="border: 2px dotted #CCC; padding: 5px; margin: 3px;"&gt;&#xd;
+	&lt;h3&gt;ccComments&lt;/h3&gt;&#xd;
+	&lt;div&gt;&#xd;
+	List of posted comments for this object&#xd;
+	&lt;/div&gt;&#xd;
+&lt;/div&gt;&#xd;
+&lt;/xp:view&gt;</render-markup>
+      </designer-extension>
+    </composite-extension>
+    <property>
+      <property-name>parentID</property-name>
+      <property-class>string</property-class>
+    </property>
+    <property>
+      <property-name>ArrayListJSONObject</property-name>
+      <property-class>object</property-class>
+    </property>
+    <property>
+      <property-name>header</property-name>
+      <property-class>string</property-class>
+      <description>text in the header e.g. Comments</description>
+      <property-extension>
+        <designer-extension>
+          <default-value>Comments</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+    <property>
+      <property-name>infiniteScroll</property-name>
+      <property-class>boolean</property-class>
+      <description>show infinite scroll (mobile) function or default pager</description>
+      <property-extension>
+        <designer-extension>
+          <default-value>false</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+    <property>
+      <property-name>showTotals</property-name>
+      <property-class>boolean</property-class>
+      <property-extension>
+        <designer-extension>
+          <editor>com.ibm.std.Boolean</editor>
+          <default-value>false</default-value>
+        </designer-extension>
+      </property-extension>
+      <description>show Totals</description>
+    </property>
+    <property>
+      <property-name>showAsCard</property-name>
+      <property-class>boolean</property-class>
+      <property-extension>
+        <designer-extension>
+          <editor>com.ibm.std.BooleanCheckBox</editor>
+          <default-value>true</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+    <property>
+      <property-name>headerSize</property-name>
+      <property-class>string</property-class>
+      <property-extension>
+        <designer-extension>
+          <editor>com.ibm.workplace.designer.property.editors.comboParameterEditor</editor>
+          <editor-parameter>h1&#xd;
+h2&#xd;
+h3&#xd;
+h4&#xd;
+h5&#xd;
+h6</editor-parameter>
+          <default-value>h3</default-value>
+        </designer-extension>
+      </property-extension>
+    </property>
+  </composite-component>
+</faces-config>

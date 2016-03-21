@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xp:div styleClass="section">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-xs-6 col-md-6">
+					<xp:panel
+						tagName="#{javascript:compositeData.headerSize}">
+						<xp:text escape="true"
+							value="#{javascript:compositeData.header}" />
+					</xp:panel>
+				</div>
+				<div class="col-xs-6 col-md-6">
+					<xp:text escape="false" id="computedField5" styleClass="pull-right"
+						rendered="#{javascript:compositeData.showTotals}">
+						<xp:this.value><![CDATA[#{javascript:return "<span class='badge'>" + getComponent("list").getRowCount() + "</span> matches"}]]></xp:this.value>
+					</xp:text>
+				</div>
+			</div><!-- /row -->
+
+			<xp:panel>
+				<xp:div styleClass="card light">
+				<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()> 0}]]></xp:this.rendered>
+			
+					<xp:repeat id="list" rows="${Configuration.rowsDefault}"
+						var="obj" value="#{javascript:compositeData.ArrayListJSONObject;}"
+						indexVar="idx">
+
+						<xc:ccMedia>
+							<xp:this.facets>
+								<xp:span xp:key="facetMediaIcons"><xc:ccIconPicture NotesName="#{javascript:obj.notesName}" />
+									<xc:ccIconAlbum NotesName="#{javascript:obj.notesName}" />
+									<xc:ccIconComment docUNID="#{javascript:obj.docUNID}" /></xp:span>
+								<xp:span xp:key="facetMediaContent"><xc:ccMediaBodyText text="#{javascript:obj.title}" /></xp:span>
+								<xp:span xp:key="facetMediaLink"><xc:ccMediaBodyLink>
+										<xc:this.subject><![CDATA[#{javascript:var nam:NotesName = session.createName(obj.notesName);
+return nam.getCommon();}]]></xc:this.subject>
+										<xc:this.address><![CDATA[#{javascript:return "profile.xsp?UNID=" + obj.docUNID;}]]></xc:this.address>
+									</xc:ccMediaBodyLink></xp:span>
+								<xp:span xp:key="facetMediaImage">
+									<xc:ccMediaImage styleClass="media-object pull-left img-circle">
+										<xc:this.title><![CDATA[#{javascript:var nam:NotesName = session.createName(obj.notesName);
+return nam.getCommon();}]]></xc:this.title>
+										<xc:this.url><![CDATA[#{javascript:var pic = obj.avatar;
+if (pic ==""){
+	return "profileNoPhoto.png";
+}
+else{
+	var db = datasource.getString('DB_FILEPATH');
+	var id = obj.docUNID;
+	return "../" + db + "/0/" + id + "/$FILE/" + pic;
+}}]]></xc:this.url>
+									</xc:ccMediaImage>
+								</xp:span>
+							</xp:this.facets>
+						</xc:ccMedia>
+					</xp:repeat>
+					<xp:pager layout="Previous Group Next" partialRefresh="true"
+						for="list" rendered="#{javascript:isPagerVisible(this)}" />
+
+				</xp:div><!-- /card -->
+			</xp:panel>
+			
+		</div><!-- /container-fluid -->
+	</xp:div><!-- /section -->
+	
+	<xc:ccListNoItems>
+		<xp:this.rendered><![CDATA[#{javascript:getComponent("list").getRowCount()== 0}]]></xp:this.rendered>
+	</xc:ccListNoItems>
+</xp:view>

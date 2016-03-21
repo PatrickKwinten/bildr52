@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ibm.com/xsp/core xsdxp://localhost/xsp~core.xsd"
+	pageTitle="${javascript:database.getTitle() + ' | Error'}"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+	<xc:ccNavBar></xc:ccNavBar>
+	
+	<xp:div styleClass="section">
+		<div class="container">
+			<h2>Oooops! Something went wrong</h2>
+			<h5>An Unexpected Error Has Occurred</h5>
+			<div class="alert alert-danger">
+				<strong>Error:</strong>&#160;
+				<xp:text escape="false">
+				  	<xp:this.value><![CDATA[#{javascript:var output = (requestScope.error.toString() || null);
+				if(requestScope.error instanceof com.ibm.xsp.exception.XSPExceptionInfo){
+					var codeSnippet = requestScope.error.getErrorText(); 
+					var control = requestScope.error.getErrorComponentId();
+					var cause = requestScope.error.getCause();
+					output += "In the control : " + control + "<br /><br />";
+					if(cause instanceof com.ibm.jscript.InterpretException){
+						var errorLine = cause.getErrorLine();
+						var errorColumn = cause.getErrorCol();
+						output += "At line " + errorLine;
+						output += ", column " + errorColumn + " of:<br />";
+					}else{
+						output += "In the script:<br />";
+					}
+					if( @Contains(codeSnippet,"#{javascript:") ){
+						var snipAr = codeSnippet.split("#{javascript:");
+						var tmpSnip = snipAr[1];
+						var nwSnip = tmpSnip.substring(0, tmpSnip.length - 1);
+						output += "#{javascript:<br /><pre class=\"prettyprint\">"+nwSnip+"</pre>}"
+					}else{
+						output += "<pre class=\"prettyprint\">"+codeSnippet+"</pre>";
+					}
+				}
+				return output;}]]></xp:this.value>
+				</xp:text>
+			</div>
+			<h3>Stack Trace</h3>
+			<div class="well well-sm">
+				<xp:text escape="false">
+					<xp:this.value><![CDATA[#{javascript:if( !!requestScope.error ){
+				var stackTrace = "";
+				var trace = (requestScope.error.getStackTrace() || null);
+				if(trace != null){
+					for(var i = 0; i < trace.length; i++){
+						stackTrace += trace[i] + "<br/>";
+					}
+					return "<pre class=\"prettyprint\">"+stackTrace+"</pre>";
+				}else{
+					return "nothing";
+				}
+			}else{
+				return "";
+			}}]]></xp:this.value>
+				</xp:text>
+			</div>
+		</div>
+	</xp:div>	<link 
+		href="prettify/prettify.css" 
+		type="text/css" rel="stylesheet">
+	</link>
+	<script
+		type="text/javascript"
+		src="prettify/run_prettify.js">
+	</script>	
+</xp:view>

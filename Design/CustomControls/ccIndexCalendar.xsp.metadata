@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1257F7000730F0C" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="26a" sequence="56" unid="6B96CA5975C3DC6EC12578BC004E19DD">
+<created><datetime dst="true">20110627T161304,29+02</datetime></created>
+<modified><datetime>20160308T215647,02+01</datetime></modified>
+<revised><datetime dst="true">20150504T113448,39+02</datetime></revised>
+<lastaccessed><datetime>20160308T215647,02+01</datetime></lastaccessed>
+<addedtofile><datetime>20160308T215647,02+01</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/OU=0180/O=SANDVIK</name><name>CN=Patrick Kwinten/O=Quintessens</name><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$Flags"><text>gC~4;</text></item>
+<item name="$$ScriptName" sign="true" summary="false"><text>section-calendar.xsp</text></item>
+
+
+<item name="$TITLE" sign="true"><text>ccIndexCalendar.xsp</text></item>
+
+<item name="$Comment" sign="true"><text>Bildr4 index.xsp / vwDate.xsp</text></item>
+
+
+<item name="$FileNames" sign="true"><text>ccIndexCalendar.xsp</text></item>
+<item name="$DesignerVersion" sign="true"><text>8.5</text></item>
+
+
+
+</note>

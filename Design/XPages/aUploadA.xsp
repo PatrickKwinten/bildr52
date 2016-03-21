@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" rendered="false">
+<xp:this.resources>
+    <xp:bundle src="/datasource.properties" var="datasource"></xp:bundle>
+</xp:this.resources>
+
+	<xp:this.beforeRenderResponse><![CDATA[#{javascript:aUploadA.beforeRenderResponse();}]]></xp:this.beforeRenderResponse>
+
+	This XPage processess files uploaded by the Flash uploader.
+	<xp:this.resources>
+		<xp:script src="/xpUploads.jss" clientSide="false"></xp:script>
+		<xp:script src="/xpConfig.jss" clientSide="false"></xp:script>
+	</xp:this.resources>
+	<xp:this.beforePageLoad><![CDATA[#{javascript:initBase();}]]></xp:this.beforePageLoad>
+	<xp:br></xp:br>
+	<xp:br></xp:br>
+	It validates if all required information is available and attaches
+	the uploaded file to the correct target&#160;document.
+</xp:view>

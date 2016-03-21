@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+<span title="number of uploaded albums">
+	<i class="fa fa-folder" />
+	&#160;
+	<xp:text escape="true">
+		<xp:this.value><![CDATA[#{javascript:var list = ProfileController.loadAlbums(compositeData.NotesName);
+return list.size();}]]></xp:this.value>
+		<xp:this.converter>
+			<xp:convertNumber 
+				type="number" 
+				integerOnly="true" />
+		</xp:this.converter>
+	</xp:text>
+	&#160;
+	</span>
+</xp:view>

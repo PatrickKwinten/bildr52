@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<span title="open profile">
+		<i class="fa fa-user" />
+		&#160;
+		<xp:link escape="true">
+			<xp:this.text><![CDATA[#{javascript:var nam:NotesName = session.createName(compositeData.NotesName);
+							return nam.getCommon();}]]></xp:this.text>
+			<xp:this.value><![CDATA[#{javascript:return "profile.xsp?NAME=" + compositeData.NotesName;}]]></xp:this.value>
+			<xp:eventHandler event="onclick" submit="true"
+				refreshMode="complete">
+				<xp:this.action>
+					<xp:actionGroup>
+						<xp:executeScript>
+							<xp:this.script><![CDATA[#{javascript:var nam = compositeData.NotesName;
+Profile.loadByName(nam);}]]></xp:this.script>
+						</xp:executeScript>
+
+						<xp:openPage name="/profile.xsp" />
+
+					</xp:actionGroup>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:link>
+		&#160;
+	</span>
+</xp:view>

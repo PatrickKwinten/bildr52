@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core"
+	xmlns:xc="http://www.ibm.com/xsp/custom" xmlns:xe="http://www.ibm.com/xsp/coreex">
+
+	<xc:ccNavBar></xc:ccNavBar>
+	<xp:div styleClass="section">
+		<div class="container">
+		<h1>Manage your files</h1>
+		</div>
+	</xp:div>
+			
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+			<div class="card light">
+				<xc:ccFilesPictures></xc:ccFilesPictures>
+			</div>
+			</div>
+			<div class="col-md-6">
+			<div class="card light">
+				<xc:ccFilesAlbums></xc:ccFilesAlbums>
+			</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	</xp:view>
